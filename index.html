@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paper Man 纸面小人 — 游戏作品集</title>
+<title>Paper Man 纸面小人 — 美术与交互设计案例</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -11,323 +11,409 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#171310; --bg2:#1f1a15; --panel:#262019; --panel2:#2c251d;
-  --line:#3d342a; --amber:#e0a458; --amber-hi:#f0be78; --amber-dim:rgba(224,164,88,.14);
-  --txt:#d9cfbf; --muted:#998d7d; --faint:#6e6455;
+  --bg:#171310; --bg2:#1f1a15; --panel:#262019; --line:#3d342a;
+  --amber:#e0a458; --amber-hi:#f0be78; --txt:#d9cfbf; --muted:#998d7d; --faint:#6e6455;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg); color:var(--txt); font-family:'Noto Sans SC',sans-serif; overflow-x:hidden}
-/* subtle warm grain */
 body::before{content:""; position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.35; mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");}
 .disp{font-family:'Oswald','Noto Sans SC',sans-serif; letter-spacing:.04em}
 .serif{font-family:'Noto Serif SC',serif}
 ::selection{background:rgba(224,164,88,.35)}
 
-.sec-label{display:inline-flex; align-items:center; gap:.75rem; font-size:.78rem; letter-spacing:.3em;
-  color:var(--amber); font-weight:700; text-transform:uppercase}
-.sec-label::before{content:""; width:34px; height:2px; background:var(--amber)}
+.eyebrow{display:inline-flex; align-items:center; gap:.75rem; font-size:.8rem; letter-spacing:.22em;
+  color:var(--amber); font-weight:700}
+.eyebrow::before{content:""; width:30px; height:2px; background:var(--amber)}
 
 .panel{background:var(--panel); border:1px solid var(--line); border-radius:6px}
-.tagchip{font-size:.75rem; padding:.28rem .7rem; border:1px solid var(--line); border-radius:3px;
-  color:var(--muted); background:rgba(255,255,255,.02); transition:.25s}
-.tagchip:hover{color:var(--amber-hi); border-color:var(--amber)}
+.chip{font-size:.78rem; padding:.3rem .75rem; border:1px solid var(--line); border-radius:3px; color:var(--muted)}
 
-.btn{display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1.7rem; border-radius:4px;
-  font-weight:700; font-size:.95rem; transition:.25s; border:1px solid transparent}
-.btn-primary{background:linear-gradient(180deg,#e8b06a,#c98a3f); color:#221a10}
-.btn-primary:hover{background:linear-gradient(180deg,#f3c37f,#d99a4c); transform:translateY(-1px)}
-.btn-ghost{border-color:var(--line); color:var(--txt); background:rgba(255,255,255,.03)}
-.btn-ghost:hover{border-color:var(--amber); color:var(--amber-hi)}
+.figure{border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#0f0c09; position:relative}
+.figure img{display:block; width:100%; transition:transform .7s cubic-bezier(.2,.8,.2,1)}
+.figure:hover img{transform:scale(1.03)}
+.figure figcaption{padding:.7rem 1rem; font-size:.8rem; color:var(--muted); border-top:1px solid var(--line); background:rgba(38,32,25,.9)}
 
-.kbd{display:inline-block; min-width:2.4rem; text-align:center; padding:.35rem .6rem; margin-right:.4rem;
-  background:#33291f; border:1px solid #4a3e30; border-bottom-width:3px; border-radius:4px;
-  font-family:'Oswald',monospace; font-weight:600; font-size:.85rem; color:var(--amber-hi)}
+.evid{background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden}
+.evid .row{display:grid; grid-template-columns:110px 1fr; gap:1rem; padding:.85rem 1.2rem; font-size:.88rem}
+.evid .row+.row{border-top:1px solid var(--line)}
+.evid .k{color:var(--amber); font-weight:700; font-size:.78rem; letter-spacing:.08em; padding-top:.15em}
+.evid .v{color:var(--muted); line-height:1.7}
 
-.shot{border:1px solid var(--line); border-radius:5px; overflow:hidden; position:relative; background:#0f0c09}
-.shot img{display:block; width:100%; transition:transform .6s cubic-bezier(.2,.8,.2,1), opacity .35s}
-.thumb{cursor:pointer; opacity:.55; transition:.25s; border:1px solid var(--line); border-radius:4px; overflow:hidden}
-.thumb:hover{opacity:.85}
-.thumb.active{opacity:1; border-color:var(--amber); box-shadow:0 0 0 1px var(--amber)}
-.galnav{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:64px;
-  display:flex; align-items:center; justify-content:center; cursor:pointer;
-  background:rgba(15,12,9,.65); border:1px solid var(--line); color:var(--amber);
-  font-size:1.4rem; transition:.2s; user-select:none; z-index:5}
-.galnav:hover{background:rgba(224,164,88,.25)}
-.galcap{position:absolute; left:0; right:0; bottom:0; padding:2.2rem 1.2rem .9rem; font-size:.85rem; color:var(--txt);
-  background:linear-gradient(180deg,transparent,rgba(15,12,9,.9)); z-index:4}
+.reveal{opacity:0; transform:translateY(26px)}
+.chapter{padding:6rem 1.5rem; scroll-margin-top:70px}
+.chapter:nth-of-type(even){background:var(--bg2); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
 
-.review{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:1.4rem 1.5rem}
-.thumb-up{display:inline-flex; align-items:center; gap:.5rem; color:#7fb069; font-weight:700; font-size:.9rem}
-.devreply{margin-top:1rem; padding:1rem 1.1rem; background:rgba(224,164,88,.07);
-  border-left:3px solid var(--amber); border-radius:0 4px 4px 0; font-size:.88rem; color:var(--muted)}
-.devreply b{color:var(--amber-hi); font-size:.8rem; letter-spacing:.1em}
+.langbtn{font-size:.8rem; padding:.35rem .9rem; border:1px solid var(--amber); border-radius:3px;
+  color:var(--amber); font-weight:700; transition:.25s; cursor:pointer}
+.langbtn:hover{background:var(--amber); color:#221a10}
 
-.ver{border-left:2px solid var(--line); padding:0 0 2rem 1.6rem; position:relative}
-.ver::before{content:""; position:absolute; left:-7px; top:4px; width:12px; height:12px;
-  border-radius:50%; background:var(--bg); border:2px solid var(--amber)}
-.ver:last-child{padding-bottom:0}
-.vernum{font-family:'Oswald'; color:var(--amber); font-weight:600; letter-spacing:.12em; font-size:.85rem}
-
-.reveal{opacity:0; transform:translateY(28px)}
+a.navlink{color:var(--muted); font-size:.85rem; transition:.2s}
+a.navlink:hover{color:var(--amber-hi)}
 .footnote{font-size:.75rem; color:var(--faint)}
-a.anch{scroll-margin-top:80px}
 </style>
 </head>
 <body>
 
-<!-- top nav -->
+<!-- nav -->
 <nav class="fixed top-0 inset-x-0 z-50 border-b border-[--line]" style="background:rgba(23,19,16,.92); backdrop-filter:blur(10px)">
-  <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
-    <a href="#top" class="disp font-bold text-lg tracking-widest" style="color:var(--amber)">PAPER MAN</a>
-    <div class="hidden md:flex gap-8 text-[.85rem] font-medium text-[--muted]">
-      <a href="#about" class="hover:text-[--amber-hi] transition">关于游戏</a>
-      <a href="#mechanics" class="hover:text-[--amber-hi] transition">游戏机制</a>
-      <a href="#gallery" class="hover:text-[--amber-hi] transition">截图</a>
-      <a href="#devlog" class="hover:text-[--amber-hi] transition">开发迭代</a>
-      <a href="#reviews" class="hover:text-[--amber-hi] transition">试玩评测</a>
+  <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between gap-4">
+    <a href="#cover" class="disp font-bold tracking-widest" style="color:var(--amber)">PAPER MAN</a>
+    <div class="hidden lg:flex gap-6">
+      <a class="navlink" href="#project" data-i18n="nav.project"></a>
+      <a class="navlink" href="#mechanic" data-i18n="nav.mechanic"></a>
+      <a class="navlink" href="#level" data-i18n="nav.level"></a>
+      <a class="navlink" href="#art" data-i18n="nav.art"></a>
+      <a class="navlink" href="#playtest" data-i18n="nav.playtest"></a>
+      <a class="navlink" href="#contribution" data-i18n="nav.contribution"></a>
     </div>
-    <span class="text-[.75rem] text-[--faint]">游戏设计作品集 · 2026</span>
+    <button class="langbtn" id="langBtn" onclick="toggleLang()">English</button>
   </div>
 </nav>
 
-<!-- ═══ HERO ═══ -->
-<header id="top" class="relative min-h-[92vh] flex items-end overflow-hidden">
-  <img src="assets/room-1.jpg" alt="Paper Man key art" class="absolute inset-0 w-full h-full object-cover" style="filter:saturate(.92)">
-  <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(23,19,16,.55) 0%,rgba(23,19,16,.25) 40%,rgba(23,19,16,.96) 88%)"></div>
-  <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(23,19,16,.85) 0%,transparent 60%)"></div>
+<!-- ═══ 00 cover ═══ -->
+<header id="cover" class="relative min-h-[94vh] flex items-end overflow-hidden">
+  <img src="assets/cover-room.webp" alt="Paper Man" class="absolute inset-0 w-full h-full object-cover" id="heroImg">
+  <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(23,19,16,.5),rgba(23,19,16,.3) 45%,rgba(23,19,16,.95) 90%)"></div>
+  <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(23,19,16,.8),transparent 65%)"></div>
 
   <div class="relative z-10 max-w-6xl mx-auto px-6 pb-20 pt-40 w-full">
-    <p class="sec-label mb-4 reveal">2D × 3D 叙事解谜 · 独立游戏</p>
-    <h1 class="disp font-bold leading-[.95] reveal" style="font-size:clamp(3.2rem,9vw,6.5rem); text-shadow:0 4px 30px rgba(0,0,0,.6)">
-      PAPER MAN<br><span class="serif font-black tracking-wide" style="font-size:.62em; color:var(--amber-hi)">纸 面 小 人</span>
-    </h1>
-    <p class="mt-6 max-w-2xl text-[--muted] leading-relaxed reveal">
-      一个纸面上的 2D 小人，通过消耗自身线条闯关、穿越整座房间，<br class="hidden md:block">
-      去救赎那个创造出他的、三维世界里失败的游戏制作者。
-    </p>
-    <div class="mt-8 flex flex-wrap gap-3 reveal">
-      <span class="tagchip">画线解谜</span><span class="tagchip">平台跳跃</span><span class="tagchip">维度切换</span><span class="tagchip">叙事冒险</span><span class="tagchip">单机</span>
-    </div>
-    <div class="mt-10 flex flex-wrap gap-4 reveal">
-      <span class="btn btn-primary" title="WebGL 版本发布到 itch.io 后上线">▶ 在线试玩<span class="text-xs font-normal opacity-70">（WebGL 版筹备中）</span></span>
-      <span class="btn btn-ghost" title="实机演示视频待补充">🎬 观看实机视频<span class="text-xs font-normal opacity-60">（待补充）</span></span>
+    <p class="eyebrow reveal" data-i18n="c.cover.eyebrow"></p>
+    <h1 class="disp font-bold leading-[.95] mt-4 reveal" style="font-size:clamp(3.2rem,9vw,6.5rem); text-shadow:0 4px 30px rgba(0,0,0,.6)">PAPER MAN</h1>
+    <p class="serif text-xl md:text-2xl mt-5 max-w-2xl leading-relaxed reveal" style="color:var(--amber-hi)" data-i18n="c.cover.lead"></p>
+    <p class="mt-5 max-w-2xl text-[--muted] leading-relaxed reveal" data-i18n="c.cover.body0"></p>
+    <div class="mt-8 flex flex-wrap items-center gap-3 reveal">
+      <span class="chip" data-i18n="meta.role"></span>
+      <span class="chip" data-i18n="meta.team"></span>
+      <span class="chip" data-i18n="meta.format"></span>
+      <img src="assets/cover-tool-unity.webp" alt="Unity" class="h-7 rounded-sm opacity-80 ml-2">
+      <img src="assets/cover-tool-blender.webp" alt="Blender" class="h-7 rounded-sm opacity-80">
     </div>
   </div>
 </header>
 
-<!-- info strip -->
-<div class="border-y border-[--line]" style="background:var(--bg2)">
-  <div class="max-w-6xl mx-auto px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
-    <div><p class="footnote mb-1">发行日期</p><p class="font-medium">2026 年 7 月</p></div>
-    <div><p class="footnote mb-1">开发者</p><p class="font-medium">Game Designer / Artist（个人项目）</p></div>
-    <div><p class="footnote mb-1">类型</p><p class="font-medium">叙事解谜 · 2D 平台跳跃</p></div>
-    <div><p class="footnote mb-1">技术栈</p><p class="font-medium">Unity · Blender · Figma</p></div>
-  </div>
-</div>
+<main class="max-w-6xl mx-auto">
 
-<!-- ═══ 关于 ═══ -->
-<section id="about" class="anch max-w-6xl mx-auto px-6 py-24">
-  <p class="sec-label reveal">ABOUT THIS GAME</p>
-  <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-10 reveal">关于这款游戏</h2>
-
-  <div class="grid lg:grid-cols-3 gap-8">
-    <div class="lg:col-span-2 space-y-5 text-[--muted] leading-loose reveal">
-      <p><b class="text-[--txt]">《Paper Man》是一场发生在一张纸上的逃亡。</b>玩家先在三维房间中自由探索——这是一个失败游戏制作者的住所：杂乱、无窗、灯光昏暗，墙上贴满他热爱的游戏海报。触发三件关键物品的剧情后，玩家被引导至电脑桌前，按 <span class="kbd" style="margin-right:.2rem">Tab</span> 进入纸面，开始操控 2D 小人。</p>
-      <p>小人唯一的资源是<b style="color:var(--amber-hi)">构成自己身体的线条</b>。每画一段跳跃平台，身体就短一分；每一关藏着一把钥匙，拿到它才能进入下一关，也会让线条重新变长。当最后的门锁横在面前而线条不够时，玩家必须回头重走旧关卡——像所有创作者一样，在反复折返中攒够走出去的力量。</p>
-      <p>创作灵感来自围绕<b class="text-[--txt]">职场焦虑、自我实现与人生选择</b>的讨论：许多心怀理想的人被稳定却重复的生活束缚，逐渐陷入自我怀疑。《Paper Man》想回应的，正是人们渴望突破舒适圈、重新寻找生活方向的共同需求。</p>
+<!-- ═══ 01 project ═══ -->
+<section id="project" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.project.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.project.title"></h2>
+  <div class="grid lg:grid-cols-2 gap-10 items-start">
+    <div>
+      <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.project.lead"></p>
+      <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.project.body0"></p>
     </div>
-    <aside class="panel p-6 h-fit reveal">
-      <h3 class="disp text-lg font-semibold tracking-widest mb-4" style="color:var(--amber)">参考作品</h3>
-      <ul class="space-y-3 text-sm text-[--muted]">
-        <li class="flex justify-between border-b border-[--line] pb-3"><span>The Pedestrian</span><span class="footnote">2D/3D 空间穿梭</span></li>
-        <li class="flex justify-between border-b border-[--line] pb-3"><span>Line Rider</span><span class="footnote">画线即轨道</span></li>
-        <li class="flex justify-between"><span>Super Mario Bros</span><span class="footnote">经典平台跳跃</span></li>
-      </ul>
-      <h3 class="disp text-lg font-semibold tracking-widest mt-8 mb-4" style="color:var(--amber)">目标玩家</h3>
-      <p class="text-sm text-[--muted]">所有玩家群体——尤其是每一个曾经困在房间里、却仍想画一条线走出去的人。</p>
-    </aside>
+    <figure class="figure reveal">
+      <img src="assets/art-room.webp" data-i18n-alt="alt.artRoom" alt="">
+      <figcaption data-i18n="alt.artRoom"></figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- ═══ 机制 ═══ -->
-<section id="mechanics" class="anch border-y border-[--line]" style="background:var(--bg2)">
-  <div class="max-w-6xl mx-auto px-6 py-24">
-    <p class="sec-label reveal">GAMEPLAY</p>
-    <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-10 reveal">游戏机制</h2>
-
-    <div class="grid lg:grid-cols-2 gap-10 items-start">
-      <div class="panel p-8 reveal">
-        <h3 class="disp text-xl font-semibold tracking-wider mb-5" style="color:var(--amber)">核心循环 · CORE LOOP</h3>
-        <p class="text-sm text-[--muted] leading-loose">
-          消耗自身线条资源绘制跳跃平台，与纸面原有平台结合前进；每关一把隐藏钥匙，获取后方可进入下一关，并增加线条长度资源。小人无法离开纸面——<b class="text-[--txt]">玩家需要在"身体的线条"与"通关的路径"之间持续做规划。</b>
-        </p>
-        <ol class="mt-6 space-y-2.5 text-sm text-[--muted]">
-          <li><span class="text-[--amber] font-bold mr-2">01</span>3D 房间探索，触发三件物体剧情</li>
-          <li><span class="text-[--amber] font-bold mr-2">02</span>被引导至电脑桌前，Tab 进入 2D 模式</li>
-          <li><span class="text-[--amber] font-bold mr-2">03</span>消耗线条闯关，收集各关隐藏钥匙</li>
-          <li><span class="text-[--amber] font-bold mr-2">04</span>通过 1–3 关，获得 key5，抵达墙上海报</li>
-          <li><span class="text-[--amber] font-bold mr-2">05</span>开锁失败：线条不足 → 回退旧关积攒资源</li>
-          <li><span class="text-[--amber] font-bold mr-2">06</span>成功开门，3D 角色走出房间，游戏成功</li>
-        </ol>
-      </div>
-
-      <div class="panel p-8 reveal">
-        <h3 class="disp text-xl font-semibold tracking-wider mb-5" style="color:var(--amber)">操作 · CONTROLS</h3>
-        <table class="w-full text-sm">
-          <tbody class="divide-y divide-[--line]">
-            <tr><td class="py-3.5 pr-4 whitespace-nowrap"><span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span></td><td class="py-3.5 text-[--muted]">方向移动</td></tr>
-            <tr><td class="py-3.5 pr-4"><span class="kbd">Tab</span></td><td class="py-3.5 text-[--muted]">进入 / 退出 2D 小人操控模式</td></tr>
-            <tr><td class="py-3.5 pr-4"><span class="kbd">Space</span></td><td class="py-3.5 text-[--muted]">跳跃</td></tr>
-            <tr><td class="py-3.5 pr-4"><span class="kbd">鼠标左键</span></td><td class="py-3.5 text-[--muted]">画线条（消耗身体资源）</td></tr>
-            <tr><td class="py-3.5 pr-4"><span class="kbd">E</span></td><td class="py-3.5 text-[--muted]">互动</td></tr>
-            <tr><td class="py-3.5 pr-4"><span class="kbd">R</span></td><td class="py-3.5 text-[--muted]">重置关卡</td></tr>
-          </tbody>
-        </table>
-        <p class="footnote mt-6">* 键位提示也作为剧情道具内置在游戏中（展板小票），玩家在叙事中自然习得操作。</p>
-      </div>
+<!-- ═══ 02 challenge ═══ -->
+<section id="challenge" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.challenge.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.challenge.title"></h2>
+  <div class="grid lg:grid-cols-2 gap-10 items-start">
+    <figure class="figure reveal order-last lg:order-first">
+      <img src="assets/iteration-v4.webp" data-i18n-alt="alt.iterV4" alt="">
+      <figcaption data-i18n="alt.iterV4"></figcaption>
+    </figure>
+    <div>
+      <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.challenge.lead"></p>
+      <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.challenge.body0"></p>
     </div>
   </div>
 </section>
 
-<!-- ═══ 截图画廊 ═══ -->
-<section id="gallery" class="anch max-w-6xl mx-auto px-6 py-24">
-  <p class="sec-label reveal">SCREENSHOTS</p>
-  <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-10 reveal">游戏画面</h2>
-
-  <div class="reveal">
-    <div class="shot relative" style="aspect-ratio:16/9">
-      <img id="galMain" src="assets/room-1.jpg" alt="游戏截图" class="absolute inset-0 w-full h-full object-cover">
-      <div class="galcap" id="galCap">房间主视觉 —— 海报墙与堆满纸箱的角落</div>
-      <div class="galnav left-3" id="galPrev">‹</div>
-      <div class="galnav right-3" id="galNext">›</div>
+<!-- ═══ 03 mechanic ═══ -->
+<section id="mechanic" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.mechanic.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.mechanic.title"></h2>
+  <div class="grid lg:grid-cols-2 gap-10 items-start">
+    <div>
+      <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.mechanic.lead"></p>
+      <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.mechanic.body0"></p>
+      <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.mechanic.body1"></p>
     </div>
-    <div class="flex items-center justify-between mt-4">
-      <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 flex-1" id="galThumbs"></div>
-    </div>
-    <p class="footnote mt-3 text-right" id="galCount">1 / 8</p>
+    <figure class="figure reveal">
+      <img src="assets/art-key.webp" data-i18n-alt="alt.artKey" alt="" class="w-full" style="min-height:180px; object-fit:cover">
+      <figcaption data-i18n="alt.artKey"></figcaption>
+    </figure>
   </div>
 </section>
 
-<!-- ═══ 开发迭代 ═══ -->
-<section id="devlog" class="anch border-y border-[--line]" style="background:var(--bg2)">
-  <div class="max-w-6xl mx-auto px-6 py-24">
-    <p class="sec-label reveal">DEVELOPMENT</p>
-    <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-10 reveal">开发迭代 · 四版核心机制</h2>
-
-    <div class="max-w-3xl">
-      <div class="ver reveal">
-        <p class="vernum">VERSION 01</p>
-        <h3 class="font-bold text-lg mt-1">核心概念验证</h3>
-        <p class="text-sm text-[--muted] mt-1.5 leading-relaxed">确立"画线即消耗身体"的核心机制，验证最基础的跳跃平台玩法。</p>
-      </div>
-      <div class="ver reveal">
-        <p class="vernum">VERSION 02</p>
-        <h3 class="font-bold text-lg mt-1">钥匙与资源循环</h3>
-        <p class="text-sm text-[--muted] mt-1.5 leading-relaxed">加入隐藏钥匙与线条长度资源的增长循环，形成"收集 → 变长 → 走得更远"的正反馈。</p>
-      </div>
-      <div class="ver reveal">
-        <p class="vernum">VERSION 03</p>
-        <h3 class="font-bold text-lg mt-1">云朵 → 线稿 → 瀑布</h3>
-        <p class="text-sm text-[--muted] mt-1.5 leading-relaxed">玩家从云朵图进入素描线稿场景，翻越斜坡与山，在几何体背后找到 key4；画线抵达右上角平台后进入 "Line Rider" 过渡图，在曲线图中跳跃绘制平台，顺着衣柜垂下的图纸一路向下，抵达"瀑布"最底端。</p>
-      </div>
-      <div class="ver reveal">
-        <p class="vernum">VERSION 04</p>
-        <h3 class="font-bold text-lg mt-1">柜门、海报与最后一道锁</h3>
-        <p class="text-sm text-[--muted] mt-1.5 leading-relaxed">柜门开合之间完成 2D 与 3D 场景的"粘贴"切换；最后的门锁前线条不足，玩家需重返旧地图积累资源。门锁打开，2D 小人帮助三维世界的游戏失败者走出房间，前往光明的世界——游戏成功。</p>
-      </div>
-    </div>
-
-    <div class="grid md:grid-cols-2 gap-6 mt-12">
-      <div class="shot reveal"><img src="assets/iter-row1.jpg" alt="第三版机制展板"></div>
-      <div class="shot reveal"><img src="assets/iter-row2.jpg" alt="第四版机制展板"></div>
-    </div>
-    <p class="footnote mt-3 reveal">▲ Figma 设计展板 · 机制版本 03 / 04 的关卡说明与试试图示</p>
-  </div>
-</section>
-
-<!-- ═══ 试玩评测 ═══ -->
-<section id="reviews" class="anch max-w-6xl mx-auto px-6 py-24">
-  <p class="sec-label reveal">PLAYTEST REVIEWS</p>
-  <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-3 reveal">试玩评测</h2>
-  <p class="text-sm text-[--muted] mb-10 reveal">最近评测：<b style="color:#7fb069">特别好评</b>（2 篇评测）· 均已获得开发者回应</p>
-
-  <div class="grid lg:grid-cols-2 gap-8">
-    <div class="review reveal">
-      <div class="flex items-center justify-between mb-3">
-        <span class="thumb-up">👍 推荐</span><span class="footnote">试玩评测 · 01</span>
-      </div>
-      <p class="text-sm leading-relaxed">"游戏玩法较为新颖，但关卡完整度欠缺。"</p>
-      <div class="devreply"><b>开发者的回应 · 已更新</b><br>完善了关卡完整度及音效、视觉表现。</div>
-      <div class="shot mt-4"><img src="assets/playtest-1.jpg" alt="试玩现场 1"></div>
-      <p class="footnote mt-2">试玩现场记录 · 01</p>
-    </div>
-    <div class="review reveal">
-      <div class="flex items-center justify-between mb-3">
-        <span class="thumb-up">👍 推荐</span><span class="footnote">试玩评测 · 02</span>
-      </div>
-      <p class="text-sm leading-relaxed">"目前角色操作的流畅度和反馈感仍有提升空间，部分操作可能让玩家感到不够顺手。"</p>
-      <div class="devreply"><b>开发者的回应 · 已更新</b><br>优化场景内物体"卡脚"逻辑，以及角色移动、跳跃与交互的手感。</div>
-      <div class="shot mt-4"><img src="assets/playtest-2.jpg" alt="试玩现场 2"></div>
-      <p class="footnote mt-2">试玩现场记录 · 02</p>
+<!-- ═══ 04 interaction ═══ -->
+<section id="interaction" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.interaction.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.interaction.title"></h2>
+  <div class="grid lg:grid-cols-2 gap-10 items-start">
+    <figure class="figure reveal order-last lg:order-first">
+      <img src="assets/playtest-transition.webp" data-i18n-alt="alt.transition" alt="">
+      <figcaption data-i18n="alt.transition"></figcaption>
+    </figure>
+    <div>
+      <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.interaction.lead"></p>
+      <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.interaction.body0"></p>
+      <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.interaction.body1"></p>
     </div>
   </div>
 </section>
 
-<!-- ═══ 页脚 ═══ -->
+<!-- ═══ 05 level ═══ -->
+<section id="level" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.level.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.level.title"></h2>
+  <p class="text-lg leading-loose max-w-3xl reveal" style="color:var(--amber-hi)" data-i18n="c.level.lead"></p>
+  <div class="grid lg:grid-cols-2 gap-10 mt-6 items-start">
+    <div>
+      <p class="text-[--muted] leading-loose reveal" data-i18n="c.level.body0"></p>
+      <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.level.body1"></p>
+    </div>
+    <figure class="figure reveal">
+      <img src="assets/level-flow.webp" data-i18n-alt="alt.levelFlow" alt="">
+      <figcaption data-i18n="alt.levelFlow"></figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- ═══ 06 art ═══ -->
+<section id="art" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.art.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.art.title"></h2>
+  <p class="text-lg leading-loose max-w-3xl reveal" style="color:var(--amber-hi)" data-i18n="c.art.lead"></p>
+  <div class="grid lg:grid-cols-2 gap-10 mt-6">
+    <p class="text-[--muted] leading-loose reveal" data-i18n="c.art.body0"></p>
+    <p class="text-[--muted] leading-loose reveal" data-i18n="c.art.body1"></p>
+  </div>
+  <div class="grid md:grid-cols-2 gap-6 mt-10">
+    <figure class="figure reveal"><img src="assets/art-room-comparison.webp" data-i18n-alt="alt.artCompare" alt=""><figcaption data-i18n="alt.artCompare"></figcaption></figure>
+    <figure class="figure reveal"><img src="assets/art-room-props.webp" data-i18n-alt="alt.artProps" alt=""><figcaption data-i18n="alt.artProps"></figcaption></figure>
+    <figure class="figure reveal"><img src="assets/art-poster.webp" data-i18n-alt="alt.artPoster" alt=""><figcaption data-i18n="alt.artPoster"></figcaption></figure>
+    <figure class="figure reveal"><img src="assets/art-blender-workspace.webp" data-i18n-alt="alt.artBlender" alt=""><figcaption data-i18n="alt.artBlender"></figcaption></figure>
+  </div>
+</section>
+
+<!-- ═══ 07 playtest ═══ -->
+<section id="playtest" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.playtest.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.playtest.title"></h2>
+  <p class="text-lg leading-loose max-w-3xl reveal" style="color:var(--amber-hi)" data-i18n="c.playtest.lead"></p>
+  <div class="grid lg:grid-cols-2 gap-10 mt-6">
+    <p class="text-[--muted] leading-loose reveal" data-i18n="c.playtest.body0"></p>
+    <p class="text-[--muted] leading-loose reveal" data-i18n="c.playtest.body1"></p>
+  </div>
+
+  <div class="grid lg:grid-cols-2 gap-6 mt-10">
+    <div class="evid reveal">
+      <div class="row"><span class="k" data-i18n="evid.problem"></span><span class="v" data-i18n="ev.0.problem"></span></div>
+      <div class="row"><span class="k" data-i18n="evid.observation"></span><span class="v" data-i18n="ev.0.observation"></span></div>
+      <div class="row"><span class="k" data-i18n="evid.decision"></span><span class="v" data-i18n="ev.0.decision"></span></div>
+      <div class="row"><span class="k" data-i18n="evid.change"></span><span class="v" data-i18n="ev.0.change"></span></div>
+    </div>
+    <div class="evid reveal">
+      <div class="row"><span class="k" data-i18n="evid.problem"></span><span class="v" data-i18n="ev.1.problem"></span></div>
+      <div class="row"><span class="k" data-i18n="evid.observation"></span><span class="v" data-i18n="ev.1.observation"></span></div>
+      <div class="row"><span class="k" data-i18n="evid.decision"></span><span class="v" data-i18n="ev.1.decision"></span></div>
+      <div class="row"><span class="k" data-i18n="evid.change"></span><span class="v" data-i18n="ev.1.change"></span></div>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+    <figure class="figure reveal"><img src="assets/playtest-drawing.webp" data-i18n-alt="alt.ptDrawing" alt=""><figcaption data-i18n="alt.ptDrawing"></figcaption></figure>
+    <figure class="figure reveal"><img src="assets/playtest-movement.webp" data-i18n-alt="alt.ptMovement" alt=""><figcaption data-i18n="alt.ptMovement"></figcaption></figure>
+    <figure class="figure reveal"><img src="assets/playtest-collision.webp" data-i18n-alt="alt.ptCollision" alt=""><figcaption data-i18n="alt.ptCollision"></figcaption></figure>
+    <figure class="figure reveal"><img src="assets/playtest-audio.webp" data-i18n-alt="alt.ptAudio" alt=""><figcaption data-i18n="alt.ptAudio"></figcaption></figure>
+    <figure class="figure reveal"><img src="assets/playtest-level.webp" data-i18n-alt="alt.ptLevel" alt=""><figcaption data-i18n="alt.ptLevel"></figcaption></figure>
+  </div>
+</section>
+
+<!-- ═══ 08 contribution ═══ -->
+<section id="contribution" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.contribution.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.contribution.title"></h2>
+  <div class="max-w-3xl">
+    <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.contribution.lead"></p>
+    <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.contribution.body0"></p>
+    <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.contribution.body1"></p>
+  </div>
+</section>
+
+<!-- ═══ 09 reflection ═══ -->
+<section id="reflection" class="chapter">
+  <p class="eyebrow reveal" data-i18n="c.reflection.eyebrow"></p>
+  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.reflection.title"></h2>
+  <div class="max-w-3xl">
+    <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.reflection.lead"></p>
+    <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.reflection.body0"></p>
+    <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.reflection.body1"></p>
+  </div>
+</section>
+
+</main>
+
 <footer class="border-t border-[--line]" style="background:var(--bg2)">
-  <div class="max-w-6xl mx-auto px-6 py-16 text-center">
-    <p class="disp text-2xl font-semibold tracking-[.3em] reveal" style="color:var(--amber)">PAPER MAN</p>
-    <p class="serif mt-3 text-[--muted] reveal">一个用线条救赎创作者的小小人</p>
-    <div class="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-[--faint] reveal">
-      <span>发行日期 · 2026.7</span><span>·</span><span>Game Designer / Artist</span><span>·</span>
-      <span class="underline decoration-dotted underline-offset-4">实机视频（待补充）</span><span>·</span>
-      <span class="underline decoration-dotted underline-offset-4">itch.io 页面（筹备中）</span>
+  <div class="max-w-6xl mx-auto px-6 py-14 text-center">
+    <p class="disp text-xl font-semibold tracking-[.3em] reveal" style="color:var(--amber)">PAPER MAN</p>
+    <p class="serif mt-3 text-[--muted] reveal" data-i18n="footer.tagline"></p>
+    <div class="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-[--faint] reveal">
+      <span data-i18n="footer.meta1"></span><span>·</span><span data-i18n="footer.meta2"></span><span>·</span>
+      <span class="underline decoration-dotted underline-offset-4" data-i18n="footer.video"></span>
     </div>
-    <p class="footnote mt-10 reveal">本站为个人游戏设计作品集页面 · 素材取自项目 Figma 设计文档与实机渲染</p>
+    <p class="footnote mt-8 reveal" data-i18n="footer.note"></p>
   </div>
 </footer>
 
 <script>
+const COPY = {
+  zh: {
+    "nav.project":"项目概览","nav.mechanic":"核心机制","nav.level":"第一关","nav.art":"美术创作","nav.playtest":"测试迭代","nav.contribution":"我的贡献",
+    "meta.role":"美术与交互主导","meta.team":"四人团队","meta.format":"二维—三维解谜平台游戏",
+    "c.cover.eyebrow":"00 / 精选作品",
+    "c.cover.lead":"消耗自己，画出离开的路。一款关于自我怀疑、空间穿越与重获行动力量的二维—三维解谜平台游戏。",
+    "c.cover.body0":"我在四人团队中主导美术与交互设计；为叙事、项目管理与关卡设计作出贡献；参与整体游戏策划。",
+    "c.project.eyebrow":"01 / 项目概览","c.project.title":"被困在创作者房间里的纸片人",
+    "c.project.lead":"纸片人在纸张、海报、抽屉和电脑屏幕之间穿行，最终打开房门，解救创造了它却被失败困住的游戏开发者。",
+    "c.project.body0":"这些二维世界并非彼此割裂的关卡，而是附着于同一间三维房间的可进入表面。玩家在两种维度之间建立联系，逐步读懂房间，也读懂角色与创作者彼此映照的处境。",
+    "c.challenge.eyebrow":"02 / 设计命题","c.challenge.title":"让焦虑成为可操作的空间",
+    "c.challenge.lead":"我们希望把重复生活、自我怀疑与走出舒适区，从抽象主题转化为玩家能够感知、选择并承担后果的行动。",
+    "c.challenge.body0":"核心问题是：如果前进必须放弃自己的一部分，玩家是否仍愿意迈出下一步？因此，道路不会由系统免费提供，而要由角色用自身的身体线条画出。",
+    "c.mechanic.eyebrow":"03 / 核心机制","c.mechanic.title":"身体就是线",
+    "c.mechanic.lead":"同一根线同时承担身体、生命、道路与资源四种意义：画得越远，角色剩余的身体越短。",
+    "c.mechanic.body0":"玩家先绘制可行走的平台，再用变短的身体跨越空隙；取得钥匙后，身体线长得到恢复。探索、消耗、回收与返回由此构成一套可见的资源循环。",
+    "c.mechanic.body1":"机制的规则、视觉反馈与叙事隐喻使用同一种语言：每一次前进都留下代价，而恢复也成为继续行动的理由。",
+    "c.interaction.eyebrow":"04 / 交互设计","c.interaction.title":"每次输入都要解释空间关系",
+    "c.interaction.lead":"移动、绘制、互动与视角切换共同帮助玩家理解：二维表面如何附着在三维房间中，又如何成为可通行的路径。",
+    "c.interaction.body0":"交互围绕玩家意图组织：移动与跳跃确认落点，绘制把资源变成道路，二维—三维切换揭示表面与房间的对应关系，重置则让试错保持可控。",
+    "c.interaction.body1":"视觉与声音反馈需要及时说明状态变化。测试中出现的移动手感与碰撞边缘卡顿，也成为调整控制响应和空间边界的重要依据。",
+    "c.level.eyebrow":"05 / 第一关","c.level.title":"从纸面到房门",
+    "c.level.lead":"玩家依次穿过纸张、海报、抽屉和电脑屏幕，最后改变三维房门的位置，完成从局部路径到整体营救的跨越。",
+    "c.level.body0":"关卡以二维探索与三维观察交替推进：环境线索引导下一处入口，回溯则验证玩家是否真正理解线长管理与两种维度之间的映射。",
+    "c.level.body1":"房门既是路线终点，也是空间谜题的一部分。玩家必须重新理解房间的布局，才能把此前分散的行动收束为一次有意义的离开。",
+    "c.art.eyebrow":"06 / 美术创作","c.art.title":"脆弱纸面与压迫房间",
+    "c.art.lead":"手绘线条、像素动画与旧纸肌理保留纸片人的轻盈和脆弱；昏暗、杂乱的三维房间则制造尺度与情绪上的压力。",
+    "c.art.body0":"我主导的美术方向让角色状态直接进入画面语言：身体线条的缺失必须既能被玩家识别，也要保留纸面材料的触感与不完美。",
+    "c.art.body1":"角色、钥匙、房间道具、可进入海报与场景光线在迭代中共同服务于空间可读性和主题表达，而不仅是形成统一风格。",
+    "c.playtest.eyebrow":"07 / 测试与迭代","c.playtest.title":"把新奇概念变成可理解的体验",
+    "c.playtest.lead":"测试暴露出关卡完整度、视听反馈、移动手感与碰撞卡顿等问题，让团队能够从真实操作中判断概念与体验之间的距离。",
+    "c.playtest.body0":"玩家在移动中感到不顺畅、或在碰撞边缘被卡住，是测试中记录到的现象。下一步需要验证控制响应与碰撞边界是否清楚传达设计意图，再据此规划移动和碰撞表现的迭代。",
+    "c.playtest.body1":"路线、状态变化或阶段目标不够清楚的观察，也为下一步完善关卡引导与视听反馈提供方向。这里呈现的是问题与计划，而不是未经验证的归因或缺少来源的量化结论。",
+    "c.contribution.eyebrow":"08 / 我的贡献","c.contribution.title":"在视觉、输入与叙事之间建立一致性",
+    "c.contribution.lead":"我主导美术方向与交互设计；在叙事、项目管理与关卡设计中作出贡献；并参与整体游戏策划，让不同环节围绕“身体即道路”的核心隐喻收束。",
+    "c.contribution.body0":"主导工作包括建立纸面与暗室的视觉关系、组织美术迭代，并把移动、绘制、视角切换与状态反馈转译为清晰的玩家意图。",
+    "c.contribution.body1":"我为叙事、进度协调与关卡路径作出贡献，并参与整体游戏策划；游戏实现与最终团队成果始终按共同协作呈现，不归为个人独立完成。",
+    "c.reflection.eyebrow":"09 / 反思与未来","c.reflection.title":"让规则像概念一样精确",
+    "c.reflection.lead":"下一轮迭代应进一步明确线长消耗、钥匙恢复与失败条件，同时强化玩家身份、路线引导和视听状态反馈。",
+    "c.reflection.body0":"Paper Man 让我看到，鲜明隐喻只是起点；只有当规则、输入、关卡与画面都能稳定解释同一件事时，玩家才会真正理解它。",
+    "c.reflection.body1":"这次四人协作也让我形成了跨学科工作方法：以体验目标连接主题、机制、交互与美术，并用测试暴露的具体问题推动下一次判断。",
+    "evid.problem":"问题","evid.observation":"观察","evid.decision":"决策","evid.change":"改动",
+    "ev.0.problem":"移动反馈与碰撞边界没有始终清楚传达玩家的操作意图。",
+    "ev.0.observation":"测试记录到玩家移动时感到不顺畅，并会在部分碰撞边缘被卡住。",
+    "ev.0.decision":"下一步先验证控制响应与碰撞边界是否清楚传达设计意图，再决定具体调整。",
+    "ev.0.change":"下一轮拟议改动：依据验证结果规划移动反馈与碰撞表现的调整；当前证据只支持这项计划。",
+    "ev.1.problem":"关卡路线、状态变化与阶段目标的可读性，以及视听反馈的完整度仍有缺口。",
+    "ev.1.observation":"测试记录显示路线、状态变化与即时目标不够清楚，并暴露出关卡完整度与视听反馈问题。",
+    "ev.1.decision":"下一步验证关卡引导和视听状态反馈能否帮助玩家理解路线与当前目标。",
+    "ev.1.change":"下一轮拟议改动：依据后续验证完善关卡引导与视听反馈；现有证据尚不足以声称结果。",
+    "alt.artRoom":"承载二维表面的三维房间场景","alt.iterV4":"第四版游戏开发迭代画面","alt.artKey":"恢复身体线条的钥匙道具设计",
+    "alt.transition":"门边对话与二维三维空间切换画面","alt.levelFlow":"风车山丘与房屋之间的红蓝路线流程草图",
+    "alt.artCompare":"同一房间场景的贴图渲染与灰模对照","alt.artProps":"衣柜、书桌和公告板的房间道具灰模",
+    "alt.artPoster":"可进入海报表面的场景美术","alt.artBlender":"在 Blender 中制作房间场景的工作界面",
+    "alt.ptDrawing":"玩家在电脑前测试绘制路线核心机制","alt.ptMovement":"展会现场测试移动与操作反馈",
+    "alt.ptCollision":"团队围看电脑测试操作与碰撞反馈","alt.ptAudio":"玩家测试关卡音效与视觉表现完整度","alt.ptLevel":"带蓝色标注的关卡路线与可读性检查",
+    "footer.tagline":"消耗自己，画出离开的路",
+    "footer.meta1":"四人团队项目 · 2026.7","footer.meta2":"美术与交互主导","footer.video":"实机视频（待补充）",
+    "footer.note":"文案与图片素材取自项目 Figma 设计文档与展会试玩记录 · 团队成果按共同协作呈现"
+  },
+  en: {
+    "nav.project":"Project","nav.mechanic":"Mechanic","nav.level":"Level 01","nav.art":"Art Direction","nav.playtest":"Playtest","nav.contribution":"Contribution",
+    "meta.role":"Art & Interaction Lead","meta.team":"Team of four","meta.format":"2D–3D puzzle platformer",
+    "c.cover.eyebrow":"00 / Selected Work",
+    "c.cover.lead":"Draw yourself a way out. A 2D–3D puzzle platformer about consuming parts of yourself to build a path forward.",
+    "c.cover.body0":"In a four-person team, I led art and interaction; contributed to narrative, project management, and level design; and participated in overall game planning.",
+    "c.project.eyebrow":"01 / The Project","c.project.title":"A paper figure trapped in its creator’s room",
+    "c.project.lead":"The paper figure travels through sheets, posters, drawers, and computer screens before opening the room door to rescue the creator who made it and became trapped by failure.",
+    "c.project.body0":"These 2D worlds are not disconnected stages. They are playable surfaces embedded in one 3D room, asking the player to connect two spatial systems while uncovering how the figure and its creator mirror one another.",
+    "c.challenge.eyebrow":"02 / Design Challenge","c.challenge.title":"Turning anxiety into navigable space",
+    "c.challenge.lead":"We translated repetition, self-doubt, and leaving a comfort zone into actions whose cost the player could see, choose, and carry.",
+    "c.challenge.body0":"The central question was simple but uncomfortable: if progress requires giving up part of yourself, do you still move forward? The game answers by making the character’s own body the material for every new route.",
+    "c.mechanic.eyebrow":"03 / Core Mechanic","c.mechanic.title":"The body is the line",
+    "c.mechanic.lead":"One line acts as body, life, road, and resource. The farther the player draws, the less of the character remains.",
+    "c.mechanic.body0":"The player draws a traversable platform, crosses the gap with a shortened body, then retrieves a key to restore the available line. Exploration, expenditure, recovery, and return become one visible resource loop.",
+    "c.mechanic.body1":"Rule, feedback, and metaphor speak the same language: moving forward leaves a cost on the character, while restoration creates a reason to continue.",
+    "c.interaction.eyebrow":"04 / Interaction Design","c.interaction.title":"Every input clarifies a spatial relationship",
+    "c.interaction.lead":"Movement, drawing, interaction, and view switching help players understand how flat playable surfaces inhabit a three-dimensional room.",
+    "c.interaction.body0":"The controls are framed around player intent: movement and jumping confirm a landing, drawing converts a limited resource into a route, switching dimensions reveals spatial correspondence, and reset keeps experimentation recoverable.",
+    "c.interaction.body1":"Visual and audio cues must make each state change legible. Playtest observations around movement feel and collision snagging therefore became concrete prompts to revise control feedback and spatial boundaries.",
+    "c.level.eyebrow":"05 / Level 01","c.level.title":"From the page to the door",
+    "c.level.lead":"The route moves through paper, a poster, a drawer, and a computer screen before the player repositions the room’s door to complete the rescue.",
+    "c.level.body0":"The level alternates between 2D traversal and 3D observation. Environmental cues point toward the next surface, while backtracking checks whether the player understands line management and the mapping between dimensions.",
+    "c.level.body1":"The door is both destination and spatial puzzle. Reframing the room brings a series of local actions together as one meaningful act of leaving.",
+    "c.art.eyebrow":"06 / Art Direction","c.art.title":"Fragile paper, oppressive room",
+    "c.art.lead":"Hand-drawn lines, pixel animation, and worn paper preserve the figure’s delicacy, while the dim, cluttered room creates emotional and physical pressure.",
+    "c.art.body0":"My art-direction work made character state part of the image language: missing body line had to read immediately without losing the tactile imperfection of the paper world.",
+    "c.art.body1":"Character studies, keys, room props, enterable posters, and environmental light evolved together to support spatial readability and theme, rather than visual consistency alone.",
+    "c.playtest.eyebrow":"07 / Playtest & Iteration","c.playtest.title":"Turning a novel premise into a legible experience",
+    "c.playtest.lead":"Playtesting exposed gaps in level completeness, audiovisual feedback, movement feel, and collision behavior, giving the team concrete evidence of where concept and experience diverged.",
+    "c.playtest.body0":"Players reported uneven movement and were observed catching on collision edges. The next step is to test whether control response and collision boundaries communicate intent clearly, then use that evidence to plan movement and collision iteration.",
+    "c.playtest.body1":"Observations around unclear routes, state changes, and immediate goals also point to future work on level guidance and audiovisual feedback. The evidence here supports a problem statement and planned response, not an unverified diagnosis.",
+    "c.contribution.eyebrow":"08 / My Contribution","c.contribution.title":"Aligning image, input, and story",
+    "c.contribution.lead":"I led art direction and interaction design; contributed to narrative, project management, and level design; and participated in overall game planning, keeping each discipline anchored to the body-as-path metaphor.",
+    "c.contribution.body0":"My lead work included defining the visual relationship between fragile paper and the dark room, directing art iterations, and translating movement, drawing, view switching, and state feedback into clear player intentions.",
+    "c.contribution.body1":"I contributed to narrative, production coordination, and level flow, and participated in overall game planning. Team implementation and final outcomes remain credited collectively rather than presented as solo work.",
+    "c.reflection.eyebrow":"09 / Reflection","c.reflection.title":"Making the rules as precise as the idea",
+    "c.reflection.lead":"A further iteration should define line expenditure, key recovery, and failure states more rigorously while strengthening player identity, route guidance, and audiovisual feedback.",
+    "c.reflection.body0":"Paper Man taught me that a compelling metaphor is only a starting point. Players understand it when rules, input, level structure, and imagery explain the same idea with equal clarity.",
+    "c.reflection.body1":"Working in a four-person team also shaped a cross-disciplinary method: connect theme, mechanic, interaction, and art through an experience goal, then let specific playtest problems sharpen the next decision.",
+    "evid.problem":"Problem","evid.observation":"Observation","evid.decision":"Decision","evid.change":"Change",
+    "ev.0.problem":"Movement response and collision boundaries did not consistently communicate player intent.",
+    "ev.0.observation":"Playtesting recorded uneven movement and players catching on collision edges.",
+    "ev.0.decision":"The next step is to test whether control response and collision boundaries communicate intent clearly before choosing specific adjustments.",
+    "ev.0.change":"Proposed next iteration: use that validation to plan changes to movement feedback and collision presentation; current evidence supports the plan only.",
+    "ev.1.problem":"Route, state-change, and immediate-goal readability remained incomplete alongside audiovisual feedback.",
+    "ev.1.observation":"Playtesting exposed unclear routes, state changes, and immediate goals, together with gaps in level completeness and audiovisual feedback.",
+    "ev.1.decision":"The next step is to validate whether level guidance and audiovisual state feedback clarify the route and current goal.",
+    "ev.1.change":"Proposed next iteration: use further validation to strengthen level guidance and audiovisual feedback; no outcome is claimed yet.",
+    "alt.artRoom":"Three-dimensional room that holds the playable 2D surfaces","alt.iterV4":"The fourth visual iteration of the game","alt.artKey":"Key pickup designed to restore the body line",
+    "alt.transition":"Doorway dialogue scene used to evaluate the 2D-to-3D transition","alt.levelFlow":"Hand-drawn red and blue route flow between a windmill, hill, and house",
+    "alt.artCompare":"Side-by-side textured render and gray-model comparison of the room","alt.artProps":"Gray-box room props including a wardrobe, desk, and noticeboard",
+    "alt.artPoster":"Environment art for an enterable poster surface","alt.artBlender":"Blender authoring workspace used to build and dress the room scene",
+    "alt.ptDrawing":"A player testing the core route-drawing mechanic at a laptop","alt.ptMovement":"Exhibition playtest observation of movement and control feedback",
+    "alt.ptCollision":"Team observing laptop play to assess controls and collision feedback","alt.ptAudio":"A player testing level audio and visual presentation completeness","alt.ptLevel":"Annotated blue level route used to check progression readability",
+    "footer.tagline":"Draw yourself a way out",
+    "footer.meta1":"Team of four · Jul 2026","footer.meta2":"Art & Interaction Lead","footer.video":"Gameplay video (coming soon)",
+    "footer.note":"Copy and imagery from the project’s Figma boards and exhibition playtest records · Team outcomes credited collectively"
+  }
+};
+
+let LANG = localStorage.getItem('pm-lang') || 'zh';
+function applyLang(){
+  const dict = COPY[LANG];
+  document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const v = dict[el.dataset.i18n]; if (v) el.textContent = v;
+  });
+  document.querySelectorAll('[data-i18n-alt]').forEach(el=>{
+    const v = dict[el.dataset.i18nAlt]; if (v) el.alt = v;
+  });
+  document.getElementById('langBtn').textContent = LANG === 'zh' ? 'English' : '中文';
+  document.title = LANG === 'zh' ? 'Paper Man 纸面小人 — 美术与交互设计案例'
+                                 : 'Paper Man — Art & Interaction Case Study';
+}
+function toggleLang(){
+  LANG = LANG === 'zh' ? 'en' : 'zh';
+  localStorage.setItem('pm-lang', LANG);
+  applyLang();
+}
+applyLang();
+
 gsap.registerPlugin(ScrollTrigger);
 document.querySelectorAll('.reveal').forEach((el,i)=>{
   gsap.to(el,{opacity:1,y:0,duration:.9,ease:'power2.out',
     scrollTrigger:{trigger:el,start:'top 90%'},delay:(i%3)*0.05});
 });
-
-/* screenshot gallery */
-const SHOTS=[
-  ['assets/room-1.jpg','房间主视觉 —— 海报墙与堆满纸箱的角落'],
-  ['assets/room-2.jpg','床、日历与贴满图纸的软木板'],
-  ['assets/art-room.jpg','设计展板中的房间渲染'],
-  ['assets/art-whitemodel.jpg','Blender 白模阶段 —— 房间最初的骨骼'],
-  ['assets/blender-1.jpg','建模过程 · 白模搭建'],
-  ['assets/blender-2.jpg','建模过程 · 柜体与图纸细节'],
-  ['assets/blender-3.jpg','建模过程 · 场景布局调整'],
-  ['assets/settings-cards.jpg','Figma 设定展板 · 灵感与机制'],
-];
-const main=document.getElementById('galMain'), cap=document.getElementById('galCap'),
-      count=document.getElementById('galCount'), thumbs=document.getElementById('galThumbs');
-let cur=0;
-SHOTS.forEach(([src,c],i)=>{
-  const d=document.createElement('div'); d.className='thumb'+(i===0?' active':'');
-  const im=document.createElement('img'); im.src=src; im.alt=c; im.loading='lazy';
-  d.appendChild(im); d.addEventListener('click',()=>show(i)); thumbs.appendChild(d);
-});
-function show(i){
-  cur=(i+SHOTS.length)%SHOTS.length;
-  gsap.to(main,{opacity:0,duration:.2,onComplete(){
-    main.src=SHOTS[cur][0]; cap.textContent=SHOTS[cur][1];
-    count.textContent=(cur+1)+' / '+SHOTS.length;
-    gsap.to(main,{opacity:1,duration:.35});
-  }});
-  thumbs.querySelectorAll('.thumb').forEach((t,j)=>t.classList.toggle('active',j===cur));
-}
-document.getElementById('galPrev').addEventListener('click',()=>show(cur-1));
-document.getElementById('galNext').addEventListener('click',()=>show(cur+1));
-document.addEventListener('keydown',e=>{
-  if(e.key==='ArrowLeft')show(cur-1); if(e.key==='ArrowRight')show(cur+1);
-});
+/* subtle hero drift */
+gsap.to('#heroImg',{scale:1.08,duration:18,yoyo:true,repeat:-1,ease:'sine.inOut',transformOrigin:'center 40%'});
 </script>
 </body>
 </html>
