@@ -11,8 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#171310; --bg2:#1f1a15; --panel:#262019; --line:#3d342a;
-  --amber:#e0a458; --amber-hi:#f0be78; --txt:#d9cfbf; --muted:#998d7d; --faint:#6e6455;
+  --bg:#171310; --bg2:#1f1a15; --panel:#262019; --panel2:#2c251d;
+  --line:#3d342a; --amber:#e0a458; --amber-hi:#f0be78; --amber-dim:rgba(224,164,88,.14);
+  --txt:#d9cfbf; --muted:#998d7d; --faint:#6e6455;
 }
 html{scroll-behavior:smooth}
 body{background:var(--bg); color:var(--txt); font-family:'Noto Sans SC',sans-serif; overflow-x:hidden}
@@ -22,35 +23,76 @@ body::before{content:""; position:fixed; inset:0; z-index:60; pointer-events:non
 .serif{font-family:'Noto Serif SC',serif}
 ::selection{background:rgba(224,164,88,.35)}
 
-.eyebrow{display:inline-flex; align-items:center; gap:.75rem; font-size:.8rem; letter-spacing:.22em;
-  color:var(--amber); font-weight:700}
-.eyebrow::before{content:""; width:30px; height:2px; background:var(--amber)}
+.eyebrow{display:inline-flex; align-items:center; gap:.75rem; font-size:.8rem; letter-spacing:.3em;
+  color:var(--amber); font-weight:700; text-transform:uppercase}
+.eyebrow::before{content:""; width:34px; height:2px; background:var(--amber)}
 
 .panel{background:var(--panel); border:1px solid var(--line); border-radius:6px}
-.chip{font-size:.78rem; padding:.3rem .75rem; border:1px solid var(--line); border-radius:3px; color:var(--muted)}
+.tagchip{font-size:.75rem; padding:.28rem .7rem; border:1px solid var(--line); border-radius:3px;
+  color:var(--muted); background:rgba(255,255,255,.02); transition:.25s}
+.tagchip:hover{color:var(--amber-hi); border-color:var(--amber); transform:translateY(-2px)}
+
+.btn{display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1.7rem; border-radius:4px;
+  font-weight:700; font-size:.95rem; transition:.3s cubic-bezier(.34,1.56,.64,1); border:1px solid transparent; cursor:pointer}
+.btn-primary{background:linear-gradient(180deg,#e8b06a,#c98a3f); color:#221a10}
+.btn-primary:hover{background:linear-gradient(180deg,#f3c37f,#d99a4c); transform:translateY(-3px); box-shadow:0 12px 28px -10px rgba(224,164,88,.5)}
+.btn-ghost{border-color:var(--line); color:var(--txt); background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:var(--amber); color:var(--amber-hi); transform:translateY(-3px)}
+
+.kbd{display:inline-block; min-width:2.4rem; text-align:center; padding:.35rem .6rem; margin-right:.4rem;
+  background:#33291f; border:1px solid #4a3e30; border-bottom-width:3px; border-radius:4px;
+  font-family:'Oswald',monospace; font-weight:600; font-size:.85rem; color:var(--amber-hi); transition:.2s}
+tr:hover .kbd{border-color:var(--amber); transform:translateY(-1px)}
 
 .figure{border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#0f0c09; position:relative}
 .figure img{display:block; width:100%; transition:transform .7s cubic-bezier(.2,.8,.2,1)}
-.figure:hover img{transform:scale(1.03)}
-.figure figcaption{padding:.7rem 1rem; font-size:.8rem; color:var(--muted); border-top:1px solid var(--line); background:rgba(38,32,25,.9)}
+.figure:hover img{transform:scale(1.04)}
+.figure figcaption{padding:.7rem 1rem; font-size:.8rem; color:var(--muted); border-top:1px solid var(--line); background:rgba(38,32,25,.92)}
+.zoomable{cursor:zoom-in}
 
-.evid{background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden}
-.evid .row{display:grid; grid-template-columns:110px 1fr; gap:1rem; padding:.85rem 1.2rem; font-size:.88rem}
+.evid{background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; transition:.3s}
+.evid:hover{border-color:var(--amber); transform:translateY(-3px)}
+.evid .row{display:grid; grid-template-columns:104px 1fr; gap:1rem; padding:.85rem 1.2rem; font-size:.88rem}
 .evid .row+.row{border-top:1px solid var(--line)}
 .evid .k{color:var(--amber); font-weight:700; font-size:.78rem; letter-spacing:.08em; padding-top:.15em}
 .evid .v{color:var(--muted); line-height:1.7}
 
-.reveal{opacity:0; transform:translateY(26px)}
+.loopnum{font-family:'Oswald'; color:var(--amber); font-weight:700; margin-right:.6rem}
+.reveal{opacity:0; transform:translateY(28px)}
 .chapter{padding:6rem 1.5rem; scroll-margin-top:70px}
-.chapter:nth-of-type(even){background:var(--bg2); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
-
+.band{background:var(--bg2); border-top:1px solid var(--line); border-bottom:1px solid var(--line)}
+.footnote{font-size:.75rem; color:var(--faint)}
+a.navlink{color:var(--muted); font-size:.85rem; transition:.2s}
+a.navlink:hover{color:var(--amber-hi)}
 .langbtn{font-size:.8rem; padding:.35rem .9rem; border:1px solid var(--amber); border-radius:3px;
   color:var(--amber); font-weight:700; transition:.25s; cursor:pointer}
 .langbtn:hover{background:var(--amber); color:#221a10}
 
-a.navlink{color:var(--muted); font-size:.85rem; transition:.2s}
-a.navlink:hover{color:var(--amber-hi)}
-.footnote{font-size:.75rem; color:var(--faint)}
+/* side dots */
+#dots{position:fixed; right:18px; top:50%; transform:translateY(-50%); z-index:50; display:flex; flex-direction:column; gap:12px}
+#dots a{width:9px; height:9px; border-radius:50%; background:var(--line); transition:.3s; position:relative}
+#dots a.on{background:var(--amber); transform:scale(1.5); box-shadow:0 0 10px rgba(224,164,88,.6)}
+@media (max-width:1100px){#dots{display:none}}
+
+/* lightbox */
+#lightbox{position:fixed; inset:0; z-index:100; background:rgba(12,9,7,.93); display:none;
+  align-items:center; justify-content:center; cursor:zoom-out; backdrop-filter:blur(6px)}
+#lightbox.open{display:flex}
+#lightbox img{max-width:92vw; max-height:88vh; border:1px solid var(--line); border-radius:8px;
+  box-shadow:0 30px 80px rgba(0,0,0,.7)}
+#lbCap{position:absolute; bottom:4vh; left:0; right:0; text-align:center; color:var(--muted); font-size:.9rem}
+
+/* mechanic demo */
+#demoCv{width:100%; height:340px; display:block; border-radius:6px; cursor:crosshair; touch-action:none;
+  background:radial-gradient(ellipse at 50% 0%, #241d15, #14100c)}
+.demobtn{padding:.55rem 1.4rem; border-radius:4px; font-weight:700; font-size:.88rem; border:1px solid var(--line);
+  background:rgba(255,255,255,.04); color:var(--txt); cursor:pointer; transition:.25s}
+.demobtn:hover{border-color:var(--amber); color:var(--amber-hi); transform:translateY(-2px)}
+.demobtn.primary{background:linear-gradient(180deg,#e8b06a,#c98a3f); color:#221a10; border:none}
+.demobtn.primary:hover{background:linear-gradient(180deg,#f3c37f,#d99a4c)}
+
+/* hero letters */
+.hletter{display:inline-block}
 </style>
 </head>
 <body>
@@ -58,8 +100,8 @@ a.navlink:hover{color:var(--amber-hi)}
 <!-- nav -->
 <nav class="fixed top-0 inset-x-0 z-50 border-b border-[--line]" style="background:rgba(23,19,16,.92); backdrop-filter:blur(10px)">
   <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between gap-4">
-    <a href="#cover" class="disp font-bold tracking-widest" style="color:var(--amber)">PAPER MAN</a>
-    <div class="hidden lg:flex gap-6">
+    <a href="#cover" class="disp font-bold text-lg tracking-widest" style="color:var(--amber)">PAPER MAN</a>
+    <div class="hidden lg:flex gap-7">
       <a class="navlink" href="#project" data-i18n="nav.project"></a>
       <a class="navlink" href="#mechanic" data-i18n="nav.mechanic"></a>
       <a class="navlink" href="#level" data-i18n="nav.level"></a>
@@ -71,26 +113,44 @@ a.navlink:hover{color:var(--amber-hi)}
   </div>
 </nav>
 
+<div id="dots"></div>
+<div id="lightbox"><img id="lbImg" src="" alt=""><p id="lbCap"></p></div>
+
 <!-- ═══ 00 cover ═══ -->
 <header id="cover" class="relative min-h-[94vh] flex items-end overflow-hidden">
-  <img src="assets/cover-room.webp" alt="Paper Man" class="absolute inset-0 w-full h-full object-cover" id="heroImg">
-  <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(23,19,16,.5),rgba(23,19,16,.3) 45%,rgba(23,19,16,.95) 90%)"></div>
-  <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(23,19,16,.8),transparent 65%)"></div>
+  <img src="assets/cover-room.webp" alt="Paper Man" id="heroImg" class="absolute inset-0 w-full h-full object-cover will-change-transform">
+  <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(23,19,16,.55),rgba(23,19,16,.28) 45%,rgba(23,19,16,.95) 90%)"></div>
+  <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(23,19,16,.82),transparent 65%)"></div>
 
-  <div class="relative z-10 max-w-6xl mx-auto px-6 pb-20 pt-40 w-full">
+  <div class="relative z-10 max-w-6xl mx-auto px-6 pb-16 pt-40 w-full">
     <p class="eyebrow reveal" data-i18n="c.cover.eyebrow"></p>
-    <h1 class="disp font-bold leading-[.95] mt-4 reveal" style="font-size:clamp(3.2rem,9vw,6.5rem); text-shadow:0 4px 30px rgba(0,0,0,.6)">PAPER MAN</h1>
+    <h1 id="heroTitle" class="disp font-bold leading-[.95] mt-4" style="font-size:clamp(3.2rem,9vw,6.5rem); text-shadow:0 4px 30px rgba(0,0,0,.6)"></h1>
     <p class="serif text-xl md:text-2xl mt-5 max-w-2xl leading-relaxed reveal" style="color:var(--amber-hi)" data-i18n="c.cover.lead"></p>
     <p class="mt-5 max-w-2xl text-[--muted] leading-relaxed reveal" data-i18n="c.cover.body0"></p>
-    <div class="mt-8 flex flex-wrap items-center gap-3 reveal">
-      <span class="chip" data-i18n="meta.role"></span>
-      <span class="chip" data-i18n="meta.team"></span>
-      <span class="chip" data-i18n="meta.format"></span>
-      <img src="assets/cover-tool-unity.webp" alt="Unity" class="h-7 rounded-sm opacity-80 ml-2">
+    <div class="mt-7 flex flex-wrap items-center gap-3 reveal">
+      <span class="tagchip" data-i18n="meta.role"></span>
+      <span class="tagchip" data-i18n="meta.team"></span>
+      <span class="tagchip" data-i18n="meta.format"></span>
+      <img src="assets/cover-tool-unity.webp" alt="Unity" class="h-7 rounded-sm opacity-80 ml-1">
       <img src="assets/cover-tool-blender.webp" alt="Blender" class="h-7 rounded-sm opacity-80">
     </div>
+    <div class="mt-9 flex flex-wrap gap-4 reveal">
+      <span class="btn btn-primary" data-i18n-title="cta.playHint"><span data-i18n="cta.play"></span><span class="text-xs font-normal opacity-70" data-i18n="cta.playNote"></span></span>
+      <span class="btn btn-ghost" data-i18n-title="cta.videoHint"><span data-i18n="cta.video"></span><span class="text-xs font-normal opacity-60" data-i18n="cta.videoNote"></span></span>
+    </div>
+    <div class="mt-10 reveal"><span class="footnote animate-pulse" data-i18n="cta.scroll"></span></div>
   </div>
 </header>
+
+<!-- info strip -->
+<div class="border-y border-[--line]" style="background:var(--bg2)">
+  <div class="max-w-6xl mx-auto px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+    <div><p class="footnote mb-1" data-i18n="info.dateL"></p><p class="font-medium" data-i18n="info.dateV"></p></div>
+    <div><p class="footnote mb-1" data-i18n="info.teamL"></p><p class="font-medium" data-i18n="meta.team"></p></div>
+    <div><p class="footnote mb-1" data-i18n="info.genreL"></p><p class="font-medium" data-i18n="info.genreV"></p></div>
+    <div><p class="footnote mb-1" data-i18n="info.techL"></p><p class="font-medium">Unity · Blender · Figma</p></div>
+  </div>
+</div>
 
 <main class="max-w-6xl mx-auto">
 
@@ -103,22 +163,16 @@ a.navlink:hover{color:var(--amber-hi)}
       <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.project.lead"></p>
       <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.project.body0"></p>
     </div>
-    <figure class="figure reveal">
-      <img src="assets/art-room.webp" data-i18n-alt="alt.artRoom" alt="">
-      <figcaption data-i18n="alt.artRoom"></figcaption>
-    </figure>
+    <figure class="figure reveal zoomable"><img src="assets/art-room.webp" data-i18n-alt="alt.artRoom" alt=""><figcaption data-i18n="alt.artRoom"></figcaption></figure>
   </div>
 </section>
 
 <!-- ═══ 02 challenge ═══ -->
-<section id="challenge" class="chapter">
+<section id="challenge" class="chapter band">
   <p class="eyebrow reveal" data-i18n="c.challenge.eyebrow"></p>
   <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.challenge.title"></h2>
   <div class="grid lg:grid-cols-2 gap-10 items-start">
-    <figure class="figure reveal order-last lg:order-first">
-      <img src="assets/iteration-v4.webp" data-i18n-alt="alt.iterV4" alt="">
-      <figcaption data-i18n="alt.iterV4"></figcaption>
-    </figure>
+    <figure class="figure reveal zoomable order-last lg:order-first"><img src="assets/iteration-v4.webp" data-i18n-alt="alt.iterV4" alt=""><figcaption data-i18n="alt.iterV4"></figcaption></figure>
     <div>
       <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.challenge.lead"></p>
       <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.challenge.body0"></p>
@@ -126,7 +180,7 @@ a.navlink:hover{color:var(--amber-hi)}
   </div>
 </section>
 
-<!-- ═══ 03 mechanic ═══ -->
+<!-- ═══ 03 mechanic + playable demo ═══ -->
 <section id="mechanic" class="chapter">
   <p class="eyebrow reveal" data-i18n="c.mechanic.eyebrow"></p>
   <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.mechanic.title"></h2>
@@ -135,27 +189,51 @@ a.navlink:hover{color:var(--amber-hi)}
       <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.mechanic.lead"></p>
       <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.mechanic.body0"></p>
       <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.mechanic.body1"></p>
+      <figure class="figure reveal zoomable mt-7"><img src="assets/art-key.webp" data-i18n-alt="alt.artKey" alt="" style="min-height:150px; object-fit:cover"><figcaption data-i18n="alt.artKey"></figcaption></figure>
     </div>
-    <figure class="figure reveal">
-      <img src="assets/art-key.webp" data-i18n-alt="alt.artKey" alt="" class="w-full" style="min-height:180px; object-fit:cover">
-      <figcaption data-i18n="alt.artKey"></figcaption>
-    </figure>
+
+    <!-- playable demo -->
+    <div class="panel p-6 reveal" id="demoPanel">
+      <div class="flex items-center justify-between mb-3">
+        <h3 class="disp text-lg font-semibold tracking-widest" style="color:var(--amber)" data-i18n="demo.title"></h3>
+        <span class="footnote" data-i18n="demo.badge"></span>
+      </div>
+      <canvas id="demoCv" width="900" height="340"></canvas>
+      <div class="flex items-center justify-between mt-4 flex-wrap gap-3">
+        <p class="footnote" data-i18n="demo.hint"></p>
+        <div class="flex gap-3">
+          <button class="demobtn primary" id="demoGo" data-i18n="demo.go"></button>
+          <button class="demobtn" id="demoReset" data-i18n="demo.reset"></button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
 <!-- ═══ 04 interaction ═══ -->
-<section id="interaction" class="chapter">
+<section id="interaction" class="chapter band">
   <p class="eyebrow reveal" data-i18n="c.interaction.eyebrow"></p>
   <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.interaction.title"></h2>
   <div class="grid lg:grid-cols-2 gap-10 items-start">
-    <figure class="figure reveal order-last lg:order-first">
-      <img src="assets/playtest-transition.webp" data-i18n-alt="alt.transition" alt="">
-      <figcaption data-i18n="alt.transition"></figcaption>
-    </figure>
     <div>
       <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.interaction.lead"></p>
       <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.interaction.body0"></p>
       <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.interaction.body1"></p>
+      <figure class="figure reveal zoomable mt-7"><img src="assets/playtest-transition.webp" data-i18n-alt="alt.transition" alt=""><figcaption data-i18n="alt.transition"></figcaption></figure>
+    </div>
+    <div class="panel p-7 reveal">
+      <h3 class="disp text-lg font-semibold tracking-widest mb-4" style="color:var(--amber)" data-i18n="ctrl.title"></h3>
+      <table class="w-full text-sm">
+        <tbody class="divide-y divide-[--line]">
+          <tr><td class="py-3 pr-4 whitespace-nowrap"><span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span></td><td class="py-3 text-[--muted]" data-i18n="ctrl.move"></td></tr>
+          <tr><td class="py-3 pr-4"><span class="kbd">Tab</span></td><td class="py-3 text-[--muted]" data-i18n="ctrl.tab"></td></tr>
+          <tr><td class="py-3 pr-4"><span class="kbd">Space</span></td><td class="py-3 text-[--muted]" data-i18n="ctrl.space"></td></tr>
+          <tr><td class="py-3 pr-4"><span class="kbd" data-i18n="ctrl.mouseK"></span></td><td class="py-3 text-[--muted]" data-i18n="ctrl.mouse"></td></tr>
+          <tr><td class="py-3 pr-4"><span class="kbd">E</span></td><td class="py-3 text-[--muted]" data-i18n="ctrl.e"></td></tr>
+          <tr><td class="py-3 pr-4"><span class="kbd">R</span></td><td class="py-3 text-[--muted]" data-i18n="ctrl.r"></td></tr>
+        </tbody>
+      </table>
+      <p class="footnote mt-5" data-i18n="ctrl.note"></p>
     </div>
   </div>
 </section>
@@ -169,16 +247,24 @@ a.navlink:hover{color:var(--amber-hi)}
     <div>
       <p class="text-[--muted] leading-loose reveal" data-i18n="c.level.body0"></p>
       <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.level.body1"></p>
+      <div class="panel p-6 mt-7 reveal">
+        <h3 class="disp text-lg font-semibold tracking-widest mb-4" style="color:var(--amber)" data-i18n="loop.title"></h3>
+        <ol class="space-y-2.5 text-sm text-[--muted]">
+          <li><span class="loopnum">01</span><span data-i18n="loop.1"></span></li>
+          <li><span class="loopnum">02</span><span data-i18n="loop.2"></span></li>
+          <li><span class="loopnum">03</span><span data-i18n="loop.3"></span></li>
+          <li><span class="loopnum">04</span><span data-i18n="loop.4"></span></li>
+          <li><span class="loopnum">05</span><span data-i18n="loop.5"></span></li>
+          <li><span class="loopnum">06</span><span data-i18n="loop.6"></span></li>
+        </ol>
+      </div>
     </div>
-    <figure class="figure reveal">
-      <img src="assets/level-flow.webp" data-i18n-alt="alt.levelFlow" alt="">
-      <figcaption data-i18n="alt.levelFlow"></figcaption>
-    </figure>
+    <figure class="figure reveal zoomable"><img src="assets/level-flow.webp" data-i18n-alt="alt.levelFlow" alt=""><figcaption data-i18n="alt.levelFlow"></figcaption></figure>
   </div>
 </section>
 
 <!-- ═══ 06 art ═══ -->
-<section id="art" class="chapter">
+<section id="art" class="chapter band">
   <p class="eyebrow reveal" data-i18n="c.art.eyebrow"></p>
   <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.art.title"></h2>
   <p class="text-lg leading-loose max-w-3xl reveal" style="color:var(--amber-hi)" data-i18n="c.art.lead"></p>
@@ -186,11 +272,12 @@ a.navlink:hover{color:var(--amber-hi)}
     <p class="text-[--muted] leading-loose reveal" data-i18n="c.art.body0"></p>
     <p class="text-[--muted] leading-loose reveal" data-i18n="c.art.body1"></p>
   </div>
-  <div class="grid md:grid-cols-2 gap-6 mt-10">
-    <figure class="figure reveal"><img src="assets/art-room-comparison.webp" data-i18n-alt="alt.artCompare" alt=""><figcaption data-i18n="alt.artCompare"></figcaption></figure>
-    <figure class="figure reveal"><img src="assets/art-room-props.webp" data-i18n-alt="alt.artProps" alt=""><figcaption data-i18n="alt.artProps"></figcaption></figure>
-    <figure class="figure reveal"><img src="assets/art-poster.webp" data-i18n-alt="alt.artPoster" alt=""><figcaption data-i18n="alt.artPoster"></figcaption></figure>
-    <figure class="figure reveal"><img src="assets/art-blender-workspace.webp" data-i18n-alt="alt.artBlender" alt=""><figcaption data-i18n="alt.artBlender"></figcaption></figure>
+  <p class="footnote mt-8 reveal" data-i18n="gal.hint"></p>
+  <div class="grid md:grid-cols-2 gap-6 mt-3">
+    <figure class="figure reveal zoomable pimg"><img src="assets/art-room-comparison.webp" data-i18n-alt="alt.artCompare" alt=""><figcaption data-i18n="alt.artCompare"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg"><img src="assets/art-room-props.webp" data-i18n-alt="alt.artProps" alt=""><figcaption data-i18n="alt.artProps"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg"><img src="assets/art-poster.webp" data-i18n-alt="alt.artPoster" alt=""><figcaption data-i18n="alt.artPoster"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg"><img src="assets/art-blender-workspace.webp" data-i18n-alt="alt.artBlender" alt=""><figcaption data-i18n="alt.artBlender"></figcaption></figure>
   </div>
 </section>
 
@@ -219,17 +306,18 @@ a.navlink:hover{color:var(--amber-hi)}
     </div>
   </div>
 
-  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
-    <figure class="figure reveal"><img src="assets/playtest-drawing.webp" data-i18n-alt="alt.ptDrawing" alt=""><figcaption data-i18n="alt.ptDrawing"></figcaption></figure>
-    <figure class="figure reveal"><img src="assets/playtest-movement.webp" data-i18n-alt="alt.ptMovement" alt=""><figcaption data-i18n="alt.ptMovement"></figcaption></figure>
-    <figure class="figure reveal"><img src="assets/playtest-collision.webp" data-i18n-alt="alt.ptCollision" alt=""><figcaption data-i18n="alt.ptCollision"></figcaption></figure>
-    <figure class="figure reveal"><img src="assets/playtest-audio.webp" data-i18n-alt="alt.ptAudio" alt=""><figcaption data-i18n="alt.ptAudio"></figcaption></figure>
-    <figure class="figure reveal"><img src="assets/playtest-level.webp" data-i18n-alt="alt.ptLevel" alt=""><figcaption data-i18n="alt.ptLevel"></figcaption></figure>
+  <p class="footnote mt-10 reveal" data-i18n="gal.hint"></p>
+  <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-3">
+    <figure class="figure reveal zoomable pimg"><img src="assets/playtest-drawing.webp" data-i18n-alt="alt.ptDrawing" alt=""><figcaption data-i18n="alt.ptDrawing"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg"><img src="assets/playtest-movement.webp" data-i18n-alt="alt.ptMovement" alt=""><figcaption data-i18n="alt.ptMovement"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg"><img src="assets/playtest-collision.webp" data-i18n-alt="alt.ptCollision" alt=""><figcaption data-i18n="alt.ptCollision"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg"><img src="assets/playtest-audio.webp" data-i18n-alt="alt.ptAudio" alt=""><figcaption data-i18n="alt.ptAudio"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg"><img src="assets/playtest-level.webp" data-i18n-alt="alt.ptLevel" alt=""><figcaption data-i18n="alt.ptLevel"></figcaption></figure>
   </div>
 </section>
 
 <!-- ═══ 08 contribution ═══ -->
-<section id="contribution" class="chapter">
+<section id="contribution" class="chapter band">
   <p class="eyebrow reveal" data-i18n="c.contribution.eyebrow"></p>
   <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.contribution.title"></h2>
   <div class="max-w-3xl">
@@ -269,6 +357,10 @@ const COPY = {
   zh: {
     "nav.project":"项目概览","nav.mechanic":"核心机制","nav.level":"第一关","nav.art":"美术创作","nav.playtest":"测试迭代","nav.contribution":"我的贡献",
     "meta.role":"美术与交互主导","meta.team":"四人团队","meta.format":"二维—三维解谜平台游戏",
+    "cta.play":"▶ 在线试玩","cta.playNote":"（WebGL 版筹备中）","cta.playHint":"WebGL 版本发布到 itch.io 后上线",
+    "cta.video":"🎬 观看实机视频","cta.videoNote":"（待补充）","cta.videoHint":"实机演示视频待补充",
+    "cta.scroll":"↓ 向下滚动，翻开这个案例",
+    "info.dateL":"制作时间","info.dateV":"2026 年 7 月","info.teamL":"团队","info.genreL":"类型","info.genreV":"叙事解谜 · 2D 平台跳跃","info.techL":"技术栈",
     "c.cover.eyebrow":"00 / 精选作品",
     "c.cover.lead":"消耗自己，画出离开的路。一款关于自我怀疑、空间穿越与重获行动力量的二维—三维解谜平台游戏。",
     "c.cover.body0":"我在四人团队中主导美术与交互设计；为叙事、项目管理与关卡设计作出贡献；参与整体游戏策划。",
@@ -282,18 +374,31 @@ const COPY = {
     "c.mechanic.lead":"同一根线同时承担身体、生命、道路与资源四种意义：画得越远，角色剩余的身体越短。",
     "c.mechanic.body0":"玩家先绘制可行走的平台，再用变短的身体跨越空隙；取得钥匙后，身体线长得到恢复。探索、消耗、回收与返回由此构成一套可见的资源循环。",
     "c.mechanic.body1":"机制的规则、视觉反馈与叙事隐喻使用同一种语言：每一次前进都留下代价，而恢复也成为继续行动的理由。",
+    "demo.title":"亲手试试 · 画线救小人","demo.badge":"可交互演示",
+    "demo.hint":"按住鼠标画一条连接两岸的线（会消耗身体线条），然后点「出发」。",
+    "demo.go":"出发 →","demo.reset":"R 重置","demo.meter":"身体线条",
+    "demo.win":"拿到钥匙！身体线条恢复了 ✦","demo.fall":"线不够长，小人掉下去了…… 再画一次",
+    "demo.need":"先画一条线再出发",
     "c.interaction.eyebrow":"04 / 交互设计","c.interaction.title":"每次输入都要解释空间关系",
     "c.interaction.lead":"移动、绘制、互动与视角切换共同帮助玩家理解：二维表面如何附着在三维房间中，又如何成为可通行的路径。",
     "c.interaction.body0":"交互围绕玩家意图组织：移动与跳跃确认落点，绘制把资源变成道路，二维—三维切换揭示表面与房间的对应关系，重置则让试错保持可控。",
     "c.interaction.body1":"视觉与声音反馈需要及时说明状态变化。测试中出现的移动手感与碰撞边缘卡顿，也成为调整控制响应和空间边界的重要依据。",
+    "ctrl.title":"操作 · CONTROLS","ctrl.move":"方向移动","ctrl.tab":"进入 / 退出 2D 小人操控模式","ctrl.space":"跳跃",
+    "ctrl.mouseK":"鼠标左键","ctrl.mouse":"画线条（消耗身体资源）","ctrl.e":"互动","ctrl.r":"重置关卡",
+    "ctrl.note":"* 键位提示也作为剧情道具内置在游戏中（展板小票），玩家在叙事中自然习得操作。",
     "c.level.eyebrow":"05 / 第一关","c.level.title":"从纸面到房门",
     "c.level.lead":"玩家依次穿过纸张、海报、抽屉和电脑屏幕，最后改变三维房门的位置，完成从局部路径到整体营救的跨越。",
     "c.level.body0":"关卡以二维探索与三维观察交替推进：环境线索引导下一处入口，回溯则验证玩家是否真正理解线长管理与两种维度之间的映射。",
     "c.level.body1":"房门既是路线终点，也是空间谜题的一部分。玩家必须重新理解房间的布局，才能把此前分散的行动收束为一次有意义的离开。",
+    "loop.title":"游戏流程 · GAME LOOP",
+    "loop.1":"3D 房间探索，触发三件物体剧情","loop.2":"被引导至电脑桌前，Tab 进入 2D 模式",
+    "loop.3":"消耗线条闯关，收集各关隐藏钥匙","loop.4":"通过 1–3 关，获得 key5，抵达墙上海报",
+    "loop.5":"开锁失败：线条不足 → 回退旧关积攒资源","loop.6":"成功开门，3D 角色走出房间，游戏成功",
     "c.art.eyebrow":"06 / 美术创作","c.art.title":"脆弱纸面与压迫房间",
     "c.art.lead":"手绘线条、像素动画与旧纸肌理保留纸片人的轻盈和脆弱；昏暗、杂乱的三维房间则制造尺度与情绪上的压力。",
     "c.art.body0":"我主导的美术方向让角色状态直接进入画面语言：身体线条的缺失必须既能被玩家识别，也要保留纸面材料的触感与不完美。",
     "c.art.body1":"角色、钥匙、房间道具、可进入海报与场景光线在迭代中共同服务于空间可读性和主题表达，而不仅是形成统一风格。",
+    "gal.hint":"⌕ 点击图片可放大查看",
     "c.playtest.eyebrow":"07 / 测试与迭代","c.playtest.title":"把新奇概念变成可理解的体验",
     "c.playtest.lead":"测试暴露出关卡完整度、视听反馈、移动手感与碰撞卡顿等问题，让团队能够从真实操作中判断概念与体验之间的距离。",
     "c.playtest.body0":"玩家在移动中感到不顺畅、或在碰撞边缘被卡住，是测试中记录到的现象。下一步需要验证控制响应与碰撞边界是否清楚传达设计意图，再据此规划移动和碰撞表现的迭代。",
@@ -328,6 +433,10 @@ const COPY = {
   en: {
     "nav.project":"Project","nav.mechanic":"Mechanic","nav.level":"Level 01","nav.art":"Art Direction","nav.playtest":"Playtest","nav.contribution":"Contribution",
     "meta.role":"Art & Interaction Lead","meta.team":"Team of four","meta.format":"2D–3D puzzle platformer",
+    "cta.play":"▶ Play in Browser","cta.playNote":"(WebGL build in preparation)","cta.playHint":"Available once the WebGL build ships to itch.io",
+    "cta.video":"🎬 Watch Gameplay","cta.videoNote":"(coming soon)","cta.videoHint":"Gameplay video coming soon",
+    "cta.scroll":"↓ Scroll to open the case study",
+    "info.dateL":"Production","info.dateV":"July 2026","info.teamL":"Team","info.genreL":"Genre","info.genreV":"Narrative puzzle · 2D platformer","info.techL":"Tech stack",
     "c.cover.eyebrow":"00 / Selected Work",
     "c.cover.lead":"Draw yourself a way out. A 2D–3D puzzle platformer about consuming parts of yourself to build a path forward.",
     "c.cover.body0":"In a four-person team, I led art and interaction; contributed to narrative, project management, and level design; and participated in overall game planning.",
@@ -341,18 +450,31 @@ const COPY = {
     "c.mechanic.lead":"One line acts as body, life, road, and resource. The farther the player draws, the less of the character remains.",
     "c.mechanic.body0":"The player draws a traversable platform, crosses the gap with a shortened body, then retrieves a key to restore the available line. Exploration, expenditure, recovery, and return become one visible resource loop.",
     "c.mechanic.body1":"Rule, feedback, and metaphor speak the same language: moving forward leaves a cost on the character, while restoration creates a reason to continue.",
+    "demo.title":"Try it · Draw the line","demo.badge":"Interactive demo",
+    "demo.hint":"Hold and drag to draw a bridge across the gap (it costs body line), then press Go.",
+    "demo.go":"Go →","demo.reset":"R Reset","demo.meter":"Body line",
+    "demo.win":"Key collected! Your body line is restored ✦","demo.fall":"Not enough line… the little man fell. Draw again",
+    "demo.need":"Draw a line first",
     "c.interaction.eyebrow":"04 / Interaction Design","c.interaction.title":"Every input clarifies a spatial relationship",
     "c.interaction.lead":"Movement, drawing, interaction, and view switching help players understand how flat playable surfaces inhabit a three-dimensional room.",
     "c.interaction.body0":"The controls are framed around player intent: movement and jumping confirm a landing, drawing converts a limited resource into a route, switching dimensions reveals spatial correspondence, and reset keeps experimentation recoverable.",
     "c.interaction.body1":"Visual and audio cues must make each state change legible. Playtest observations around movement feel and collision snagging therefore became concrete prompts to revise control feedback and spatial boundaries.",
+    "ctrl.title":"CONTROLS","ctrl.move":"Move","ctrl.tab":"Enter / exit the 2D paper mode","ctrl.space":"Jump",
+    "ctrl.mouseK":"LMB","ctrl.mouse":"Draw lines (costs body resource)","ctrl.e":"Interact","ctrl.r":"Reset level",
+    "ctrl.note":"* The control sheet also exists in-game as a narrative prop (a receipt on the board), so players learn inputs through the story.",
     "c.level.eyebrow":"05 / Level 01","c.level.title":"From the page to the door",
     "c.level.lead":"The route moves through paper, a poster, a drawer, and a computer screen before the player repositions the room’s door to complete the rescue.",
     "c.level.body0":"The level alternates between 2D traversal and 3D observation. Environmental cues point toward the next surface, while backtracking checks whether the player understands line management and the mapping between dimensions.",
     "c.level.body1":"The door is both destination and spatial puzzle. Reframing the room brings a series of local actions together as one meaningful act of leaving.",
+    "loop.title":"GAME LOOP",
+    "loop.1":"Explore the 3D room; trigger three story objects","loop.2":"Guided to the desk; press Tab to enter 2D mode",
+    "loop.3":"Spend body line to clear stages; find hidden keys","loop.4":"Clear stages 1–3, claim key5, reach the wall poster",
+    "loop.5":"Lock fails: not enough line → backtrack to stock up","loop.6":"Door opens; the 3D creator walks out. Game complete",
     "c.art.eyebrow":"06 / Art Direction","c.art.title":"Fragile paper, oppressive room",
     "c.art.lead":"Hand-drawn lines, pixel animation, and worn paper preserve the figure’s delicacy, while the dim, cluttered room creates emotional and physical pressure.",
     "c.art.body0":"My art-direction work made character state part of the image language: missing body line had to read immediately without losing the tactile imperfection of the paper world.",
     "c.art.body1":"Character studies, keys, room props, enterable posters, and environmental light evolved together to support spatial readability and theme, rather than visual consistency alone.",
+    "gal.hint":"⌕ Click any image to enlarge",
     "c.playtest.eyebrow":"07 / Playtest & Iteration","c.playtest.title":"Turning a novel premise into a legible experience",
     "c.playtest.lead":"Playtesting exposed gaps in level completeness, audiovisual feedback, movement feel, and collision behavior, giving the team concrete evidence of where concept and experience diverged.",
     "c.playtest.body0":"Players reported uneven movement and were observed catching on collision edges. The next step is to test whether control response and collision boundaries communicate intent clearly, then use that evidence to plan movement and collision iteration.",
@@ -396,24 +518,227 @@ function applyLang(){
   document.querySelectorAll('[data-i18n-alt]').forEach(el=>{
     const v = dict[el.dataset.i18nAlt]; if (v) el.alt = v;
   });
+  document.querySelectorAll('[data-i18n-title]').forEach(el=>{
+    const v = dict[el.dataset.i18nTitle]; if (v) el.title = v;
+  });
   document.getElementById('langBtn').textContent = LANG === 'zh' ? 'English' : '中文';
   document.title = LANG === 'zh' ? 'Paper Man 纸面小人 — 美术与交互设计案例'
                                  : 'Paper Man — Art & Interaction Case Study';
 }
-function toggleLang(){
-  LANG = LANG === 'zh' ? 'en' : 'zh';
-  localStorage.setItem('pm-lang', LANG);
-  applyLang();
-}
+function toggleLang(){ LANG = LANG === 'zh' ? 'en' : 'zh'; localStorage.setItem('pm-lang', LANG); applyLang(); }
 applyLang();
 
 gsap.registerPlugin(ScrollTrigger);
+
+/* hero title letter cascade */
+(function(){
+  const t = document.getElementById('heroTitle');
+  'PAPER MAN'.split('').forEach(ch=>{
+    const s = document.createElement('span');
+    s.className = 'hletter'; s.textContent = ch === ' ' ? '\u00A0' : ch;
+    t.appendChild(s);
+  });
+  gsap.from('.hletter',{y:80,opacity:0,rotateX:-60,duration:1,stagger:.06,ease:'back.out(1.6)',delay:.3});
+})();
+
+/* reveals */
 document.querySelectorAll('.reveal').forEach((el,i)=>{
   gsap.to(el,{opacity:1,y:0,duration:.9,ease:'power2.out',
     scrollTrigger:{trigger:el,start:'top 90%'},delay:(i%3)*0.05});
 });
-/* subtle hero drift */
-gsap.to('#heroImg',{scale:1.08,duration:18,yoyo:true,repeat:-1,ease:'sine.inOut',transformOrigin:'center 40%'});
+
+/* hero: ken burns drift + mouse parallax */
+gsap.to('#heroImg',{scale:1.09,duration:16,yoyo:true,repeat:-1,ease:'sine.inOut',transformOrigin:'center 40%'});
+document.getElementById('cover').addEventListener('mousemove',e=>{
+  const x=(e.clientX/innerWidth-.5)*14, y=(e.clientY/innerHeight-.5)*8;
+  gsap.to('#heroImg',{x:x,y:y,duration:1.2,ease:'power2.out'});
+});
+
+/* figure parallax on scroll */
+document.querySelectorAll('.figure img').forEach(img=>{
+  gsap.fromTo(img,{y:-14},{y:14,ease:'none',
+    scrollTrigger:{trigger:img.closest('.figure'),start:'top bottom',end:'bottom top',scrub:1}});
+});
+
+/* side dots scroll-spy */
+(function(){
+  const ids=['cover','project','challenge','mechanic','interaction','level','art','playtest','contribution','reflection'];
+  const box=document.getElementById('dots');
+  ids.forEach(id=>{
+    const a=document.createElement('a'); a.href='#'+id; a.dataset.sec=id; box.appendChild(a);
+  });
+  const links=box.querySelectorAll('a');
+  const spy=new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(e.isIntersecting){
+        links.forEach(l=>l.classList.toggle('on', l.dataset.sec===e.target.id));
+      }
+    });
+  },{rootMargin:'-45% 0px -45% 0px'});
+  ids.forEach(id=>{const el=document.getElementById(id); if(el) spy.observe(el);});
+})();
+
+/* lightbox */
+const lb=document.getElementById('lightbox'), lbImg=document.getElementById('lbImg'), lbCap=document.getElementById('lbCap');
+document.querySelectorAll('.zoomable').forEach(f=>{
+  f.addEventListener('click',()=>{
+    const img=f.querySelector('img');
+    lbImg.src=img.src; lbImg.alt=img.alt;
+    lbCap.textContent=img.alt||'';
+    lb.classList.add('open');
+    gsap.fromTo(lbImg,{scale:.85,opacity:0},{scale:1,opacity:1,duration:.4,ease:'power3.out'});
+  });
+});
+lb.addEventListener('click',()=>lb.classList.remove('open'));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open');});
+
+/* ═══ playable mechanic demo: draw the line ═══ */
+(function(){
+  const cv=document.getElementById('demoCv'), ctx=cv.getContext('2d');
+  const W=900,H=340, GY=262;
+  const LEDGE_L={x0:40,x1:190}, LEDGE_R={x0:700,x1:860};
+  const KEY={x:790,y:225};
+  const MAXLEN=430;
+  let path=[], ink=1, drawing=false, state='idle', man={x:150,y:GY}, msg='', msgColor='#e0a458', anim=null, keyGot=false;
+
+  function seg(a,b){return Math.hypot(b[0]-a[0],b[1]-a[1]);}
+  function pathLen(){let s=0;for(let i=1;i<path.length;i++)s+=seg(path[i-1],path[i]);return s;}
+  function pointAt(d){
+    let acc=0;
+    for(let i=1;i<path.length;i++){
+      const l=seg(path[i-1],path[i]);
+      if(acc+l>=d){
+        const t=(d-acc)/l;
+        return [path[i-1][0]+(path[i][0]-path[i-1][0])*t, path[i-1][1]+(path[i][1]-path[i-1][1])*t];
+      }
+      acc+=l;
+    }
+    return path[path.length-1]||[man.x,man.y];
+  }
+  function toXY(e){
+    const r=cv.getBoundingClientRect();
+    const p=e.touches?e.touches[0]:e;
+    return [(p.clientX-r.left)*W/r.width, (p.clientY-r.top)*H/r.height];
+  }
+  function setMsg(k,c){msg=COPY[LANG][k]||k; msgColor=c||'#e0a458';}
+
+  function reset(){
+    path=[]; ink=1; state='idle'; man={x:150,y:GY}; msg=''; keyGot=false;
+    if(anim) cancelAnimationFrame(anim);
+  }
+
+  function start(e){
+    if(state==='walk') return;
+    reset();
+    drawing=true;
+    path=[[man.x,man.y-6]];
+    const p=toXY(e); path.push(p);
+    e.preventDefault();
+  }
+  function move(e){
+    if(!drawing) return;
+    const p=toXY(e);
+    const last=path[path.length-1];
+    const d=seg(last,p);
+    if(d<4) return;
+    if(pathLen()+d>MAXLEN){ drawing=false; setMsg('demo.fall','#c97b63'); return; }
+    path.push(p);
+    ink=Math.max(0,1-pathLen()/MAXLEN);
+    e.preventDefault();
+  }
+  function end(){ drawing=false; }
+
+  function go(){
+    if(state==='walk') return;
+    if(path.length<2){ setMsg('demo.need','#c97b63'); return; }
+    state='walk';
+    const total=pathLen(); let t=0;
+    const speed=2.6;
+    function step(){
+      t+=speed;
+      if(t<total){
+        const [x,y]=pointAt(t);
+        man.x=x; man.y=y+6;
+        anim=requestAnimationFrame(step);
+      }else{
+        const endP=path[path.length-1];
+        if(endP[0]>=LEDGE_R.x0-6 && Math.abs(endP[1]-GY)<46){
+          state='done'; keyGot=true;
+          gsap.to({v:ink},{v:1,duration:.8,onUpdate:function(){ink=this.targets()[0].v;}});
+          setMsg('demo.win','#8fc97f');
+        }else{
+          state='fall';
+          const fy=man.y;
+          gsap.to(man,{y:H+60,rotation:.8,duration:.9,ease:'power2.in',onComplete(){setMsg('demo.fall','#c97b63'); state='idle';}});
+        }
+      }
+    }
+    step();
+  }
+
+  function drawMan(x,y,t){
+    ctx.strokeStyle='#f0be78'; ctx.lineWidth=3.4; ctx.lineCap='round';
+    const bob=state==='walk'?Math.sin(t*.35)*3:0;
+    ctx.beginPath(); ctx.arc(x,y-26+bob*.3,8,0,7); ctx.stroke();          // head
+    ctx.beginPath(); ctx.moveTo(x,y-18+bob*.3); ctx.lineTo(x,y+2); ctx.stroke(); // torso
+    const sw=state==='walk'?Math.sin(t*.35)*6:3;
+    ctx.beginPath(); ctx.moveTo(x,y-12); ctx.lineTo(x-8,y-4+sw*.4); ctx.moveTo(x,y-12); ctx.lineTo(x+8,y-4-sw*.4); ctx.stroke(); // arms
+    ctx.beginPath(); ctx.moveTo(x,y+2); ctx.lineTo(x-7,y+16-sw); ctx.moveTo(x,y+2); ctx.lineTo(x+7,y+16+sw); ctx.stroke(); // legs
+  }
+
+  let tick=0;
+  function frame(){
+    tick++;
+    ctx.clearRect(0,0,W,H);
+    // dotted bg
+    ctx.fillStyle='rgba(224,164,88,.07)';
+    for(let gx=30;gx<W;gx+=46) for(let gy=26;gy<H;gy+=46){ ctx.fillRect(gx,gy,2,2); }
+    // ledges
+    ctx.fillStyle='#3d342a';
+    ctx.fillRect(LEDGE_L.x0,GY,LEDGE_L.x1-LEDGE_L.x0,12);
+    ctx.fillRect(LEDGE_R.x0,GY,LEDGE_R.x1-LEDGE_R.x0,12);
+    ctx.fillStyle='rgba(224,164,88,.5)';
+    ctx.fillRect(LEDGE_L.x0,GY,LEDGE_L.x1-LEDGE_L.x0,3);
+    ctx.fillRect(LEDGE_R.x0,GY,LEDGE_R.x1-LEDGE_R.x0,3);
+    // key
+    if(!keyGot){
+      const ky=KEY.y+Math.sin(tick*.06)*4;
+      ctx.strokeStyle='#e0a458'; ctx.lineWidth=3;
+      ctx.beginPath(); ctx.arc(KEY.x,ky,7,0,7); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(KEY.x+7,ky); ctx.lineTo(KEY.x+16,ky); ctx.moveTo(KEY.x+13,ky); ctx.lineTo(KEY.x+13,ky+5); ctx.stroke();
+    }
+    // drawn path
+    if(path.length>1){
+      ctx.strokeStyle='#e0a458'; ctx.lineWidth=4; ctx.lineCap='round'; ctx.lineJoin='round';
+      ctx.shadowColor='rgba(224,164,88,.55)'; ctx.shadowBlur=10;
+      ctx.beginPath(); ctx.moveTo(path[0][0],path[0][1]);
+      for(let i=1;i<path.length;i++) ctx.lineTo(path[i][0],path[i][1]);
+      ctx.stroke(); ctx.shadowBlur=0;
+    }
+    drawMan(man.x,man.y,tick);
+    // ink meter
+    ctx.fillStyle='rgba(255,255,255,.08)'; ctx.fillRect(20,16,200,10);
+    ctx.fillStyle=ink>.3?'#e0a458':'#c97b63'; ctx.fillRect(20,16,200*ink,10);
+    ctx.fillStyle='#998d7d'; ctx.font='12px "Noto Sans SC"';
+    ctx.fillText((COPY[LANG]['demo.meter']||'line')+' '+Math.round(ink*100)+'%', 230, 25);
+    // message
+    if(msg){ ctx.fillStyle=msgColor; ctx.font='bold 16px "Noto Sans SC"'; ctx.textAlign='center';
+      ctx.fillText(msg, W/2, 44); ctx.textAlign='left'; }
+    requestAnimationFrame(frame);
+  }
+  frame();
+
+  cv.addEventListener('pointerdown',start);
+  cv.addEventListener('pointermove',move);
+  addEventListener('pointerup',end);
+  document.getElementById('demoGo').addEventListener('click',go);
+  document.getElementById('demoReset').addEventListener('click',reset);
+  document.addEventListener('keydown',e=>{
+    if((e.key==='r'||e.key==='R') && document.getElementById('demoPanel').getBoundingClientRect().top < innerHeight
+       && document.getElementById('demoPanel').getBoundingClientRect().bottom > 0
+       && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) reset();
+  });
+})();
 </script>
 </body>
 </html>
