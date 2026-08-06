@@ -47,7 +47,13 @@ tr:hover .kbd{border-color:var(--amber); transform:translateY(-1px)}
 .figure{border:1px solid var(--line); border-radius:6px; overflow:hidden; background:#0f0c09; position:relative}
 .figure img{display:block; width:100%; transition:transform .7s cubic-bezier(.2,.8,.2,1)}
 .figure:hover img{transform:scale(1.04)}
-.figure figcaption{padding:.7rem 1rem; font-size:.8rem; color:var(--muted); border-top:1px solid var(--line); background:rgba(38,32,25,.92)}
+.figure figcaption{position:absolute; left:0; right:0; bottom:0; z-index:2;
+  padding:2rem 1.1rem .75rem; font-family:'Oswald','Noto Sans SC',sans-serif;
+  font-size:.72rem; font-weight:500; letter-spacing:.16em; color:#e9dfcd;
+  background:linear-gradient(180deg,transparent,rgba(12,9,7,.88));
+  display:flex; align-items:baseline; gap:.55rem; pointer-events:none}
+.figure figcaption::before{content:""; flex-shrink:0; width:16px; height:2px;
+  background:var(--amber); transform:translateY(-3px)}
 .zoomable{cursor:zoom-in}
 
 .evid{background:var(--panel); border:1px solid var(--line); border-radius:6px; overflow:hidden; transition:.3s}
@@ -126,12 +132,8 @@ a.navlink:hover{color:var(--amber-hi)}
     <p class="eyebrow reveal" data-i18n="c.cover.eyebrow"></p>
     <h1 id="heroTitle" class="disp font-bold leading-[.95] mt-4" style="font-size:clamp(3.2rem,9vw,6.5rem); text-shadow:0 4px 30px rgba(0,0,0,.6)"></h1>
     <p class="serif text-xl md:text-2xl mt-5 max-w-2xl leading-relaxed reveal" style="color:var(--amber-hi)" data-i18n="c.cover.lead"></p>
-    <p class="mt-5 max-w-2xl text-[--muted] leading-relaxed reveal" data-i18n="c.cover.body0"></p>
     <div class="mt-7 flex flex-wrap items-center gap-3 reveal">
-      <span class="tagchip" data-i18n="meta.role"></span>
-      <span class="tagchip" data-i18n="meta.team"></span>
-      <span class="tagchip" data-i18n="meta.format"></span>
-      <img src="assets/cover-tool-unity.webp" alt="Unity" class="h-7 rounded-sm opacity-80 ml-1">
+      <img src="assets/cover-tool-unity.webp" alt="Unity" class="h-7 rounded-sm opacity-80">
       <img src="assets/cover-tool-blender.webp" alt="Blender" class="h-7 rounded-sm opacity-80">
     </div>
     <div class="mt-9 flex flex-wrap gap-4 reveal">
@@ -554,11 +556,7 @@ document.getElementById('cover').addEventListener('mousemove',e=>{
   gsap.to('#heroImg',{x:x,y:y,duration:1.2,ease:'power2.out'});
 });
 
-/* figure parallax on scroll */
-document.querySelectorAll('.figure img').forEach(img=>{
-  gsap.fromTo(img,{y:-14},{y:14,ease:'none',
-    scrollTrigger:{trigger:img.closest('.figure'),start:'top bottom',end:'bottom top',scrub:1}});
-});
+/* (figure parallax removed — it exposed dark gaps below images) */
 
 /* side dots scroll-spy */
 (function(){
