@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper Man 纸面小人 — 游戏作品集</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#171310; --bg2:#1f1a15; --panel:#262019; --panel2:#2c251d;
+  --line:#3d342a; --amber:#e0a458; --amber-hi:#f0be78; --amber-dim:rgba(224,164,88,.14);
+  --txt:#d9cfbf; --muted:#998d7d; --faint:#6e6455;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg); color:var(--txt); font-family:'Noto Sans SC',sans-serif; overflow-x:hidden}
+/* subtle warm grain */
+body::before{content:""; position:fixed; inset:0; z-index:60; pointer-events:none; opacity:.35; mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");}
+.disp{font-family:'Oswald','Noto Sans SC',sans-serif; letter-spacing:.04em}
+.serif{font-family:'Noto Serif SC',serif}
+::selection{background:rgba(224,164,88,.35)}
+
+.sec-label{display:inline-flex; align-items:center; gap:.75rem; font-size:.78rem; letter-spacing:.3em;
+  color:var(--amber); font-weight:700; text-transform:uppercase}
+.sec-label::before{content:""; width:34px; height:2px; background:var(--amber)}
+
+.panel{background:var(--panel); border:1px solid var(--line); border-radius:6px}
+.tagchip{font-size:.75rem; padding:.28rem .7rem; border:1px solid var(--line); border-radius:3px;
+  color:var(--muted); background:rgba(255,255,255,.02); transition:.25s}
+.tagchip:hover{color:var(--amber-hi); border-color:var(--amber)}
+
+.btn{display:inline-flex; align-items:center; gap:.5rem; padding:.8rem 1.7rem; border-radius:4px;
+  font-weight:700; font-size:.95rem; transition:.25s; border:1px solid transparent}
+.btn-primary{background:linear-gradient(180deg,#e8b06a,#c98a3f); color:#221a10}
+.btn-primary:hover{background:linear-gradient(180deg,#f3c37f,#d99a4c); transform:translateY(-1px)}
+.btn-ghost{border-color:var(--line); color:var(--txt); background:rgba(255,255,255,.03)}
+.btn-ghost:hover{border-color:var(--amber); color:var(--amber-hi)}
+
+.kbd{display:inline-block; min-width:2.4rem; text-align:center; padding:.35rem .6rem; margin-right:.4rem;
+  background:#33291f; border:1px solid #4a3e30; border-bottom-width:3px; border-radius:4px;
+  font-family:'Oswald',monospace; font-weight:600; font-size:.85rem; color:var(--amber-hi)}
+
+.shot{border:1px solid var(--line); border-radius:5px; overflow:hidden; position:relative; background:#0f0c09}
+.shot img{display:block; width:100%; transition:transform .6s cubic-bezier(.2,.8,.2,1), opacity .35s}
+.thumb{cursor:pointer; opacity:.55; transition:.25s; border:1px solid var(--line); border-radius:4px; overflow:hidden}
+.thumb:hover{opacity:.85}
+.thumb.active{opacity:1; border-color:var(--amber); box-shadow:0 0 0 1px var(--amber)}
+.galnav{position:absolute; top:50%; transform:translateY(-50%); width:44px; height:64px;
+  display:flex; align-items:center; justify-content:center; cursor:pointer;
+  background:rgba(15,12,9,.65); border:1px solid var(--line); color:var(--amber);
+  font-size:1.4rem; transition:.2s; user-select:none; z-index:5}
+.galnav:hover{background:rgba(224,164,88,.25)}
+.galcap{position:absolute; left:0; right:0; bottom:0; padding:2.2rem 1.2rem .9rem; font-size:.85rem; color:var(--txt);
+  background:linear-gradient(180deg,transparent,rgba(15,12,9,.9)); z-index:4}
+
+.review{background:var(--panel); border:1px solid var(--line); border-radius:6px; padding:1.4rem 1.5rem}
+.thumb-up{display:inline-flex; align-items:center; gap:.5rem; color:#7fb069; font-weight:700; font-size:.9rem}
+.devreply{margin-top:1rem; padding:1rem 1.1rem; background:rgba(224,164,88,.07);
+  border-left:3px solid var(--amber); border-radius:0 4px 4px 0; font-size:.88rem; color:var(--muted)}
+.devreply b{color:var(--amber-hi); font-size:.8rem; letter-spacing:.1em}
+
+.ver{border-left:2px solid var(--line); padding:0 0 2rem 1.6rem; position:relative}
+.ver::before{content:""; position:absolute; left:-7px; top:4px; width:12px; height:12px;
+  border-radius:50%; background:var(--bg); border:2px solid var(--amber)}
+.ver:last-child{padding-bottom:0}
+.vernum{font-family:'Oswald'; color:var(--amber); font-weight:600; letter-spacing:.12em; font-size:.85rem}
+
+.reveal{opacity:0; transform:translateY(28px)}
+.footnote{font-size:.75rem; color:var(--faint)}
+a.anch{scroll-margin-top:80px}
+</style>
+</head>
+<body>
+
+<!-- top nav -->
+<nav class="fixed top-0 inset-x-0 z-50 border-b border-[--line]" style="background:rgba(23,19,16,.92); backdrop-filter:blur(10px)">
+  <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+    <a href="#top" class="disp font-bold text-lg tracking-widest" style="color:var(--amber)">PAPER MAN</a>
+    <div class="hidden md:flex gap-8 text-[.85rem] font-medium text-[--muted]">
+      <a href="#about" class="hover:text-[--amber-hi] transition">关于游戏</a>
+      <a href="#mechanics" class="hover:text-[--amber-hi] transition">游戏机制</a>
+      <a href="#gallery" class="hover:text-[--amber-hi] transition">截图</a>
+      <a href="#devlog" class="hover:text-[--amber-hi] transition">开发迭代</a>
+      <a href="#reviews" class="hover:text-[--amber-hi] transition">试玩评测</a>
+    </div>
+    <span class="text-[.75rem] text-[--faint]">游戏设计作品集 · 2026</span>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<header id="top" class="relative min-h-[92vh] flex items-end overflow-hidden">
+  <img src="assets/room-1.jpg" alt="Paper Man key art" class="absolute inset-0 w-full h-full object-cover" style="filter:saturate(.92)">
+  <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(23,19,16,.55) 0%,rgba(23,19,16,.25) 40%,rgba(23,19,16,.96) 88%)"></div>
+  <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(23,19,16,.85) 0%,transparent 60%)"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-6 pb-20 pt-40 w-full">
+    <p class="sec-label mb-4 reveal">2D × 3D 叙事解谜 · 独立游戏</p>
+    <h1 class="disp font-bold leading-[.95] reveal" style="font-size:clamp(3.2rem,9vw,6.5rem); text-shadow:0 4px 30px rgba(0,0,0,.6)">
+      PAPER MAN<br><span class="serif font-black tracking-wide" style="font-size:.62em; color:var(--amber-hi)">纸 面 小 人</span>
+    </h1>
+    <p class="mt-6 max-w-2xl text-[--muted] leading-relaxed reveal">
+      一个纸面上的 2D 小人，通过消耗自身线条闯关、穿越整座房间，<br class="hidden md:block">
+      去救赎那个创造出他的、三维世界里失败的游戏制作者。
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3 reveal">
+      <span class="tagchip">画线解谜</span><span class="tagchip">平台跳跃</span><span class="tagchip">维度切换</span><span class="tagchip">叙事冒险</span><span class="tagchip">单机</span>
+    </div>
+    <div class="mt-10 flex flex-wrap gap-4 reveal">
+      <span class="btn btn-primary" title="WebGL 版本发布到 itch.io 后上线">▶ 在线试玩<span class="text-xs font-normal opacity-70">（WebGL 版筹备中）</span></span>
+      <span class="btn btn-ghost" title="实机演示视频待补充">🎬 观看实机视频<span class="text-xs font-normal opacity-60">（待补充）</span></span>
+    </div>
+  </div>
+</header>
+
+<!-- info strip -->
+<div class="border-y border-[--line]" style="background:var(--bg2)">
+  <div class="max-w-6xl mx-auto px-6 py-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-sm">
+    <div><p class="footnote mb-1">发行日期</p><p class="font-medium">2026 年 7 月</p></div>
+    <div><p class="footnote mb-1">开发者</p><p class="font-medium">Game Designer / Artist（个人项目）</p></div>
+    <div><p class="footnote mb-1">类型</p><p class="font-medium">叙事解谜 · 2D 平台跳跃</p></div>
+    <div><p class="footnote mb-1">技术栈</p><p class="font-medium">Unity · Blender · Figma</p></div>
+  </div>
+</div>
+
+<!-- ═══ 关于 ═══ -->
+<section id="about" class="anch max-w-6xl mx-auto px-6 py-24">
+  <p class="sec-label reveal">ABOUT THIS GAME</p>
+  <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-10 reveal">关于这款游戏</h2>
+
+  <div class="grid lg:grid-cols-3 gap-8">
+    <div class="lg:col-span-2 space-y-5 text-[--muted] leading-loose reveal">
+      <p><b class="text-[--txt]">《Paper Man》是一场发生在一张纸上的逃亡。</b>玩家先在三维房间中自由探索——这是一个失败游戏制作者的住所：杂乱、无窗、灯光昏暗，墙上贴满他热爱的游戏海报。触发三件关键物品的剧情后，玩家被引导至电脑桌前，按 <span class="kbd" style="margin-right:.2rem">Tab</span> 进入纸面，开始操控 2D 小人。</p>
+      <p>小人唯一的资源是<b style="color:var(--amber-hi)">构成自己身体的线条</b>。每画一段跳跃平台，身体就短一分；每一关藏着一把钥匙，拿到它才能进入下一关，也会让线条重新变长。当最后的门锁横在面前而线条不够时，玩家必须回头重走旧关卡——像所有创作者一样，在反复折返中攒够走出去的力量。</p>
+      <p>创作灵感来自围绕<b class="text-[--txt]">职场焦虑、自我实现与人生选择</b>的讨论：许多心怀理想的人被稳定却重复的生活束缚，逐渐陷入自我怀疑。《Paper Man》想回应的，正是人们渴望突破舒适圈、重新寻找生活方向的共同需求。</p>
+    </div>
+    <aside class="panel p-6 h-fit reveal">
+      <h3 class="disp text-lg font-semibold tracking-widest mb-4" style="color:var(--amber)">参考作品</h3>
+      <ul class="space-y-3 text-sm text-[--muted]">
+        <li class="flex justify-between border-b border-[--line] pb-3"><span>The Pedestrian</span><span class="footnote">2D/3D 空间穿梭</span></li>
+        <li class="flex justify-between border-b border-[--line] pb-3"><span>Line Rider</span><span class="footnote">画线即轨道</span></li>
+        <li class="flex justify-between"><span>Super Mario Bros</span><span class="footnote">经典平台跳跃</span></li>
+      </ul>
+      <h3 class="disp text-lg font-semibold tracking-widest mt-8 mb-4" style="color:var(--amber)">目标玩家</h3>
+      <p class="text-sm text-[--muted]">所有玩家群体——尤其是每一个曾经困在房间里、却仍想画一条线走出去的人。</p>
+    </aside>
+  </div>
+</section>
+
+<!-- ═══ 机制 ═══ -->
+<section id="mechanics" class="anch border-y border-[--line]" style="background:var(--bg2)">
+  <div class="max-w-6xl mx-auto px-6 py-24">
+    <p class="sec-label reveal">GAMEPLAY</p>
+    <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-10 reveal">游戏机制</h2>
+
+    <div class="grid lg:grid-cols-2 gap-10 items-start">
+      <div class="panel p-8 reveal">
+        <h3 class="disp text-xl font-semibold tracking-wider mb-5" style="color:var(--amber)">核心循环 · CORE LOOP</h3>
+        <p class="text-sm text-[--muted] leading-loose">
+          消耗自身线条资源绘制跳跃平台，与纸面原有平台结合前进；每关一把隐藏钥匙，获取后方可进入下一关，并增加线条长度资源。小人无法离开纸面——<b class="text-[--txt]">玩家需要在"身体的线条"与"通关的路径"之间持续做规划。</b>
+        </p>
+        <ol class="mt-6 space-y-2.5 text-sm text-[--muted]">
+          <li><span class="text-[--amber] font-bold mr-2">01</span>3D 房间探索，触发三件物体剧情</li>
+          <li><span class="text-[--amber] font-bold mr-2">02</span>被引导至电脑桌前，Tab 进入 2D 模式</li>
+          <li><span class="text-[--amber] font-bold mr-2">03</span>消耗线条闯关，收集各关隐藏钥匙</li>
+          <li><span class="text-[--amber] font-bold mr-2">04</span>通过 1–3 关，获得 key5，抵达墙上海报</li>
+          <li><span class="text-[--amber] font-bold mr-2">05</span>开锁失败：线条不足 → 回退旧关积攒资源</li>
+          <li><span class="text-[--amber] font-bold mr-2">06</span>成功开门，3D 角色走出房间，游戏成功</li>
+        </ol>
+      </div>
+
+      <div class="panel p-8 reveal">
+        <h3 class="disp text-xl font-semibold tracking-wider mb-5" style="color:var(--amber)">操作 · CONTROLS</h3>
+        <table class="w-full text-sm">
+          <tbody class="divide-y divide-[--line]">
+            <tr><td class="py-3.5 pr-4 whitespace-nowrap"><span class="kbd">W</span><span class="kbd">A</span><span class="kbd">S</span><span class="kbd">D</span></td><td class="py-3.5 text-[--muted]">方向移动</td></tr>
+            <tr><td class="py-3.5 pr-4"><span class="kbd">Tab</span></td><td class="py-3.5 text-[--muted]">进入 / 退出 2D 小人操控模式</td></tr>
+            <tr><td class="py-3.5 pr-4"><span class="kbd">Space</span></td><td class="py-3.5 text-[--muted]">跳跃</td></tr>
+            <tr><td class="py-3.5 pr-4"><span class="kbd">鼠标左键</span></td><td class="py-3.5 text-[--muted]">画线条（消耗身体资源）</td></tr>
+            <tr><td class="py-3.5 pr-4"><span class="kbd">E</span></td><td class="py-3.5 text-[--muted]">互动</td></tr>
+            <tr><td class="py-3.5 pr-4"><span class="kbd">R</span></td><td class="py-3.5 text-[--muted]">重置关卡</td></tr>
+          </tbody>
+        </table>
+        <p class="footnote mt-6">* 键位提示也作为剧情道具内置在游戏中（展板小票），玩家在叙事中自然习得操作。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 截图画廊 ═══ -->
+<section id="gallery" class="anch max-w-6xl mx-auto px-6 py-24">
+  <p class="sec-label reveal">SCREENSHOTS</p>
+  <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-10 reveal">游戏画面</h2>
+
+  <div class="reveal">
+    <div class="shot relative" style="aspect-ratio:16/9">
+      <img id="galMain" src="assets/room-1.jpg" alt="游戏截图" class="absolute inset-0 w-full h-full object-cover">
+      <div class="galcap" id="galCap">房间主视觉 —— 海报墙与堆满纸箱的角落</div>
+      <div class="galnav left-3" id="galPrev">‹</div>
+      <div class="galnav right-3" id="galNext">›</div>
+    </div>
+    <div class="flex items-center justify-between mt-4">
+      <div class="grid grid-cols-4 sm:grid-cols-8 gap-2 flex-1" id="galThumbs"></div>
+    </div>
+    <p class="footnote mt-3 text-right" id="galCount">1 / 8</p>
+  </div>
+</section>
+
+<!-- ═══ 开发迭代 ═══ -->
+<section id="devlog" class="anch border-y border-[--line]" style="background:var(--bg2)">
+  <div class="max-w-6xl mx-auto px-6 py-24">
+    <p class="sec-label reveal">DEVELOPMENT</p>
+    <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-10 reveal">开发迭代 · 四版核心机制</h2>
+
+    <div class="max-w-3xl">
+      <div class="ver reveal">
+        <p class="vernum">VERSION 01</p>
+        <h3 class="font-bold text-lg mt-1">核心概念验证</h3>
+        <p class="text-sm text-[--muted] mt-1.5 leading-relaxed">确立"画线即消耗身体"的核心机制，验证最基础的跳跃平台玩法。</p>
+      </div>
+      <div class="ver reveal">
+        <p class="vernum">VERSION 02</p>
+        <h3 class="font-bold text-lg mt-1">钥匙与资源循环</h3>
+        <p class="text-sm text-[--muted] mt-1.5 leading-relaxed">加入隐藏钥匙与线条长度资源的增长循环，形成"收集 → 变长 → 走得更远"的正反馈。</p>
+      </div>
+      <div class="ver reveal">
+        <p class="vernum">VERSION 03</p>
+        <h3 class="font-bold text-lg mt-1">云朵 → 线稿 → 瀑布</h3>
+        <p class="text-sm text-[--muted] mt-1.5 leading-relaxed">玩家从云朵图进入素描线稿场景，翻越斜坡与山，在几何体背后找到 key4；画线抵达右上角平台后进入 "Line Rider" 过渡图，在曲线图中跳跃绘制平台，顺着衣柜垂下的图纸一路向下，抵达"瀑布"最底端。</p>
+      </div>
+      <div class="ver reveal">
+        <p class="vernum">VERSION 04</p>
+        <h3 class="font-bold text-lg mt-1">柜门、海报与最后一道锁</h3>
+        <p class="text-sm text-[--muted] mt-1.5 leading-relaxed">柜门开合之间完成 2D 与 3D 场景的"粘贴"切换；最后的门锁前线条不足，玩家需重返旧地图积累资源。门锁打开，2D 小人帮助三维世界的游戏失败者走出房间，前往光明的世界——游戏成功。</p>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6 mt-12">
+      <div class="shot reveal"><img src="assets/iter-row1.jpg" alt="第三版机制展板"></div>
+      <div class="shot reveal"><img src="assets/iter-row2.jpg" alt="第四版机制展板"></div>
+    </div>
+    <p class="footnote mt-3 reveal">▲ Figma 设计展板 · 机制版本 03 / 04 的关卡说明与试试图示</p>
+  </div>
+</section>
+
+<!-- ═══ 试玩评测 ═══ -->
+<section id="reviews" class="anch max-w-6xl mx-auto px-6 py-24">
+  <p class="sec-label reveal">PLAYTEST REVIEWS</p>
+  <h2 class="disp text-4xl md:text-5xl font-semibold mt-4 mb-3 reveal">试玩评测</h2>
+  <p class="text-sm text-[--muted] mb-10 reveal">最近评测：<b style="color:#7fb069">特别好评</b>（2 篇评测）· 均已获得开发者回应</p>
+
+  <div class="grid lg:grid-cols-2 gap-8">
+    <div class="review reveal">
+      <div class="flex items-center justify-between mb-3">
+        <span class="thumb-up">👍 推荐</span><span class="footnote">试玩评测 · 01</span>
+      </div>
+      <p class="text-sm leading-relaxed">"游戏玩法较为新颖，但关卡完整度欠缺。"</p>
+      <div class="devreply"><b>开发者的回应 · 已更新</b><br>完善了关卡完整度及音效、视觉表现。</div>
+      <div class="shot mt-4"><img src="assets/playtest-1.jpg" alt="试玩现场 1"></div>
+      <p class="footnote mt-2">试玩现场记录 · 01</p>
+    </div>
+    <div class="review reveal">
+      <div class="flex items-center justify-between mb-3">
+        <span class="thumb-up">👍 推荐</span><span class="footnote">试玩评测 · 02</span>
+      </div>
+      <p class="text-sm leading-relaxed">"目前角色操作的流畅度和反馈感仍有提升空间，部分操作可能让玩家感到不够顺手。"</p>
+      <div class="devreply"><b>开发者的回应 · 已更新</b><br>优化场景内物体"卡脚"逻辑，以及角色移动、跳跃与交互的手感。</div>
+      <div class="shot mt-4"><img src="assets/playtest-2.jpg" alt="试玩现场 2"></div>
+      <p class="footnote mt-2">试玩现场记录 · 02</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 页脚 ═══ -->
+<footer class="border-t border-[--line]" style="background:var(--bg2)">
+  <div class="max-w-6xl mx-auto px-6 py-16 text-center">
+    <p class="disp text-2xl font-semibold tracking-[.3em] reveal" style="color:var(--amber)">PAPER MAN</p>
+    <p class="serif mt-3 text-[--muted] reveal">一个用线条救赎创作者的小小人</p>
+    <div class="mt-8 flex flex-wrap justify-center gap-x-6 gap-y-2 text-sm text-[--faint] reveal">
+      <span>发行日期 · 2026.7</span><span>·</span><span>Game Designer / Artist</span><span>·</span>
+      <span class="underline decoration-dotted underline-offset-4">实机视频（待补充）</span><span>·</span>
+      <span class="underline decoration-dotted underline-offset-4">itch.io 页面（筹备中）</span>
+    </div>
+    <p class="footnote mt-10 reveal">本站为个人游戏设计作品集页面 · 素材取自项目 Figma 设计文档与实机渲染</p>
+  </div>
+</footer>
+
+<script>
+gsap.registerPlugin(ScrollTrigger);
+document.querySelectorAll('.reveal').forEach((el,i)=>{
+  gsap.to(el,{opacity:1,y:0,duration:.9,ease:'power2.out',
+    scrollTrigger:{trigger:el,start:'top 90%'},delay:(i%3)*0.05});
+});
+
+/* screenshot gallery */
+const SHOTS=[
+  ['assets/room-1.jpg','房间主视觉 —— 海报墙与堆满纸箱的角落'],
+  ['assets/room-2.jpg','床、日历与贴满图纸的软木板'],
+  ['assets/art-room.jpg','设计展板中的房间渲染'],
+  ['assets/art-whitemodel.jpg','Blender 白模阶段 —— 房间最初的骨骼'],
+  ['assets/blender-1.jpg','建模过程 · 白模搭建'],
+  ['assets/blender-2.jpg','建模过程 · 柜体与图纸细节'],
+  ['assets/blender-3.jpg','建模过程 · 场景布局调整'],
+  ['assets/settings-cards.jpg','Figma 设定展板 · 灵感与机制'],
+];
+const main=document.getElementById('galMain'), cap=document.getElementById('galCap'),
+      count=document.getElementById('galCount'), thumbs=document.getElementById('galThumbs');
+let cur=0;
+SHOTS.forEach(([src,c],i)=>{
+  const d=document.createElement('div'); d.className='thumb'+(i===0?' active':'');
+  const im=document.createElement('img'); im.src=src; im.alt=c; im.loading='lazy';
+  d.appendChild(im); d.addEventListener('click',()=>show(i)); thumbs.appendChild(d);
+});
+function show(i){
+  cur=(i+SHOTS.length)%SHOTS.length;
+  gsap.to(main,{opacity:0,duration:.2,onComplete(){
+    main.src=SHOTS[cur][0]; cap.textContent=SHOTS[cur][1];
+    count.textContent=(cur+1)+' / '+SHOTS.length;
+    gsap.to(main,{opacity:1,duration:.35});
+  }});
+  thumbs.querySelectorAll('.thumb').forEach((t,j)=>t.classList.toggle('active',j===cur));
+}
+document.getElementById('galPrev').addEventListener('click',()=>show(cur-1));
+document.getElementById('galNext').addEventListener('click',()=>show(cur+1));
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft')show(cur-1); if(e.key==='ArrowRight')show(cur+1);
+});
+</script>
+</body>
+</html>
