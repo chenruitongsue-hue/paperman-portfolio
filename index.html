@@ -84,7 +84,7 @@ a.navlink:hover{color:var(--amber-hi)}
 #lightbox{position:fixed; inset:0; z-index:100; background:rgba(12,9,7,.93); display:none;
   align-items:center; justify-content:center; cursor:zoom-out; backdrop-filter:blur(6px)}
 #lightbox.open{display:flex}
-#lightbox img{max-width:92vw; max-height:88vh; border:1px solid var(--line); border-radius:8px;
+#lightbox img{width:92vw; height:88vh; object-fit:contain; border:1px solid var(--line); border-radius:8px;
   box-shadow:0 30px 80px rgba(0,0,0,.7)}
 #lbCap{position:absolute; bottom:4vh; left:0; right:0; text-align:center; color:var(--muted); font-size:.9rem}
 
@@ -315,6 +315,7 @@ a.navlink:hover{color:var(--amber-hi)}
     <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-collision.webp" data-i18n-alt="alt.ptCollision" alt=""><figcaption data-i18n="alt.ptCollision"></figcaption></figure>
     <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-audio.webp" data-i18n-alt="alt.ptAudio" alt=""><figcaption data-i18n="alt.ptAudio"></figcaption></figure>
     <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-level.webp" data-i18n-alt="alt.ptLevel" alt=""><figcaption data-i18n="alt.ptLevel"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/iter-row1.jpg" data-i18n-alt="alt.iterBoard3" alt=""><figcaption data-i18n="alt.iterBoard3"></figcaption></figure>
   </div>
 </section>
 
@@ -428,6 +429,7 @@ const COPY = {
     "alt.artPoster":"可进入海报表面的场景美术","alt.artBlender":"在 Blender 中制作房间场景的工作界面",
     "alt.ptDrawing":"玩家在电脑前测试绘制路线核心机制","alt.ptMovement":"展会现场测试移动与操作反馈",
     "alt.ptCollision":"团队围看电脑测试操作与碰撞反馈","alt.ptAudio":"玩家测试关卡音效与视觉表现完整度","alt.ptLevel":"带蓝色标注的关卡路线与可读性检查",
+    "alt.iterBoard3":"第三版机制迭代展板 · 从云朵到瀑布的关卡流程",
     "footer.tagline":"消耗自己，画出离开的路",
     "footer.meta1":"四人团队项目 · 2026.7","footer.meta2":"美术与交互主导","footer.video":"实机视频（待补充）",
     "footer.note":"文案与图片素材取自项目 Figma 设计文档与展会试玩记录 · 团队成果按共同协作呈现"
@@ -504,6 +506,7 @@ const COPY = {
     "alt.artPoster":"Environment art for an enterable poster surface","alt.artBlender":"Blender authoring workspace used to build and dress the room scene",
     "alt.ptDrawing":"A player testing the core route-drawing mechanic at a laptop","alt.ptMovement":"Exhibition playtest observation of movement and control feedback",
     "alt.ptCollision":"Team observing laptop play to assess controls and collision feedback","alt.ptAudio":"A player testing level audio and visual presentation completeness","alt.ptLevel":"Annotated blue level route used to check progression readability",
+    "alt.iterBoard3":"Third mechanic-iteration board — the cloud-to-waterfall level flow",
     "footer.tagline":"Draw yourself a way out",
     "footer.meta1":"Team of four · Jul 2026","footer.meta2":"Art & Interaction Lead","footer.video":"Gameplay video (coming soon)",
     "footer.note":"Copy and imagery from the project’s Figma boards and exhibition playtest records · Team outcomes credited collectively"
