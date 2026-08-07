@@ -100,12 +100,10 @@ a.navlink:hover{color:var(--amber-hi)}
 /* hero letters */
 .hletter{display:inline-block}
 /* hero luxe typography */
-.hword-solid{background:linear-gradient(165deg,#f6d9a4 0%,#e0a458 48%,#a86f28 100%);
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-  filter:drop-shadow(0 6px 24px rgba(224,164,88,.28))}
-.hword-line{color:transparent; -webkit-text-stroke:2px rgba(232,220,205,.8);
-  text-shadow:none}
-@media (max-width:640px){.hword-line{-webkit-text-stroke:1.3px rgba(232,220,205,.8)}}
+.hword-solid{color:#f0be78;
+  text-shadow:0 0 42px rgba(224,164,88,.35),0 6px 26px rgba(0,0,0,.55)}
+.hword-line{color:#e9dfcd;
+  text-shadow:0 0 30px rgba(233,223,205,.18),0 6px 26px rgba(0,0,0,.55)}
 .hero-ghost{position:absolute; right:1%; bottom:4%; z-index:1; pointer-events:none; user-select:none;
   font-family:'Noto Serif SC',serif; font-weight:900; writing-mode:vertical-rl;
   font-size:clamp(7rem,20vw,17rem); line-height:1.05; letter-spacing:.08em;
@@ -545,7 +543,7 @@ const COPY = {
   }
 };
 
-let LANG = localStorage.getItem('pm-lang') || 'zh';
+let LANG = localStorage.getItem('pm-lang') || 'en';
 function applyLang(){
   const dict = COPY[LANG];
   document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
