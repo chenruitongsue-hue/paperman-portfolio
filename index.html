@@ -99,6 +99,34 @@ a.navlink:hover{color:var(--amber-hi)}
 
 /* hero letters */
 .hletter{display:inline-block}
+/* hero luxe typography */
+.hword-solid{background:linear-gradient(165deg,#f6d9a4 0%,#e0a458 48%,#a86f28 100%);
+  -webkit-background-clip:text; background-clip:text; color:transparent;
+  filter:drop-shadow(0 6px 24px rgba(224,164,88,.28))}
+.hword-line{color:transparent; -webkit-text-stroke:2px rgba(232,220,205,.8);
+  text-shadow:none}
+@media (max-width:640px){.hword-line{-webkit-text-stroke:1.3px rgba(232,220,205,.8)}}
+.hero-ghost{position:absolute; right:1%; bottom:4%; z-index:1; pointer-events:none; user-select:none;
+  font-family:'Noto Serif SC',serif; font-weight:900; writing-mode:vertical-rl;
+  font-size:clamp(7rem,20vw,17rem); line-height:1.05; letter-spacing:.08em;
+  color:transparent; -webkit-text-stroke:1px rgba(224,164,88,.16)}
+.vlabel{position:absolute; right:1.6rem; top:50%; transform:translateY(-50%) rotate(180deg);
+  writing-mode:vertical-rl; font-family:'Oswald',sans-serif; font-size:.7rem;
+  letter-spacing:.55em; color:var(--faint); z-index:10; user-select:none}
+@media (max-width:1100px){.vlabel{display:none}}
+.eyebrow::before{animation:growline 1.2s cubic-bezier(.2,.8,.2,1) .5s both}
+@keyframes growline{from{width:0}to{width:34px}}
+
+/* video modal */
+#videobox{position:fixed; inset:0; z-index:110; background:rgba(12,9,7,.94); display:none;
+  align-items:center; justify-content:center; backdrop-filter:blur(8px)}
+#videobox.open{display:flex}
+#videobox video{width:min(92vw,1100px); max-height:86vh; border:1px solid var(--line);
+  border-radius:8px; box-shadow:0 30px 80px rgba(0,0,0,.7); background:#000}
+#vbClose{position:absolute; top:3vh; right:3vw; font-size:1.6rem; color:var(--muted);
+  cursor:pointer; border:1px solid var(--line); border-radius:6px; padding:.2rem .8rem; transition:.2s}
+#vbClose:hover{color:var(--amber-hi); border-color:var(--amber)}
+#videoBtn{cursor:pointer}
 </style>
 </head>
 <body>
@@ -121,6 +149,7 @@ a.navlink:hover{color:var(--amber-hi)}
 
 <div id="dots"></div>
 <div id="lightbox"><img id="lbImg" src="" alt=""><p id="lbCap"></p></div>
+<div id="videobox"><span id="vbClose">✕</span><video id="vbVideo" controls playsinline preload="none" src="assets/paperman-intro.mp4"></video></div>
 
 <!-- ═══ 00 cover ═══ -->
 <header id="cover" class="relative min-h-[94vh] flex items-end overflow-hidden">
@@ -128,17 +157,20 @@ a.navlink:hover{color:var(--amber-hi)}
   <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(23,19,16,.55),rgba(23,19,16,.28) 45%,rgba(23,19,16,.95) 90%)"></div>
   <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(23,19,16,.82),transparent 65%)"></div>
 
+  <div class="hero-ghost" aria-hidden="true">纸面小人</div>
+  <div class="vlabel" aria-hidden="true">2D–3D PUZZLE PLATFORMER · CASE STUDY · 2026</div>
+
   <div class="relative z-10 max-w-6xl mx-auto px-6 pb-16 pt-40 w-full">
     <p class="eyebrow reveal" data-i18n="c.cover.eyebrow"></p>
-    <h1 id="heroTitle" class="disp font-bold leading-[.95] mt-4" style="font-size:clamp(3.2rem,9vw,6.5rem); text-shadow:0 4px 30px rgba(0,0,0,.6)"></h1>
-    <p class="serif text-xl md:text-2xl mt-5 max-w-2xl leading-relaxed reveal" style="color:var(--amber-hi)" data-i18n="c.cover.lead"></p>
+    <h1 id="heroTitle" class="disp font-bold leading-[1.02] mt-5" style="font-size:clamp(3.4rem,10vw,7.5rem)"></h1>
+    <p class="serif text-2xl md:text-3xl mt-7 max-w-2xl leading-relaxed reveal" style="color:var(--amber-hi)" data-i18n="c.cover.lead"></p>
     <div class="mt-7 flex flex-wrap items-center gap-3 reveal">
       <img src="assets/cover-tool-unity.webp" alt="Unity" class="h-7 rounded-sm opacity-80">
       <img src="assets/cover-tool-blender.webp" alt="Blender" class="h-7 rounded-sm opacity-80">
     </div>
     <div class="mt-9 flex flex-wrap gap-4 reveal">
       <span class="btn btn-primary" data-i18n-title="cta.playHint"><span data-i18n="cta.play"></span><span class="text-xs font-normal opacity-70" data-i18n="cta.playNote"></span></span>
-      <span class="btn btn-ghost" data-i18n-title="cta.videoHint"><span data-i18n="cta.video"></span><span class="text-xs font-normal opacity-60" data-i18n="cta.videoNote"></span></span>
+      <span class="btn btn-ghost" id="videoBtn" data-i18n-title="cta.videoHint"><span data-i18n="cta.video"></span><span class="text-xs font-normal opacity-60" data-i18n="cta.videoNote"></span></span>
     </div>
     <div class="mt-10 reveal"><span class="footnote animate-pulse" data-i18n="cta.scroll"></span></div>
   </div>
@@ -361,7 +393,7 @@ const COPY = {
     "nav.project":"项目概览","nav.mechanic":"核心机制","nav.level":"第一关","nav.art":"美术创作","nav.playtest":"测试迭代","nav.contribution":"我的贡献",
     "meta.role":"美术与交互主导","meta.team":"四人团队","meta.format":"二维—三维解谜平台游戏",
     "cta.play":"▶ 在线试玩","cta.playNote":"（WebGL 版筹备中）","cta.playHint":"WebGL 版本发布到 itch.io 后上线",
-    "cta.video":"🎬 观看实机视频","cta.videoNote":"（待补充）","cta.videoHint":"实机演示视频待补充",
+    "cta.video":"🎬 观看介绍视频","cta.videoNote":"（54 秒 · 配乐版）","cta.videoHint":"点击播放网站介绍视频",
     "cta.scroll":"↓ 向下滚动，翻开这个案例",
     "info.dateL":"制作时间","info.dateV":"2026 年 7 月","info.teamL":"团队","info.genreL":"类型","info.genreV":"叙事解谜 · 2D 平台跳跃","info.techL":"技术栈",
     "c.cover.eyebrow":"00 / 精选作品",
@@ -431,14 +463,14 @@ const COPY = {
     "alt.ptCollision":"团队围看电脑测试操作与碰撞反馈","alt.ptAudio":"玩家测试关卡音效与视觉表现完整度","alt.ptLevel":"带蓝色标注的关卡路线与可读性检查",
     "alt.iterBoard3":"第三版机制迭代展板 · 从云朵到瀑布的关卡流程",
     "footer.tagline":"消耗自己，画出离开的路",
-    "footer.meta1":"四人团队项目 · 2026.7","footer.meta2":"美术与交互主导","footer.video":"实机视频（待补充）",
+    "footer.meta1":"四人团队项目 · 2026.7","footer.meta2":"美术与交互主导","footer.video":"介绍视频已上线 · 实机演示（待补充）",
     "footer.note":"文案与图片素材取自项目 Figma 设计文档与展会试玩记录 · 团队成果按共同协作呈现"
   },
   en: {
     "nav.project":"Project","nav.mechanic":"Mechanic","nav.level":"Level 01","nav.art":"Art Direction","nav.playtest":"Playtest","nav.contribution":"Contribution",
     "meta.role":"Art & Interaction Lead","meta.team":"Team of four","meta.format":"2D–3D puzzle platformer",
     "cta.play":"▶ Play in Browser","cta.playNote":"(WebGL build in preparation)","cta.playHint":"Available once the WebGL build ships to itch.io",
-    "cta.video":"🎬 Watch Gameplay","cta.videoNote":"(coming soon)","cta.videoHint":"Gameplay video coming soon",
+    "cta.video":"🎬 Watch the Intro Film","cta.videoNote":"(54s · with music)","cta.videoHint":"Play the portfolio intro video",
     "cta.scroll":"↓ Scroll to open the case study",
     "info.dateL":"Production","info.dateV":"July 2026","info.teamL":"Team","info.genreL":"Genre","info.genreV":"Narrative puzzle · 2D platformer","info.techL":"Tech stack",
     "c.cover.eyebrow":"00 / Selected Work",
@@ -508,7 +540,7 @@ const COPY = {
     "alt.ptCollision":"Team observing laptop play to assess controls and collision feedback","alt.ptAudio":"A player testing level audio and visual presentation completeness","alt.ptLevel":"Annotated blue level route used to check progression readability",
     "alt.iterBoard3":"Third mechanic-iteration board — the cloud-to-waterfall level flow",
     "footer.tagline":"Draw yourself a way out",
-    "footer.meta1":"Team of four · Jul 2026","footer.meta2":"Art & Interaction Lead","footer.video":"Gameplay video (coming soon)",
+    "footer.meta1":"Team of four · Jul 2026","footer.meta2":"Art & Interaction Lead","footer.video":"Intro film online · gameplay video coming soon",
     "footer.note":"Copy and imagery from the project’s Figma boards and exhibition playtest records · Team outcomes credited collectively"
   }
 };
@@ -535,15 +567,26 @@ applyLang();
 
 gsap.registerPlugin(ScrollTrigger);
 
-/* hero title letter cascade */
+/* hero title letter cascade: gradient PAPER + outlined MAN */
 (function(){
   const t = document.getElementById('heroTitle');
-  'PAPER MAN'.split('').forEach(ch=>{
-    const s = document.createElement('span');
-    s.className = 'hletter'; s.textContent = ch === ' ' ? '\u00A0' : ch;
-    t.appendChild(s);
+  [['PAPER','hword-solid'],['MAN','hword-line']].forEach(([word,cls],pi)=>{
+    const w = document.createElement('span');
+    w.className = cls;
+    word.split('').forEach(ch=>{
+      const s = document.createElement('span');
+      s.className = 'hletter'; s.textContent = ch;
+      w.appendChild(s);
+    });
+    t.appendChild(w);
+    if(pi === 0){
+      const sp = document.createElement('span');
+      sp.innerHTML = '&nbsp;&nbsp;';
+      t.appendChild(sp);
+    }
   });
-  gsap.from('.hletter',{y:80,opacity:0,rotateX:-60,duration:1,stagger:.06,ease:'back.out(1.6)',delay:.3});
+  gsap.from('.hletter',{y:90,opacity:0,rotateX:-65,duration:1.05,stagger:.07,ease:'back.out(1.6)',delay:.35});
+  gsap.from('.hero-ghost',{opacity:0,x:60,duration:2,ease:'power2.out',delay:.8});
 })();
 
 /* reveals */
@@ -592,6 +635,17 @@ document.querySelectorAll('.zoomable').forEach(f=>{
 });
 lb.addEventListener('click',()=>lb.classList.remove('open'));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open');});
+
+/* video modal */
+const vb=document.getElementById('videobox'), vbVideo=document.getElementById('vbVideo');
+document.getElementById('videoBtn').addEventListener('click',()=>{
+  vb.classList.add('open');
+  gsap.fromTo(vbVideo,{scale:.9,opacity:0},{scale:1,opacity:1,duration:.45,ease:'power3.out'});
+  vbVideo.currentTime=0; vbVideo.play().catch(()=>{});
+});
+function closeVideo(){ vb.classList.remove('open'); vbVideo.pause(); }
+vb.addEventListener('click',e=>{ if(e.target===vb||e.target.id==='vbClose') closeVideo(); });
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
 
 /* ═══ playable mechanic demo: draw the line ═══ */
 (function(){
