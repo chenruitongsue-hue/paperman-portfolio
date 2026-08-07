@@ -104,10 +104,6 @@ a.navlink:hover{color:var(--amber-hi)}
   text-shadow:0 0 42px rgba(224,164,88,.35),0 6px 26px rgba(0,0,0,.55)}
 .hword-line{color:#e9dfcd;
   text-shadow:0 0 30px rgba(233,223,205,.18),0 6px 26px rgba(0,0,0,.55)}
-.hero-ghost{position:absolute; right:1%; bottom:4%; z-index:1; pointer-events:none; user-select:none;
-  font-family:'Noto Serif SC',serif; font-weight:900; writing-mode:vertical-rl;
-  font-size:clamp(7rem,20vw,17rem); line-height:1.05; letter-spacing:.08em;
-  color:transparent; -webkit-text-stroke:1px rgba(224,164,88,.16)}
 .vlabel{position:absolute; right:1.6rem; top:50%; transform:translateY(-50%) rotate(180deg);
   writing-mode:vertical-rl; font-family:'Oswald',sans-serif; font-size:.7rem;
   letter-spacing:.55em; color:var(--faint); z-index:10; user-select:none}
@@ -155,7 +151,6 @@ a.navlink:hover{color:var(--amber-hi)}
   <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(23,19,16,.55),rgba(23,19,16,.28) 45%,rgba(23,19,16,.95) 90%)"></div>
   <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(23,19,16,.82),transparent 65%)"></div>
 
-  <div class="hero-ghost" aria-hidden="true">纸面小人</div>
   <div class="vlabel" aria-hidden="true">2D–3D PUZZLE PLATFORMER · CASE STUDY · 2026</div>
 
   <div class="relative z-10 max-w-6xl mx-auto px-6 pb-16 pt-40 w-full">
@@ -584,7 +579,6 @@ gsap.registerPlugin(ScrollTrigger);
     }
   });
   gsap.from('.hletter',{y:90,opacity:0,rotateX:-65,duration:1.05,stagger:.07,ease:'back.out(1.6)',delay:.35});
-  gsap.from('.hero-ghost',{opacity:0,x:60,duration:2,ease:'power2.out',delay:.8});
 })();
 
 /* reveals */
