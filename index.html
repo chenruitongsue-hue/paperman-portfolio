@@ -121,9 +121,24 @@ a.navlink:hover{color:var(--amber-hi)}
   cursor:pointer; border:1px solid var(--line); border-radius:6px; padding:.2rem .8rem; transition:.2s}
 #vbClose:hover{color:var(--amber-hi); border-color:var(--amber)}
 #videoBtn{cursor:pointer}
+
+/* bgm toggle */
+#bgmToggle{position:fixed; right:18px; bottom:18px; z-index:55; width:46px; height:46px; border-radius:50%;
+  border:1px solid var(--line); background:rgba(38,32,25,.92); color:var(--amber); display:flex; align-items:center; justify-content:center;
+  cursor:pointer; transition:.25s; backdrop-filter:blur(6px)}
+#bgmToggle:hover{border-color:var(--amber); color:var(--amber-hi); transform:scale(1.08)}
+#bgmToggle svg{width:22px; height:22px; fill:currentColor; pointer-events:none}
+#bgmToggle.muted{opacity:.55}
+@media (max-width:600px){#bgmToggle{right:12px; bottom:12px; width:42px; height:42px}}
 </style>
 </head>
 <body>
+
+<!-- background music -->
+<audio id="bgm" src="assets/paperman-main-music.mp3" loop preload="metadata"></audio>
+<button id="bgmToggle" class="muted" aria-label="播放背景音乐" title="播放背景音乐">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 3L9.91 5.09 12 7.18V3z"/></svg>
+</button>
 
 <!-- nav -->
 <nav class="fixed top-0 inset-x-0 z-50 border-b border-[--line]" style="background:rgba(23,19,16,.92); backdrop-filter:blur(10px)">
@@ -785,6 +800,34 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
        && document.getElementById('demoPanel').getBoundingClientRect().bottom > 0
        && !/INPUT|TEXTAREA/.test(document.activeElement.tagName)) reset();
   });
+})();
+
+/* ═══ background music toggle ═══ */
+(function(){
+  const bgm=document.getElementById('bgm'), btn=document.getElementById('bgmToggle');
+  const onIcon='<path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>';
+  const offIcon='<path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 3L9.91 5.09 12 7.18V3z"/>';
+  let userToggled=false;
+
+  function setPlaying(playing){
+    btn.classList.toggle('muted',!playing);
+    btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+(playing?onIcon:offIcon)+'</svg>';
+    btn.setAttribute('aria-label',playing?'关闭背景音乐':'播放背景音乐');
+    btn.title=playing?'关闭背景音乐':'播放背景音乐';
+  }
+
+  function tryPlay(){ bgm.play().then(()=>setPlaying(true)).catch(()=>setPlaying(false)); }
+
+  btn.addEventListener('click',()=>{
+    userToggled=true;
+    if(bgm.paused){ tryPlay(); } else { bgm.pause(); setPlaying(false); }
+  });
+
+  // auto-start after first user gesture to work around browser autoplay policies
+  function autoStart(){ if(!userToggled) tryPlay(); }
+  document.addEventListener('click',autoStart,{once:true});
+  document.addEventListener('scroll',autoStart,{once:true});
+  document.addEventListener('keydown',autoStart,{once:true});
 })();
 </script>
 </body>
