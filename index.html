@@ -823,11 +823,19 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
     if(bgm.paused){ tryPlay(); } else { bgm.pause(); setPlaying(false); }
   });
 
+  // attempt autoplay on load; browsers may block until a user gesture, so keep fallbacks
+  tryPlay();
+
   // auto-start after first user gesture to work around browser autoplay policies
   function autoStart(){ if(!userToggled) tryPlay(); }
   document.addEventListener('click',autoStart,{once:true});
   document.addEventListener('scroll',autoStart,{once:true});
   document.addEventListener('keydown',autoStart,{once:true});
+
+  // retry when the user returns to the tab (some browsers allow autoplay after engagement)
+  document.addEventListener('visibilitychange',()=>{
+    if(!document.hidden && !userToggled && bgm.paused) tryPlay();
+  });
 })();
 </script>
 </body>
