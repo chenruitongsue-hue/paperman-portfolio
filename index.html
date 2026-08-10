@@ -8,7 +8,9 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<noscript><link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@600;900&display=swap" rel="stylesheet"></noscript>
 <style>
 :root{
   --bg:#171310; --bg2:#1f1a15; --panel:#262019; --panel2:#2c251d;
@@ -185,12 +187,12 @@ a.navlink:hover{color:var(--amber-hi)}
 </nav>
 
 <div id="dots"></div>
-<div id="lightbox"><img id="lbImg" src="" alt=""><p id="lbCap"></p></div>
-<div id="videobox"><span id="vbClose">✕</span><video id="vbVideo" controls playsinline preload="none" src="assets/paperman-intro.mp4"></video></div>
+<div id="lightbox"><img id="lbImg" src="" alt="" loading="lazy" decoding="async"><p id="lbCap"></p></div>
+<div id="videobox"><span id="vbClose">✕</span><video id="vbVideo" controls playsinline preload="none" poster="assets/cover-room.webp" src="assets/paperman-intro.mp4"></video></div>
 
 <!-- ═══ 00 cover ═══ -->
 <header id="cover" class="relative min-h-[94vh] flex items-end overflow-hidden">
-  <img src="assets/cover-room.webp" alt="Paper Man" id="heroImg" class="absolute inset-0 w-full h-full object-cover will-change-transform">
+  <img src="assets/cover-room.webp" alt="Paper Man" id="heroImg" class="absolute inset-0 w-full h-full object-cover will-change-transform" fetchpriority="high" decoding="async">
   <div class="absolute inset-0" style="background:linear-gradient(180deg,rgba(23,19,16,.55),rgba(23,19,16,.28) 45%,rgba(23,19,16,.95) 90%)"></div>
   <div class="absolute inset-0" style="background:linear-gradient(90deg,rgba(23,19,16,.82),transparent 65%)"></div>
 
@@ -233,7 +235,7 @@ a.navlink:hover{color:var(--amber-hi)}
       <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.project.lead"></p>
       <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.project.body0"></p>
     </div>
-    <figure class="figure reveal zoomable"><img src="assets/art-room.webp" data-i18n-alt="alt.artRoom" alt=""><figcaption data-i18n="alt.artRoom"></figcaption></figure>
+    <figure class="figure reveal zoomable"><img src="assets/art-room.webp" data-i18n-alt="alt.artRoom" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.artRoom"></figcaption></figure>
   </div>
 </section>
 
@@ -242,7 +244,7 @@ a.navlink:hover{color:var(--amber-hi)}
   <p class="eyebrow reveal" data-i18n="c.challenge.eyebrow"></p>
   <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.challenge.title"></h2>
   <div class="grid lg:grid-cols-2 gap-10 items-start">
-    <figure class="figure reveal zoomable order-last lg:order-first"><img src="assets/iteration-v4.webp" data-i18n-alt="alt.iterV4" alt=""><figcaption data-i18n="alt.iterV4"></figcaption></figure>
+    <figure class="figure reveal zoomable order-last lg:order-first"><img src="assets/iteration-v4.webp" data-i18n-alt="alt.iterV4" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.iterV4"></figcaption></figure>
     <div>
       <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.challenge.lead"></p>
       <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.challenge.body0"></p>
@@ -281,7 +283,7 @@ a.navlink:hover{color:var(--amber-hi)}
       </div>
     </div>
   </div>
-  <figure class="figure reveal zoomable mt-8 max-w-3xl mx-auto"><img src="assets/dialog-fail.webp" data-i18n-alt="alt.dialogFail" alt=""><figcaption data-i18n="alt.dialogFail"></figcaption></figure>
+  <figure class="figure reveal zoomable mt-8 max-w-3xl mx-auto"><img src="assets/dialog-fail.webp" data-i18n-alt="alt.dialogFail" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.dialogFail"></figcaption></figure>
 </section>
 
 <!-- ═══ 04 mechanic + playable demo ═══ -->
@@ -293,7 +295,7 @@ a.navlink:hover{color:var(--amber-hi)}
       <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.mechanic.lead"></p>
       <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.mechanic.body0"></p>
       <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.mechanic.body1"></p>
-      <figure class="figure reveal zoomable mt-7"><img src="assets/art-key.webp" data-i18n-alt="alt.artKey" alt="" style="min-height:150px; object-fit:cover"><figcaption data-i18n="alt.artKey"></figcaption></figure>
+      <figure class="figure reveal zoomable mt-7"><img src="assets/art-key.webp" data-i18n-alt="alt.artKey" alt="" style="min-height:150px; object-fit:cover" loading="lazy" decoding="async"><figcaption data-i18n="alt.artKey"></figcaption></figure>
     </div>
 
     <!-- playable demo -->
@@ -313,8 +315,8 @@ a.navlink:hover{color:var(--amber-hi)}
     </div>
   </div>
   <div class="grid md:grid-cols-2 gap-6 mt-10">
-    <figure class="figure reveal zoomable"><img src="assets/prop-receipt.webp" data-i18n-alt="alt.receipt" alt="" style="max-height:540px; object-fit:contain"><figcaption data-i18n="alt.receipt"></figcaption></figure>
-    <figure class="figure reveal zoomable"><img src="assets/flow-chart.webp" data-i18n-alt="alt.flowChart" alt="" style="max-height:540px; object-fit:contain"><figcaption data-i18n="alt.flowChart"></figcaption></figure>
+    <figure class="figure reveal zoomable"><img src="assets/prop-receipt.webp" data-i18n-alt="alt.receipt" alt="" style="max-height:540px; object-fit:contain" loading="lazy" decoding="async"><figcaption data-i18n="alt.receipt"></figcaption></figure>
+    <figure class="figure reveal zoomable"><img src="assets/flow-chart.webp" data-i18n-alt="alt.flowChart" alt="" style="max-height:540px; object-fit:contain" loading="lazy" decoding="async"><figcaption data-i18n="alt.flowChart"></figcaption></figure>
   </div>
 </section>
 
@@ -327,7 +329,7 @@ a.navlink:hover{color:var(--amber-hi)}
       <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.interaction.lead"></p>
       <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.interaction.body0"></p>
       <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.interaction.body1"></p>
-      <figure class="figure reveal zoomable mt-7"><img src="assets/playtest-transition.webp" data-i18n-alt="alt.transition" alt=""><figcaption data-i18n="alt.transition"></figcaption></figure>
+      <figure class="figure reveal zoomable mt-7"><img src="assets/playtest-transition.webp" data-i18n-alt="alt.transition" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.transition"></figcaption></figure>
     </div>
     <div class="panel p-7 reveal">
       <h3 class="disp text-lg font-semibold tracking-widest mb-4" style="color:var(--amber)" data-i18n="ctrl.title"></h3>
@@ -367,7 +369,7 @@ a.navlink:hover{color:var(--amber-hi)}
         </ol>
       </div>
     </div>
-    <figure class="figure reveal zoomable"><img src="assets/level-flow.webp" data-i18n-alt="alt.levelFlow" alt=""><figcaption data-i18n="alt.levelFlow"></figcaption></figure>
+    <figure class="figure reveal zoomable"><img src="assets/level-flow.webp" data-i18n-alt="alt.levelFlow" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.levelFlow"></figcaption></figure>
   </div>
 
   <div class="panel p-7 mt-10 reveal">
@@ -428,12 +430,12 @@ a.navlink:hover{color:var(--amber-hi)}
 
   <p class="footnote mt-8 reveal" data-i18n="gal.hint"></p>
   <div class="columns-1 md:columns-2 gap-6 mt-3">
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/art-room-comparison.webp" data-i18n-alt="alt.artCompare" alt=""><figcaption data-i18n="alt.artCompare"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/art-room-props.webp" data-i18n-alt="alt.artProps" alt=""><figcaption data-i18n="alt.artProps"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/art-poster.webp" data-i18n-alt="alt.artPoster" alt=""><figcaption data-i18n="alt.artPoster"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/art-blender-workspace.webp" data-i18n-alt="alt.artBlender" alt=""><figcaption data-i18n="alt.artBlender"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/scene-desk.webp" data-i18n-alt="alt.sceneDesk" alt=""><figcaption data-i18n="alt.sceneDesk"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/scene-wardrobe.webp" data-i18n-alt="alt.sceneWardrobe" alt=""><figcaption data-i18n="alt.sceneWardrobe"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/art-room-comparison.webp" data-i18n-alt="alt.artCompare" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.artCompare"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/art-room-props.webp" data-i18n-alt="alt.artProps" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.artProps"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/art-poster.webp" data-i18n-alt="alt.artPoster" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.artPoster"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/art-blender-workspace.webp" data-i18n-alt="alt.artBlender" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.artBlender"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/scene-desk.webp" data-i18n-alt="alt.sceneDesk" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.sceneDesk"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/scene-wardrobe.webp" data-i18n-alt="alt.sceneWardrobe" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.sceneWardrobe"></figcaption></figure>
   </div>
 </section>
 
@@ -468,16 +470,16 @@ a.navlink:hover{color:var(--amber-hi)}
 
   <p class="footnote mt-10 reveal" data-i18n="gal.hint"></p>
   <div class="columns-1 md:columns-2 lg:columns-3 gap-6 mt-3">
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-drawing.webp" data-i18n-alt="alt.ptDrawing" alt=""><figcaption data-i18n="alt.ptDrawing"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-movement.webp" data-i18n-alt="alt.ptMovement" alt=""><figcaption data-i18n="alt.ptMovement"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-collision.webp" data-i18n-alt="alt.ptCollision" alt=""><figcaption data-i18n="alt.ptCollision"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-audio.webp" data-i18n-alt="alt.ptAudio" alt=""><figcaption data-i18n="alt.ptAudio"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-level.webp" data-i18n-alt="alt.ptLevel" alt=""><figcaption data-i18n="alt.ptLevel"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/iter-row1.jpg" data-i18n-alt="alt.iterBoard3" alt=""><figcaption data-i18n="alt.iterBoard3"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/mgmt-assets.webp" data-i18n-alt="alt.mgmtAssets" alt=""><figcaption data-i18n="alt.mgmtAssets"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/mgmt-materials.webp" data-i18n-alt="alt.mgmtMaterials" alt=""><figcaption data-i18n="alt.mgmtMaterials"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/mgmt-uv.webp" data-i18n-alt="alt.mgmtUv" alt=""><figcaption data-i18n="alt.mgmtUv"></figcaption></figure>
-    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/mgmt-files.webp" data-i18n-alt="alt.mgmtFiles" alt=""><figcaption data-i18n="alt.mgmtFiles"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-drawing.webp" data-i18n-alt="alt.ptDrawing" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.ptDrawing"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-movement.webp" data-i18n-alt="alt.ptMovement" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.ptMovement"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-collision.webp" data-i18n-alt="alt.ptCollision" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.ptCollision"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-audio.webp" data-i18n-alt="alt.ptAudio" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.ptAudio"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/playtest-level.webp" data-i18n-alt="alt.ptLevel" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.ptLevel"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/iter-row1.jpg" data-i18n-alt="alt.iterBoard3" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.iterBoard3"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/mgmt-assets.webp" data-i18n-alt="alt.mgmtAssets" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.mgmtAssets"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/mgmt-materials.webp" data-i18n-alt="alt.mgmtMaterials" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.mgmtMaterials"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/mgmt-uv.webp" data-i18n-alt="alt.mgmtUv" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.mgmtUv"></figcaption></figure>
+    <figure class="figure reveal zoomable pimg break-inside-avoid mb-6"><img src="assets/mgmt-files.webp" data-i18n-alt="alt.mgmtFiles" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.mgmtFiles"></figcaption></figure>
   </div>
 </section>
 
@@ -508,7 +510,7 @@ a.navlink:hover{color:var(--amber-hi)}
 <section class="band quoteband">
   <blockquote class="reveal" data-i18n="quote.exit"></blockquote>
   <p class="who reveal" data-i18n="quote.who"></p>
-  <figure class="figure reveal zoomable mt-8 max-w-md mx-auto"><img src="assets/dialog-exit.webp" data-i18n-alt="alt.dialogExit" alt=""></figure>
+  <figure class="figure reveal zoomable mt-8 max-w-md mx-auto"><img src="assets/dialog-exit.webp" data-i18n-alt="alt.dialogExit" alt="" loading="lazy" decoding="async"></figure>
 </section>
 
 <footer class="border-t border-[--line]" style="background:var(--bg2)">
