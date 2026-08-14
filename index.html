@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Paper Man 纸面小人 — 美术与交互设计案例</title>
+<title>Paper Man — Art &amp; Interaction Case Study</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
@@ -113,17 +113,6 @@ a.navlink:hover{color:var(--amber-hi)}
 .eyebrow::before{animation:growline 1.2s cubic-bezier(.2,.8,.2,1) .5s both}
 @keyframes growline{from{width:0}to{width:34px}}
 
-/* video modal */
-#videobox{position:fixed; inset:0; z-index:110; background:rgba(12,9,7,.94); display:none;
-  align-items:center; justify-content:center; backdrop-filter:blur(8px)}
-#videobox.open{display:flex}
-#videobox video{width:min(92vw,1100px); max-height:86vh; border:1px solid var(--line);
-  border-radius:8px; box-shadow:0 30px 80px rgba(0,0,0,.7); background:#000}
-#vbClose{position:absolute; top:3vh; right:3vw; font-size:1.6rem; color:var(--muted);
-  cursor:pointer; border:1px solid var(--line); border-radius:6px; padding:.2rem .8rem; transition:.2s}
-#vbClose:hover{color:var(--amber-hi); border-color:var(--amber)}
-#videoBtn{cursor:pointer}
-
 /* bgm toggle */
 #bgmToggle{position:fixed; right:18px; bottom:18px; z-index:55; width:46px; height:46px; border-radius:50%;
   border:1px solid var(--line); background:rgba(38,32,25,.92); color:var(--amber); display:flex; align-items:center; justify-content:center;
@@ -165,8 +154,8 @@ a.navlink:hover{color:var(--amber-hi)}
 <body>
 
 <!-- background music -->
-<audio id="bgm" src="assets/paperman-main-music.mp3" loop preload="metadata"></audio>
-<button id="bgmToggle" class="muted" aria-label="播放背景音乐" title="播放背景音乐">
+<audio id="bgm" src="assets/paperman-main-music.mp3" loop preload="auto"></audio>
+<button id="bgmToggle" class="muted" aria-label="Play background music" title="Play background music">
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73 4.27 3zM12 3L9.91 5.09 12 7.18V3z"/></svg>
 </button>
 
@@ -188,7 +177,6 @@ a.navlink:hover{color:var(--amber-hi)}
 
 <div id="dots"></div>
 <div id="lightbox"><img id="lbImg" src="" alt="" loading="lazy" decoding="async"><p id="lbCap"></p></div>
-<div id="videobox"><span id="vbClose">✕</span><video id="vbVideo" controls playsinline preload="none" poster="assets/cover-room.webp" src="assets/paperman-intro.mp4"></video></div>
 
 <!-- ═══ 00 cover ═══ -->
 <header id="cover" class="relative min-h-[94vh] flex items-end overflow-hidden">
@@ -208,7 +196,7 @@ a.navlink:hover{color:var(--amber-hi)}
     </div>
     <div class="mt-9 flex flex-wrap gap-4 reveal">
       <a class="btn btn-primary" href="https://chenruitongsue-hue.itch.io/paper-man" target="_blank" rel="noopener" data-i18n-title="cta.playHint"><span data-i18n="cta.play"></span><span class="text-xs font-normal opacity-70" data-i18n="cta.playNote"></span></a>
-      <span class="btn btn-ghost" id="videoBtn" data-i18n-title="cta.videoHint"><span data-i18n="cta.video"></span><span class="text-xs font-normal opacity-60" data-i18n="cta.videoNote"></span></span>
+      <a class="btn btn-ghost" id="videoBtn" href="https://youtu.be/sKoRAVAhgW0" target="_blank" rel="noopener" data-i18n-title="cta.videoHint"><span data-i18n="cta.video"></span></a>
     </div>
     <div class="mt-10 reveal"><span class="footnote animate-pulse" data-i18n="cta.scroll"></span></div>
   </div>
@@ -279,7 +267,9 @@ a.navlink:hover{color:var(--amber-hi)}
       </div>
       <div class="panel p-6 reveal">
         <h3 class="disp text-base font-semibold tracking-widest mb-3" style="color:var(--amber)" data-i18n="set.goalT"></h3>
-        <p class="text-[--muted] text-sm leading-loose" data-i18n="set.goalB"></p>
+        <p class="text-[--muted] text-sm leading-loose" data-i18n="set.goalB1"></p>
+        <p class="text-[--muted] text-sm leading-loose mt-3" data-i18n="set.goalB2"></p>
+        <p class="text-[--muted] text-sm leading-loose mt-3" data-i18n="set.goalB3"></p>
       </div>
     </div>
   </div>
@@ -373,12 +363,36 @@ a.navlink:hover{color:var(--amber-hi)}
   </div>
 
   <div class="panel p-7 mt-10 reveal">
-    <h3 class="disp text-lg font-semibold tracking-widest mb-4" style="color:var(--amber)" data-i18n="lvl.walkT"></h3>
-    <div class="space-y-4 text-sm text-[--muted] leading-loose">
-      <p data-i18n="lvl.walk1"></p>
-      <p data-i18n="lvl.walk2"></p>
-      <p data-i18n="lvl.walk3"></p>
-      <p data-i18n="lvl.walk4"></p>
+    <h3 class="disp text-lg font-semibold tracking-widest mb-6" style="color:var(--amber)" data-i18n="lvl.walkT"></h3>
+    <div class="space-y-10">
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+        <figure class="figure reveal zoomable"><img src="assets/route-01.jpg" data-i18n-alt="alt.route1" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.route1"></figcaption></figure>
+        <div class="text-sm text-[--muted] leading-loose">
+          <p class="disp text-base font-semibold tracking-widest mb-2" style="color:var(--amber-hi)"><span data-i18n="lvl.step1"></span></p>
+          <p data-i18n="lvl.walk1"></p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+        <div class="text-sm text-[--muted] leading-loose md:order-first order-last">
+          <p class="disp text-base font-semibold tracking-widest mb-2" style="color:var(--amber-hi)"><span data-i18n="lvl.step2"></span></p>
+          <p data-i18n="lvl.walk2"></p>
+        </div>
+        <figure class="figure reveal zoomable"><img src="assets/route-02.jpg" data-i18n-alt="alt.route2" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.route2"></figcaption></figure>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+        <figure class="figure reveal zoomable"><img src="assets/route-03.jpg" data-i18n-alt="alt.route3" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.route3"></figcaption></figure>
+        <div class="text-sm text-[--muted] leading-loose">
+          <p class="disp text-base font-semibold tracking-widest mb-2" style="color:var(--amber-hi)"><span data-i18n="lvl.step3"></span></p>
+          <p data-i18n="lvl.walk3"></p>
+        </div>
+      </div>
+      <div class="grid md:grid-cols-2 gap-6 md:gap-8 items-center">
+        <div class="text-sm text-[--muted] leading-loose md:order-first order-last">
+          <p class="disp text-base font-semibold tracking-widest mb-2" style="color:var(--amber-hi)"><span data-i18n="lvl.step4"></span></p>
+          <p data-i18n="lvl.walk4"></p>
+        </div>
+        <figure class="figure reveal zoomable"><img src="assets/route-04.jpg" data-i18n-alt="alt.route4" alt="" loading="lazy" decoding="async"><figcaption data-i18n="alt.route4"></figcaption></figure>
+      </div>
     </div>
   </div>
   <div class="mt-8 reveal">
@@ -393,10 +407,19 @@ a.navlink:hover{color:var(--amber-hi)}
   </div>
 </section>
 
-<!-- ═══ 07 art ═══ -->
+<!-- ═══ 07 art & contribution ═══ -->
 <section id="art" class="chapter band">
   <p class="eyebrow reveal" data-i18n="c.art.eyebrow"></p>
   <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.art.title"></h2>
+
+  <div id="contribution" class="panel p-7 reveal" style="border-left:3px solid var(--amber)">
+    <h3 class="disp text-lg font-semibold tracking-widest mb-4" style="color:var(--amber)" data-i18n="c.contribution.head"></h3>
+    <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.contribution.lead"></p>
+    <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.contribution.body0"></p>
+    <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.contribution.body1"></p>
+  </div>
+
+  <h3 class="disp text-xl font-semibold tracking-widest mt-10 mb-4 reveal" style="color:var(--amber)" data-i18n="c.art.theme"></h3>
   <p class="text-lg leading-loose max-w-3xl reveal" style="color:var(--amber-hi)" data-i18n="c.art.lead"></p>
   <div class="grid lg:grid-cols-2 gap-10 mt-6">
     <p class="text-[--muted] leading-loose reveal" data-i18n="c.art.body0"></p>
@@ -483,18 +506,7 @@ a.navlink:hover{color:var(--amber-hi)}
   </div>
 </section>
 
-<!-- ═══ 09 contribution ═══ -->
-<section id="contribution" class="chapter band">
-  <p class="eyebrow reveal" data-i18n="c.contribution.eyebrow"></p>
-  <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.contribution.title"></h2>
-  <div class="max-w-3xl">
-    <p class="text-lg leading-loose reveal" style="color:var(--amber-hi)" data-i18n="c.contribution.lead"></p>
-    <p class="mt-5 text-[--muted] leading-loose reveal" data-i18n="c.contribution.body0"></p>
-    <p class="mt-4 text-[--muted] leading-loose reveal" data-i18n="c.contribution.body1"></p>
-  </div>
-</section>
-
-<!-- ═══ 10 reflection ═══ -->
+<!-- ═══ 09 reflection ═══ -->
 <section id="reflection" class="chapter">
   <p class="eyebrow reveal" data-i18n="c.reflection.eyebrow"></p>
   <h2 class="serif text-3xl md:text-5xl font-black mt-4 mb-6 reveal" data-i18n="c.reflection.title"></h2>
@@ -531,20 +543,20 @@ const COPY = {
     "nav.project":"项目概览","nav.mechanic":"核心机制","nav.level":"第一关","nav.art":"美术创作","nav.playtest":"测试迭代","nav.contribution":"我的贡献",
     "meta.role":"美术与交互主导","meta.team":"四人团队","meta.format":"二维—三维解谜平台游戏",
     "cta.play":"▶ 在线试玩","cta.playNote":"（itch.io 网页版）","cta.playHint":"在新标签页打开 itch.io 在线试玩（首载约 160 MB，需等待）",
-    "cta.video":"🎬 观看介绍视频","cta.videoNote":"（54 秒 · 配乐版）","cta.videoHint":"点击播放网站介绍视频",
+    "cta.video":"🎬 观看介绍视频","cta.videoHint":"在新标签页打开介绍视频",
     "cta.scroll":"↓ 向下滚动，翻开这个案例",
     "info.dateL":"制作时间","info.dateV":"2026 年 7 月","info.teamL":"团队","info.genreL":"类型","info.genreV":"叙事解谜 · 2D 平台跳跃","info.techL":"技术栈",
     "c.cover.eyebrow":"00 / 精选作品",
-    "c.cover.lead":"消耗自己，画出离开的路。一款关于自我怀疑、空间穿越与重获行动力量的二维—三维解谜平台游戏。",
+    "c.cover.lead":"前进与失去，突破与自足。一款关于自我怀疑、空间穿越与重获行动力量的二维—三维解谜平台游戏。",
     "c.cover.body0":"我在四人团队中主导美术与交互设计；为叙事、项目管理与关卡设计作出贡献；参与整体游戏策划。",
     "c.project.eyebrow":"01 / 项目概览","c.project.title":"被困在创作者房间里的纸片人",
-    "c.project.lead":"纸片人在纸张、海报、抽屉和电脑屏幕之间穿行，最终打开房门，解救创造了它却被失败困住的游戏开发者。",
-    "c.project.body0":"这些二维世界并非彼此割裂的关卡，而是附着于同一间三维房间的可进入表面。玩家在两种维度之间建立联系，逐步读懂房间，也读懂角色与创作者彼此映照的处境。",
-    "c.challenge.eyebrow":"02 / 设计命题","c.challenge.title":"让焦虑成为可操作的空间",
-    "c.challenge.lead":"我们希望把重复生活、自我怀疑与走出舒适区，从抽象主题转化为玩家能够感知、选择并承担后果的行动。",
-    "c.challenge.body0":"核心问题是：如果前进必须放弃自己的一部分，玩家是否仍愿意迈出下一步？因此，道路不会由系统免费提供，而要由角色用自身的身体线条画出。",
+    "c.project.lead":"纸人在纸张，海报，柜门和电脑屏幕之间穿行，最终打开房门，救赎创造出他的游戏失败者。",
+    "c.project.body0":"2D小人需要通过消耗自身的身体线条长，以此绘制线条平台，前进通关直至救赎出被困于自我“舒适圈”画地为牢的3D游戏创作失败者。关于热爱与现实，自我认识与突破。",
+    "c.challenge.eyebrow":"02 / 设计命题","c.challenge.title":"热爱与现实，自我认识与突破",
+    "c.challenge.lead":"我们希望把固步自封、沉溺“舒适圈”，从抽象主题转化为玩家能够感知、选择并承担后果的行动。",
+    "c.challenge.body0":"核心问题是：如果前进必须放弃自己的一部分，玩家是否仍愿意迈出下一步？因此，道路不会完全由系统免费提供，而要由角色用自身的身体线条画出。玩家只有合理规划好前进所需消耗的身体资源，才可成功前进。",
     "orig.inspT":"灵感 · Inspiration","orig.resT":"调研 · Research","orig.refT":"参考 · Reference",
-    "orig.inspB":"围绕职场焦虑、自我实现和人生选择的讨论，也反映出人们渴望突破舒适圈、重新寻找生活方向的共同需求，这成为《Paper Man》的创作灵感。",
+    "orig.inspB":"围绕“舒适圈是否是一种画地为牢”的讨论，强调自我实现于突破自我，也反映出人们在自我困步时，需突破舒适圈、重新寻找生活方向的共同需求，这成为《Paper Man》的创作灵感。",
     "orig.resB":"当今社会工作压力不断增加，许多心怀理想的人被稳定却重复的生活束缚，逐渐陷入自我怀疑与固有思维。",
     "orig.refB":"The Pedestrian / Line Rider / Super Mario Bros",
     "c.setting.eyebrow":"03 / 世界设定","c.setting.title":"角色、视角与叙事设定",
@@ -553,7 +565,9 @@ const COPY = {
     "set.charB":"由这个 3D 游戏失败者创造出来的 2D 小人，企图拯救 ta 的创造者，决定消耗自身的线条来帮助他走出“房间”。2D 小人在行走消耗自身线条时，外观发生变化，他的身体部位逐渐减少。",
     "set.camB":"3D 下第一视角可游览场景房间，Tab 切换操控 2D 小人后转为观察 2D 小人的第三视角；摄像机平行于所有 2D 海报纸面，与小人同步移动旋转。",
     "set.narrB":"一个失败的游戏制作者待在自己名为“舒适圈”的阴暗逼仄房间内，他终于意识到自己应该离开当前困境，却发现由于内心的限制，他无法真正“离开”这座房间——房间即是他物理意义下的当前生活困境，也是他精神上的囚笼。而一个由他创造、诞生在这座“囚笼”内的 2D 小人，企图帮助 ta 的主人成功离开这间房间：他需要从自己诞生地一路追逐，抵达门锁，代价是燃烧自身的线条资源才可以前进。线条小人不仅是这个作者笔下的角色，也是他的精神象征——在前进的路上，只有愿意取舍，方可突破。",
-    "set.goalB":"短期：完成小的单一场景跳跃关卡，确保基础操作技术及美术场景的呈现。中期：构建一个房间内的 3D 场景及背景，完成场景内多个小关卡的串联及游戏方式。长期：计划构建更多场景，将初始房间场景与多个多样化场景相串联，如街道、美术博物馆等，拓展 2D 小人带领 3D 创作者探索多元世界。",
+    "set.goalB1":"短期：完成小的单一场景跳跃关卡，确保基础操作技术及美术场景的呈现。",
+    "set.goalB2":"中期：构建一个房间内的 3D 场景及背景，完成场景内多个小关卡的串联及游戏方式。",
+    "set.goalB3":"长期：计划构建更多场景，将初始房间场景与多个多样化场景相串联，如街道、美术博物馆等，拓展 2D 小人带领 3D 创作者探索多元世界。",
     "c.mechanic.eyebrow":"04 / 核心机制","c.mechanic.title":"身体就是线",
     "c.mechanic.lead":"同一根线同时承担身体、生命、道路与资源四种意义：画得越远，角色剩余的身体越短。",
     "c.mechanic.body0":"玩家先绘制可行走的平台，再用变短的身体跨越空隙；取得钥匙后，身体线长得到恢复。探索、消耗、回收与返回由此构成一套可见的资源循环。",
@@ -583,12 +597,16 @@ const COPY = {
     "lvl.walk2":"玩家通过电脑中图 4 过渡层前往摆放在墙角的图 5 转折层，画线寻找路径后于云朵中找到藏匿着的 key3，前往图 6，通过画线及平台跳跃通关。",
     "lvl.walk3":"玩家通过云朵图 6 来到素描线稿图 7，需要翻越素描线稿的斜坡和山，在几何体背后找到 key4，随后通过画线抵达图右上角的平台，进入图 8 “Line Rider” 过渡图，在下方曲线图中跳跃绘制平台，前往位于衣柜上垂下来的图纸——图 9。玩家需顺着图纸一路向下抵达“瀑布”的最底端。",
     "lvl.walk4":"玩家通过图 9 瀑布过渡图抵达图 10 后，将通过画线及关卡原有平台，跳跃前往图中木箱找到 key5。图 11 位于半开的衣柜门上，无法直接到达，玩家获取 key5 后可在当前柜门选择关闭对面柜门，图 10 与图 11 即可交汇。玩家前往图 11 后需再次选择打开柜门，柜门完整打开后图 11 与墙面上的图 12 相重合，2D 小人将被“粘贴”至图 12 中。此时玩家需要前往右下角的门锁开门，但会发现自身线条资源并不足以支撑前往门锁，所以需要重返以前所有地图，二次获得线条资源后再次抵达，即有足够长度线条资源可以支撑打开门锁。门锁打开，2D 小人帮助 3D 游戏失败者走出房间前往光明的世界，游戏成功。",
+    "lvl.step1":"第一段 · 起点 → 电脑屏幕（步骤 1–7）","lvl.step2":"第二段 · 电脑 → 云朵场景（步骤 8–13）","lvl.step3":"第三段 · Line Rider → 瀑布（步骤 14–21）","lvl.step4":"第四段 · 衣柜 → 门锁（步骤 22–28）",
+    "alt.route1":"路线图 01：步骤 1–7，从展板起点到电脑屏幕","alt.route2":"路线图 02：步骤 8–13，大幅图纸与云朵场景","alt.route3":"路线图 03：步骤 14–21，Line Rider 海报与衣柜瀑布","alt.route4":"路线图 04：步骤 22–28，衣柜门与门锁",
     "emo.title":"情绪曲线 · Emotion Flow",
     "emo.1":"新奇探索（观察场景）","emo.2":"压抑疑惑（研究小人基础操作）","emo.3":"明朗（认识基础操作及玩法）",
     "emo.4":"有趣（闯关中操作逐渐熟练）","emo.5":"深思（通关后理解游戏传达含义）",
-    "c.art.eyebrow":"07 / 美术创作","c.art.title":"脆弱纸面与压迫房间",
+    "c.art.eyebrow":"07 / 美术创作 · 我的贡献","c.art.title":"美术创作 / 我的贡献",
+    "c.art.theme":"压迫房间与脆弱纸面",
+    "c.contribution.head":"我的贡献 · 美术与交互主导",
     "c.art.lead":"手绘线条、像素动画与旧纸肌理保留纸片人的轻盈和脆弱；昏暗、杂乱的三维房间则制造尺度与情绪上的压力。",
-    "c.art.body0":"我主导的美术方向让角色状态直接进入画面语言：身体线条的缺失必须既能被玩家识别，也要保留纸面材料的触感与不完美。",
+    "c.art.body0":"我主导的3D美术与2D关卡设计方向让玩家状态可以快速进入游戏状态，刻意堆建杂乱的3D场景，引发玩家“逃离”情绪，切实体会游戏角色的情绪与游戏体验，而2D小人身体线条的缺失必须既能被玩家识别，也要保留纸面材料的触感与不完美。",
     "c.art.body1":"角色、钥匙、房间道具、可进入海报与场景光线在迭代中共同服务于空间可读性和主题表达，而不仅是形成统一风格。",
     "gal.hint":"⌕ 点击图片可放大查看",
     "art.conT":"设计理念 · Design Concept","art.msT":"制作里程碑 · Milestones","art.ldT":"关卡设计 · Level Design",
@@ -606,11 +624,10 @@ const COPY = {
     "c.playtest.lead":"测试暴露出关卡完整度、视听反馈、移动手感与碰撞卡顿等问题，让团队能够从真实操作中判断概念与体验之间的距离。",
     "c.playtest.body0":"玩家在移动中感到不顺畅、或在碰撞边缘被卡住，是测试中记录到的现象。下一步需要验证控制响应与碰撞边界是否清楚传达设计意图，再据此规划移动和碰撞表现的迭代。",
     "c.playtest.body1":"路线、状态变化或阶段目标不够清楚的观察，也为下一步完善关卡引导与视听反馈提供方向。这里呈现的是问题与计划，而不是未经验证的归因或缺少来源的量化结论。",
-    "c.contribution.eyebrow":"09 / 我的贡献","c.contribution.title":"在视觉、输入与叙事之间建立一致性",
     "c.contribution.lead":"我主导美术方向与交互设计；在叙事、项目管理与关卡设计中作出贡献；并参与整体游戏策划，让不同环节围绕“身体即道路”的核心隐喻收束。",
     "c.contribution.body0":"主导工作包括建立纸面与暗室的视觉关系、组织美术迭代，并把移动、绘制、视角切换与状态反馈转译为清晰的玩家意图。",
     "c.contribution.body1":"我为叙事、进度协调与关卡路径作出贡献，并参与整体游戏策划；游戏实现与最终团队成果始终按共同协作呈现，不归为个人独立完成。",
-    "c.reflection.eyebrow":"10 / 反思与未来","c.reflection.title":"让规则像概念一样精确",
+    "c.reflection.eyebrow":"09 / 反思与未来","c.reflection.title":"让规则像概念一样精确",
     "c.reflection.lead":"下一轮迭代应进一步明确线长消耗、钥匙恢复与失败条件，同时强化玩家身份、路线引导和视听状态反馈。",
     "c.reflection.body0":"Paper Man 让我看到，鲜明隐喻只是起点；只有当规则、输入、关卡与画面都能稳定解释同一件事时，玩家才会真正理解它。",
     "c.reflection.body1":"这次四人协作也让我形成了跨学科工作方法：以体验目标连接主题、机制、交互与美术，并用测试暴露的具体问题推动下一次判断。",
@@ -640,7 +657,7 @@ const COPY = {
     "alt.sceneWardrobe":"衣柜一角：Line Rider 海报与围巾",
     "alt.mgmtAssets":"资产项目管理展示","alt.mgmtMaterials":"材质项目管理展示",
     "alt.mgmtUv":"贴图 UV 项目管理展示","alt.mgmtFiles":"工程文件项目内容管理展示",
-    "footer.tagline":"消耗自己，画出离开的路",
+    "footer.tagline":"前进与失去，突破与自足",
     "footer.meta1":"四人团队项目 · 2026.7","footer.meta2":"美术与交互主导","footer.video":"介绍视频已上线 · 实机演示（待补充）",
     "footer.note":"文案与图片素材取自项目 Figma 设计文档与展会试玩记录 · 团队成果按共同协作呈现"
   },
@@ -648,20 +665,20 @@ const COPY = {
     "nav.project":"Project","nav.mechanic":"Mechanic","nav.level":"Level 01","nav.art":"Art Direction","nav.playtest":"Playtest","nav.contribution":"Contribution",
     "meta.role":"Art & Interaction Lead","meta.team":"Team of four","meta.format":"2D–3D puzzle platformer",
     "cta.play":"▶ Play in Browser","cta.playNote":"(WebGL on itch.io)","cta.playHint":"Opens the itch.io WebGL build in a new tab (first load ~160 MB)",
-    "cta.video":"🎬 Watch the Intro Film","cta.videoNote":"(54s · with music)","cta.videoHint":"Play the portfolio intro video",
+    "cta.video":"🎬 Watch the Intro Film","cta.videoHint":"Opens the intro film on YouTube in a new tab",
     "cta.scroll":"↓ Scroll to open the case study",
     "info.dateL":"Production","info.dateV":"July 2026","info.teamL":"Team","info.genreL":"Genre","info.genreV":"Narrative puzzle · 2D platformer","info.techL":"Tech stack",
     "c.cover.eyebrow":"00 / Selected Work",
-    "c.cover.lead":"Draw yourself a way out. A 2D–3D puzzle platformer about consuming parts of yourself to build a path forward.",
+    "c.cover.lead":"Forward and loss, breakthrough and self-sufficiency. A 2D–3D puzzle platformer about self-doubt, moving between dimensions, and regaining the power to act.",
     "c.cover.body0":"In a four-person team, I led art and interaction; contributed to narrative, project management, and level design; and participated in overall game planning.",
     "c.project.eyebrow":"01 / The Project","c.project.title":"A paper figure trapped in its creator’s room",
-    "c.project.lead":"The paper figure travels through sheets, posters, drawers, and computer screens before opening the room door to rescue the creator who made it and became trapped by failure.",
-    "c.project.body0":"These 2D worlds are not disconnected stages. They are playable surfaces embedded in one 3D room, asking the player to connect two spatial systems while uncovering how the figure and its creator mirror one another.",
-    "c.challenge.eyebrow":"02 / Design Challenge","c.challenge.title":"Turning anxiety into navigable space",
-    "c.challenge.lead":"We translated repetition, self-doubt, and leaving a comfort zone into actions whose cost the player could see, choose, and carry.",
-    "c.challenge.body0":"The central question was simple but uncomfortable: if progress requires giving up part of yourself, do you still move forward? The game answers by making the character’s own body the material for every new route.",
+    "c.project.lead":"Paper Man travels between sheets of paper, posters, cabinet doors, and computer screens, until at last he opens the room door and redeems the failed game developer who created him.",
+    "c.project.body0":"The 2D figure must consume the lines of his own body to draw line platforms, pressing forward through each level until he redeems the failed 3D game creator imprisoned inside his self-drawn “comfort zone.” A story about passion and reality, self-awareness and breakthrough.",
+    "c.challenge.eyebrow":"02 / Design Challenge","c.challenge.title":"Passion and reality, self-awareness and breakthrough",
+    "c.challenge.lead":"We wanted to turn standing still and indulging in one’s “comfort zone” from an abstract theme into actions the player can perceive, choose, and bear the consequences of.",
+    "c.challenge.body0":"The central question was: if moving forward means giving up part of yourself, are you still willing to take the next step? The path is therefore never fully provided by the system — the character must draw it with the lines of his own body. Only by carefully budgeting the bodily resources needed to advance can the player succeed in moving forward.",
     "orig.inspT":"Inspiration","orig.resT":"Research","orig.refT":"Reference",
-    "orig.inspB":"Discussions around workplace anxiety, self-actualization and life choices reflect a shared desire to break out of comfort zones and rediscover life direction — the creative inspiration behind Paper Man.",
+    "orig.inspB":"The debate over whether the “comfort zone” is a self-drawn prison stresses that self-actualization lies in breaking through one’s own limits. It reflects a shared need — whenever people find themselves stuck — to break out of their comfort zones and rediscover their life direction. This became the creative inspiration behind Paper Man.",
     "orig.resB":"As work pressure keeps growing in contemporary society, many people with aspirations are confined by stable yet repetitive lives, slipping into self-doubt and fixed thinking patterns.",
     "orig.refB":"The Pedestrian / Line Rider / Super Mario Bros",
     "c.setting.eyebrow":"03 / World Setting","c.setting.title":"Character, camera and narrative setup",
@@ -670,7 +687,9 @@ const COPY = {
     "set.charB":"Born from a defeated 3D game developer, the 2D stick figure sets out to save its maker. It chooses to expend its own lines, striving to lead the creator out of the “room”. Whenever the figure travels and expends its lines, its form alters — segments of its body fade away little by little.",
     "set.camB":"Players explore the room in first-person 3D view. Pressing Tab takes control of the 2D stick figure, switching to a third-person perspective that observes the character. The camera stays parallel to all 2D poster surfaces, moving and rotating in sync with the figure.",
     "set.narrB":"A defeated game developer dwells inside his dim, cramped room named “The Comfort Zone”. He finally realizes he must escape his predicament, yet inner restraints prevent him from truly stepping outside — the room embodies both his tangible struggles in life and a spiritual cage trapping his mind. The 2D stick figure he created, born within this “cage”, strives to help its maker break free: it must journey from its birthplace all the way to the door lock, paying the price by burning its own line resources to move forward. More than merely a character drawn by the creator, the stick figure serves as his spiritual avatar — on this journey, breakthroughs only come through willingness to make sacrifices.",
-    "set.goalB":"Short-term: finish single-scene jumping levels to realize basic controls and art presentation. Mid-term: construct the 3D room environment and background, connecting multiple inner levels and their gameplay. Long-term: create more varied scenes — streets, art museums and beyond — linking them to the starting room, extending the story of the 2D figure guiding the 3D creator to explore diverse worlds.",
+    "set.goalB1":"Short-term: finish single-scene jumping levels to realize basic controls and art presentation.",
+    "set.goalB2":"Mid-term: construct the 3D room environment and background, connecting multiple inner levels and their gameplay.",
+    "set.goalB3":"Long-term: create more varied scenes — streets, art museums and beyond — linking them to the starting room, extending the story of the 2D figure guiding the 3D creator to explore diverse worlds.",
     "c.mechanic.eyebrow":"04 / Core Mechanic","c.mechanic.title":"The body is the line",
     "c.mechanic.lead":"One line acts as body, life, road, and resource. The farther the player draws, the less of the character remains.",
     "c.mechanic.body0":"The player draws a traversable platform, crosses the gap with a shortened body, then retrieves a key to restore the available line. Exploration, expenditure, recovery, and return become one visible resource loop.",
@@ -700,12 +719,16 @@ const COPY = {
     "lvl.walk2":"Players travel from the transitional Scene 4 inside the computer to Scene 5, the turning layer placed in the corner — draw lines to navigate the path and discover the hidden key3 among the clouds, then proceed to Scene 6 and clear the level through line drawing and platform jumping.",
     "lvl.walk3":"From the cloud Scene 6, players reach the sketch line-art Scene 7 — climb over its slopes and mountains, locate key4 behind the geometric shapes, then draw lines to the platform in the upper right corner and enter Scene 8, the Line Rider transition. Jump and draw platforms within the curved graph below, heading toward the paper hanging down from the wardrobe — Scene 9 — and follow it all the way down to the very bottom of the “waterfall”.",
     "lvl.walk4":"Via the waterfall Scene 9, players reach Scene 10 — draw lines and use existing platforms to jump onto the crate and collect key5. Scene 11 lies on the half-open wardrobe door and is initially inaccessible; after obtaining key5, players close the opposing cabinet door from Scene 10, linking the two scenes. Entering Scene 11 and reopening the door makes it overlap with wall-mounted Scene 12, and the 2D figure is “pasted” into Scene 12. Players then head for the door lock at the bottom right, only to find their line resources insufficient — so they revisit every earlier area to gather extra line, then return with enough length to reach the lock. The lock opens, and the 2D figure leads the defeated 3D developer out of the room into a bright world. Game complete.",
+    "lvl.step1":"Part 1 · Start → Computer Screen (Steps 1–7)","lvl.step2":"Part 2 · Computer → Cloud Scenes (Steps 8–13)","lvl.step3":"Part 3 · Line Rider → Waterfall (Steps 14–21)","lvl.step4":"Part 4 · Wardrobe → Door Lock (Steps 22–28)",
+    "alt.route1":"Route map 01: steps 1–7, from the noticeboard start to the computer screen","alt.route2":"Route map 02: steps 8–13, the large sheet and the cloud scenes","alt.route3":"Route map 03: steps 14–21, the Line Rider poster and the wardrobe waterfall","alt.route4":"Route map 04: steps 22–28, the wardrobe doors and the door lock",
     "emo.title":"Emotion Flow",
     "emo.1":"Curious Exploration (observing the scene)","emo.2":"Dismay & Confusion (learning the basics)","emo.3":"Enlightenment (grasping controls and gameplay)",
     "emo.4":"Fun (growing skill through the levels)","emo.5":"Contemplation (comprehending the theme after finishing)",
-    "c.art.eyebrow":"07 / Art Direction","c.art.title":"Fragile paper, oppressive room",
+    "c.art.eyebrow":"07 / Art Direction · My Contribution","c.art.title":"Art Direction / My Contribution",
+    "c.art.theme":"Oppressive room, fragile paper",
+    "c.contribution.head":"My Contribution · Art & Interaction Lead",
     "c.art.lead":"Hand-drawn lines, pixel animation, and worn paper preserve the figure’s delicacy, while the dim, cluttered room creates emotional and physical pressure.",
-    "c.art.body0":"My art-direction work made character state part of the image language: missing body line had to read immediately without losing the tactile imperfection of the paper world.",
+    "c.art.body0":"My direction of 3D art and 2D level design draws players quickly into the game’s emotional state: deliberately cluttered 3D scenes provoke an urge to “escape,” letting players truly feel the character’s emotions and the experience of the game — while the loss of the 2D figure’s body lines must remain instantly readable, without losing the tactile imperfection of the paper material.",
     "c.art.body1":"Character studies, keys, room props, enterable posters, and environmental light evolved together to support spatial readability and theme, rather than visual consistency alone.",
     "gal.hint":"⌕ Click any image to enlarge",
     "art.conT":"Design Concept","art.msT":"Milestones","art.ldT":"Level Design",
@@ -723,11 +746,10 @@ const COPY = {
     "c.playtest.lead":"Playtesting exposed gaps in level completeness, audiovisual feedback, movement feel, and collision behavior, giving the team concrete evidence of where concept and experience diverged.",
     "c.playtest.body0":"Players reported uneven movement and were observed catching on collision edges. The next step is to test whether control response and collision boundaries communicate intent clearly, then use that evidence to plan movement and collision iteration.",
     "c.playtest.body1":"Observations around unclear routes, state changes, and immediate goals also point to future work on level guidance and audiovisual feedback. The evidence here supports a problem statement and planned response, not an unverified diagnosis.",
-    "c.contribution.eyebrow":"09 / My Contribution","c.contribution.title":"Aligning image, input, and story",
     "c.contribution.lead":"I led art direction and interaction design; contributed to narrative, project management, and level design; and participated in overall game planning, keeping each discipline anchored to the body-as-path metaphor.",
     "c.contribution.body0":"My lead work included defining the visual relationship between fragile paper and the dark room, directing art iterations, and translating movement, drawing, view switching, and state feedback into clear player intentions.",
     "c.contribution.body1":"I contributed to narrative, production coordination, and level flow, and participated in overall game planning. Team implementation and final outcomes remain credited collectively rather than presented as solo work.",
-    "c.reflection.eyebrow":"10 / Reflection","c.reflection.title":"Making the rules as precise as the idea",
+    "c.reflection.eyebrow":"09 / Reflection","c.reflection.title":"Making the rules as precise as the idea",
     "c.reflection.lead":"A further iteration should define line expenditure, key recovery, and failure states more rigorously while strengthening player identity, route guidance, and audiovisual feedback.",
     "c.reflection.body0":"Paper Man taught me that a compelling metaphor is only a starting point. Players understand it when rules, input, level structure, and imagery explain the same idea with equal clarity.",
     "c.reflection.body1":"Working in a four-person team also shaped a cross-disciplinary method: connect theme, mechanic, interaction, and art through an experience goal, then let specific playtest problems sharpen the next decision.",
@@ -757,13 +779,13 @@ const COPY = {
     "alt.sceneWardrobe":"Wardrobe corner with the Line Rider poster and scarf",
     "alt.mgmtAssets":"Asset management showcase","alt.mgmtMaterials":"Material management showcase",
     "alt.mgmtUv":"Texture & UV management showcase","alt.mgmtFiles":"Project file management showcase",
-    "footer.tagline":"Draw yourself a way out",
+    "footer.tagline":"Forward and loss, breakthrough and self-sufficiency",
     "footer.meta1":"Team of four · Jul 2026","footer.meta2":"Art & Interaction Lead","footer.video":"Intro film online · gameplay video coming soon",
     "footer.note":"Copy and imagery from the project’s Figma boards and exhibition playtest records · Team outcomes credited collectively"
   }
 };
 
-let LANG = localStorage.getItem('pm-lang') || 'en';
+let LANG = sessionStorage.getItem('pm-lang') || 'en';
 function applyLang(){
   const dict = COPY[LANG];
   document.documentElement.lang = LANG === 'zh' ? 'zh-CN' : 'en';
@@ -779,8 +801,10 @@ function applyLang(){
   document.getElementById('langBtn').textContent = LANG === 'zh' ? 'English' : '中文';
   document.title = LANG === 'zh' ? 'Paper Man 纸面小人 — 美术与交互设计案例'
                                  : 'Paper Man — Art & Interaction Case Study';
+  document.getElementById('videoBtn').href = LANG === 'zh' ? 'https://youtu.be/sKoRAVAhgW0'
+                                                           : 'https://youtu.be/XjEGr52VQmg';
 }
-function toggleLang(){ LANG = LANG === 'zh' ? 'en' : 'zh'; localStorage.setItem('pm-lang', LANG); applyLang(); }
+function toggleLang(){ LANG = LANG === 'zh' ? 'en' : 'zh'; sessionStorage.setItem('pm-lang', LANG); applyLang(); }
 applyLang();
 
 gsap.registerPlugin(ScrollTrigger);
@@ -852,17 +876,6 @@ document.querySelectorAll('.zoomable').forEach(f=>{
 });
 lb.addEventListener('click',()=>lb.classList.remove('open'));
 document.addEventListener('keydown',e=>{if(e.key==='Escape')lb.classList.remove('open');});
-
-/* video modal */
-const vb=document.getElementById('videobox'), vbVideo=document.getElementById('vbVideo');
-document.getElementById('videoBtn').addEventListener('click',()=>{
-  vb.classList.add('open');
-  gsap.fromTo(vbVideo,{scale:.9,opacity:0},{scale:1,opacity:1,duration:.45,ease:'power3.out'});
-  vbVideo.currentTime=0; vbVideo.play().catch(()=>{});
-});
-function closeVideo(){ vb.classList.remove('open'); vbVideo.pause(); }
-vb.addEventListener('click',e=>{ if(e.target===vb||e.target.id==='vbClose') closeVideo(); });
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
 
 /* ═══ playable mechanic demo: draw the line ═══ */
 (function(){
@@ -1022,8 +1035,10 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
   function setPlaying(playing){
     btn.classList.toggle('muted',!playing);
     btn.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true">'+(playing?onIcon:offIcon)+'</svg>';
-    btn.setAttribute('aria-label',playing?'关闭背景音乐':'播放背景音乐');
-    btn.title=playing?'关闭背景音乐':'播放背景音乐';
+    const label=playing?(LANG==='zh'?'关闭背景音乐':'Mute background music')
+                       :(LANG==='zh'?'播放背景音乐':'Play background music');
+    btn.setAttribute('aria-label',label);
+    btn.title=label;
   }
 
   function tryPlay(){ bgm.play().then(()=>setPlaying(true)).catch(()=>setPlaying(false)); }
@@ -1037,10 +1052,16 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape')closeVideo();});
   tryPlay();
 
   // auto-start after first user gesture to work around browser autoplay policies
-  function autoStart(){ if(!userToggled) tryPlay(); }
-  document.addEventListener('click',autoStart,{once:true});
-  document.addEventListener('scroll',autoStart,{once:true});
-  document.addEventListener('keydown',autoStart,{once:true});
+  function autoStart(){ if(!userToggled && bgm.paused) tryPlay(); }
+  ['click','scroll','keydown','pointerdown','touchend','mouseup'].forEach(ev=>{
+    document.addEventListener(ev,autoStart,{once:true,passive:true});
+  });
+
+  // keep retrying periodically (browsers may grant autoplay after engagement builds)
+  const retry=setInterval(()=>{
+    if(userToggled||!bgm.paused){ clearInterval(retry); return; }
+    tryPlay();
+  },5000);
 
   // retry when the user returns to the tab (some browsers allow autoplay after engagement)
   document.addEventListener('visibilitychange',()=>{
