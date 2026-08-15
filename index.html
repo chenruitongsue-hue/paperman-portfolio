@@ -531,7 +531,8 @@ a.navlink:hover{color:var(--amber-hi)}
     <p class="serif mt-3 text-[--muted] reveal" data-i18n="footer.tagline"></p>
     <div class="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-sm text-[--faint] reveal">
       <span data-i18n="footer.meta1"></span><span>·</span><span data-i18n="footer.meta2"></span><span>·</span>
-      <span class="underline decoration-dotted underline-offset-4" data-i18n="footer.video"></span>
+      <a id="footerVideo" class="underline decoration-dotted underline-offset-4 transition hover:opacity-75" href="https://youtu.be/sKoRAVAhgW0" target="_blank" rel="noopener" data-i18n="footer.video"></a><span>·</span>
+      <a class="underline decoration-dotted underline-offset-4 transition hover:opacity-75" href="https://chenruitongsue-hue.itch.io/paper-man" target="_blank" rel="noopener" data-i18n="footer.play"></a>
     </div>
     <p class="footnote mt-8 reveal" data-i18n="footer.note"></p>
   </div>
@@ -658,7 +659,7 @@ const COPY = {
     "alt.mgmtAssets":"资产项目管理展示","alt.mgmtMaterials":"材质项目管理展示",
     "alt.mgmtUv":"贴图 UV 项目管理展示","alt.mgmtFiles":"工程文件项目内容管理展示",
     "footer.tagline":"前进与失去，突破与自足",
-    "footer.meta1":"四人团队项目 · 2026.7","footer.meta2":"美术与交互主导","footer.video":"介绍视频已上线 · 实机演示（待补充）",
+    "footer.meta1":"四人团队项目 · 2026.7","footer.meta2":"美术与交互主导","footer.video":"介绍视频已上线","footer.play":"在线试玩已上线（itch.io 网页版）",
     "footer.note":"文案与图片素材取自项目 Figma 设计文档与展会试玩记录 · 团队成果按共同协作呈现"
   },
   en: {
@@ -780,7 +781,7 @@ const COPY = {
     "alt.mgmtAssets":"Asset management showcase","alt.mgmtMaterials":"Material management showcase",
     "alt.mgmtUv":"Texture & UV management showcase","alt.mgmtFiles":"Project file management showcase",
     "footer.tagline":"Forward and loss, breakthrough and self-sufficiency",
-    "footer.meta1":"Team of four · Jul 2026","footer.meta2":"Art & Interaction Lead","footer.video":"Intro film online · gameplay video coming soon",
+    "footer.meta1":"Team of four · Jul 2026","footer.meta2":"Art & Interaction Lead","footer.video":"Intro film online","footer.play":"Playable online (itch.io WebGL)",
     "footer.note":"Copy and imagery from the project’s Figma boards and exhibition playtest records · Team outcomes credited collectively"
   }
 };
@@ -803,6 +804,8 @@ function applyLang(){
                                  : 'Paper Man — Art & Interaction Case Study';
   document.getElementById('videoBtn').href = LANG === 'zh' ? 'https://youtu.be/sKoRAVAhgW0'
                                                            : 'https://youtu.be/XjEGr52VQmg';
+  document.getElementById('footerVideo').href = LANG === 'zh' ? 'https://youtu.be/sKoRAVAhgW0'
+                                                              : 'https://youtu.be/XjEGr52VQmg';
 }
 function toggleLang(){ LANG = LANG === 'zh' ? 'en' : 'zh'; sessionStorage.setItem('pm-lang', LANG); applyLang(); }
 applyLang();
